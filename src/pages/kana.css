@@ -1,0 +1,21 @@
+.kana-sec { margin-bottom: 36px; max-width: 640px; }
+.kana-sec h2 { font-size: 19px; margin-bottom: 14px; }
+.kana-grid { display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: 10px; }
+.kana-cell {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 84px; border-radius: var(--r-md);
+  border: 2px solid var(--line); background: var(--surface); box-shadow: 0 4px 0 var(--line);
+  cursor: pointer; transition: border-color 0.12s, background 0.12s;
+}
+.kana-cell .jp { font-size: 34px; line-height: 1.1; }
+.kana-cell small { font-size: 13px; font-weight: 700; color: var(--ink-3); }
+.kana-cell:hover { border-color: var(--ink-3); }
+.kana-cell:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--line); }
+.kana-cell.is-active { border-color: var(--shu); background: var(--shu-tint); box-shadow: 0 4px 0 var(--shu); }
+.kana-cell.is-active small { color: var(--shu); }
+
+@media (max-width: 480px) {
+  .kana-grid { gap: 6px; }
+  .kana-cell { min-height: 66px; }
+  .kana-cell .jp { font-size: 26px; }
+}
