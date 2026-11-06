@@ -2,14 +2,14 @@ import { useState } from 'react';
 import {
   Star, RocketLaunch, Lock, Fire, Lightning, BookOpenText, ChatsCircle,
   HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun,
-  ShoppingCart, Heartbeat, House, Smiley, Sparkle,
+  ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall,
 } from '@phosphor-icons/react';
 import { TOPICS, lessonsOf } from '../data/vocab';
 import { useProgress, go } from '../lib/store';
 import { Daru, Hanko, ProgressRing } from '../components/Bits';
 import './home.css';
 
-export const TOPIC_ICONS = { HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun, Lightning, ShoppingCart, Heartbeat, House, Smiley, Sparkle };
+export const TOPIC_ICONS = { HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun, Lightning, ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall };
 
 const ZIG = [0, 1, 2, 1, 0, -1, -2, -1];
 
