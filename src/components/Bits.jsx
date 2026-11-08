@@ -1,7 +1,7 @@
 import { rubyParts, kanaToRomaji } from '../lib/kana';
 import { speak } from '../lib/speech';
 import { useProgress } from '../lib/store';
-import { SpeakerHigh } from '@phosphor-icons/react';
+import { SpeakerHigh, Star } from '@phosphor-icons/react';
 
 // Word with optional furigana and romaji, driven by user settings.
 export function Word({ jp, kana, size = 32, showRomaji, showFurigana, className = '' }) {
@@ -198,6 +198,47 @@ export function StationStamp({ code, name, date, tone, Icon, size = 92, empty = 
       {Icon && <Icon size={size * 0.34} weight="duotone" aria-hidden="true" />}
       <span className="stamp-name jp" lang="ja">{name}</span>
       {date && <span className="stamp-date">{date}</span>}
+    </span>
+  );
+}
+
+// 1-3 star rating. Filled stars are earned, outlined ones are not.
+export function Stars({ value, max = 3, size = 20, className = '' }) {
+  return (
+    <span className={`star-rating ${className}`} role="img" aria-label={`${value} trên ${max} sao`}>
+      {Array.from({ length: max }, (_, i) => (
+        <Star key={i} size={size} weight={i < value ? 'fill' : 'bold'} className={i < value ? 'is-on' : ''} aria-hidden="true" />
+      ))}
+    </span>
+  );
+}
+
+// Postage stamp (tem thư) for a delivered letter: perforated edge, Daru in the middle.
+export function MailStamp({ title, size = 96, tone = 'shu', empty = false }) {
+  const w = 80;
+  const h = 100;
+  const dots = [];
+  for (let x = 6; x < w; x += 9) dots.push([x, 0], [x, h]);
+  for (let y = 6; y < h; y += 9) dots.push([0, y], [w, y]);
+  return (
+    <span className={`mailstamp tone-${tone}${empty ? ' is-empty' : ''}`} style={{ width: size, height: (size * h) / w }}>
+      <svg viewBox={`-4 -4 ${w + 8} ${h + 8}`} width="100%" height="100%" role="img" aria-label={empty ? 'Chưa có tem' : `Tem thư: ${title}`}>
+        <rect x="0" y="0" width={w} height={h} fill={empty ? 'none' : 'var(--tone-tint)'} stroke="var(--tone)" strokeWidth="2" strokeDasharray={empty ? '4 4' : undefined} />
+        {!empty && dots.map(([x, y], i) => <circle key={i} cx={x} cy={y} r="3.2" fill="var(--stamp-bg, var(--surface))" />)}
+        {!empty && <rect x="9" y="9" width={w - 18} height={h - 18} fill="none" stroke="var(--tone)" strokeWidth="1" />}
+        {!empty && (
+          <g transform="translate(20 18)">
+            <circle cx="20" cy="22" r="17" fill="var(--shu)" />
+            <ellipse cx="20" cy="20" rx="11" ry="10" fill="#fbf6ee" />
+            <circle cx="16" cy="19" r="3" fill="#fff" stroke="#16203a" strokeWidth="1.1" />
+            <circle cx="16" cy="19" r="1.8" fill="#16203a" />
+            <circle cx="25" cy="19" r="3" fill="#fff" stroke="#16203a" strokeWidth="1.1" />
+            <circle cx="25" cy="19" r="1.8" fill="#16203a" />
+            <path d="M17 26c2 1.6 5 1.6 7 0" stroke="#16203a" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+          </g>
+        )}
+        {!empty && <text x={w / 2} y={h - 15} textAnchor="middle" fontSize="8" fontWeight="700" fill="var(--tone)">Đã giao</text>}
+      </svg>
     </span>
   );
 }
