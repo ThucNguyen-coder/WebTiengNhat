@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { X, SpeakerHigh, CheckCircle, XCircle, Lightning, Target } from '@phosphor-icons/react';
+import { X, SpeakerHigh, Lightning, Target } from '@phosphor-icons/react';
 import { topicById, lessonsOf, ALL_WORDS } from '../data/vocab';
 import { useProgress, go } from '../lib/store';
 import { speak, blip } from '../lib/speech';
 import { tokenize, matchRomaji, kanaToRomaji } from '../lib/kana';
-import { Word, Hanko, Daru, shuffle } from '../components/Bits';
+import { Word, Hanko, Daru, Hanamaru, PenCross, TicketProgress, StationStamp, shuffle } from '../components/Bits';
+import { TOPIC_ICONS } from '../components/topicIcons';
+import { buildLines } from '../lib/lines';
 import './lesson.css';
 
 function buildExercises(words, topicWords) {
@@ -23,6 +25,10 @@ export default function Lesson({ topicId, index }) {
   const topic = topicById(topicId);
   const { settings, addXp, completeNode, markLearned } = useProgress();
   const words = useMemo(() => (topic ? lessonsOf(topic)[index] || [] : []), [topic, index]);
+  const station = useMemo(() => {
+    const line = buildLines().find((l) => l.topic.id === topicId);
+    return line ? line.stations[index] : null;
+  }, [topicId, index]);
 
   const [stage, setStage] = useState('intro'); // intro | quiz | done
   const [introIdx, setIntroIdx] = useState(0);
@@ -49,7 +55,7 @@ export default function Lesson({ topicId, index }) {
     return (
       <div className="page">
         <p>Không tìm thấy bài học này.</p>
-        <a className="btn" href="#/">Về lộ trình</a>
+        <a className="btn" href="#/">Về bản đồ tuyến</a>
       </div>
     );
   }
@@ -91,17 +97,7 @@ export default function Lesson({ topicId, index }) {
         <button className="icon-btn" aria-label="Thoát bài học" onClick={() => go('/')}>
           <X size={22} weight="bold" aria-hidden="true" />
         </button>
-        <div
-          className="bar"
-          style={{ flex: 1 }}
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={total}
-          aria-valuenow={doneCount}
-          aria-label="Tiến độ bài học"
-        >
-          <span style={{ width: `${(doneCount / total) * 100}%` }} />
-        </div>
+        <TicketProgress code={station?.code || ''} label={topic.title} done={doneCount} total={total} />
       </header>
 
       {stage === 'intro' && (
@@ -131,12 +127,19 @@ export default function Lesson({ topicId, index }) {
 
       {stage === 'done' && (
         <div className="lesson-body lesson-done">
-          <Hanko char="合格" size={120} slam label="Đóng dấu đạt" />
-          <h1>Xong bài {index + 1}: {topic.title}</h1>
+          {station ? (
+            <span className="stamp-slam">
+              <StationStamp code={station.code} name={station.label} tone={topic.color} Icon={TOPIC_ICONS[topic.icon]} size={120} />
+            </span>
+          ) : (
+            <Hanko char="合格" size={120} slam label="Đóng dấu đạt" />
+          )}
+          <h1>Đã đóng dấu ga {station?.code}</h1>
+          <p className="muted">Xong bài {index + 1}, {topic.title}</p>
           <div className="done-stats">
             <div className="panel">
               <Lightning size={26} weight="fill" color="var(--yamabuki-deep)" aria-hidden="true" />
-              <strong>+{earned} XP</strong>
+              <strong>+{earned} điểm</strong>
             </div>
             <div className="panel">
               <Target size={26} weight="fill" color="var(--matcha)" aria-hidden="true" />
@@ -153,8 +156,8 @@ export default function Lesson({ topicId, index }) {
           </ul>
           <div className="lesson-actions">
             <a className="btn" href={`#/game/${topic.id}`}>Bắn chữ chủ đề này</a>
-            <button className="btn btn--matcha" onClick={() => go('/')} autoFocus>
-              Về lộ trình
+            <button className="btn btn--ai" onClick={() => go('/')} autoFocus>
+              Về bản đồ tuyến
             </button>
           </div>
         </div>
@@ -185,7 +188,7 @@ function IntroCard({ word, n, of, onNext }) {
       <footer className="lesson-foot">
         <div className="lesson-foot-inner">
           <Daru size={56} />
-          <button className="btn btn--matcha" onClick={onNext} autoFocus>
+          <button className="btn btn--ai" onClick={onNext} autoFocus>
             Tiếp tục
           </button>
         </div>
@@ -232,6 +235,7 @@ function Exercise({ ex, choice, setChoice, typed, setTyped, result, canCheck, on
       <div className="lesson-body">
         <p className="lesson-prompt">{PROMPTS[ex.type]}</p>
 
+        <div className="ex-stage">
         {ex.type === 'meaning' && (
           <div className="ex-prompt">
             <Word jp={w.jp} kana={w.kana} size={52} showRomaji={false} />
@@ -284,6 +288,10 @@ function Exercise({ ex, choice, setChoice, typed, setTyped, result, canCheck, on
           </div>
         )}
 
+        {result === 'right' && <Hanamaru className="mark-right" size={76} />}
+        {result === 'wrong' && ex.type === 'type' && <PenCross className="mark-wrong" size={34} />}
+        </div>
+
         {ex.type !== 'type' && (
           <div className="options" role="radiogroup" aria-label="Các lựa chọn">
             {ex.options.map((o, i) => {
@@ -299,6 +307,7 @@ function Exercise({ ex, choice, setChoice, typed, setTyped, result, canCheck, on
                   disabled={!!result && !isAnswer && i !== choice}
                 >
                   <span className="option-key" aria-hidden="true">{i + 1}</span>
+                  {state === 'wrong' && <PenCross className="opt-cross" size={26} />}
                   {ex.type === 'meaning' ? (
                     <span>{o.vi}</span>
                   ) : (
@@ -311,38 +320,35 @@ function Exercise({ ex, choice, setChoice, typed, setTyped, result, canCheck, on
         )}
       </div>
 
-      <footer className={`lesson-foot ${result ? `is-${result}` : ''}`}>
+      <footer className="lesson-foot">
         <div className="lesson-foot-inner">
-          <div className="feedback" aria-live="assertive">
+          <div className={`feedback${result ? ` is-${result}` : ''}`} aria-live="assertive">
             {result === 'right' && (
-              <>
-                <CheckCircle size={40} weight="fill" aria-hidden="true" />
-                <div>
-                  <strong>Chính xác!</strong>
-                  <p>
-                    <span className="jp" lang="ja">{w.jp}</span> ({kanaToRomaji(w.kana)}) nghĩa là {w.vi}
-                  </p>
-                </div>
-              </>
+              <div>
+                <strong>Chính xác</strong>
+                <p>
+                  <span className="jp" lang="ja">{w.jp}</span> ({kanaToRomaji(w.kana)}) nghĩa là {w.vi}.
+                </p>
+              </div>
             )}
             {result === 'wrong' && (
-              <>
-                <XCircle size={40} weight="fill" aria-hidden="true" />
-                <div>
-                  <strong>Chưa đúng. Đáp án:</strong>
-                  <p>
-                    <span className="jp" lang="ja">{w.jp}</span> ({w.kana}, {kanaToRomaji(w.kana)}) nghĩa là {w.vi}
-                  </p>
-                </div>
-              </>
+              <div>
+                <strong>Chưa đúng</strong>
+                <p className="pen-answer jp" lang="ja">
+                  正解: {w.jp} ({w.kana})
+                </p>
+                <p>
+                  {kanaToRomaji(w.kana)} nghĩa là {w.vi}. Câu này sẽ quay lại ở cuối bài.
+                </p>
+              </div>
             )}
           </div>
           {result ? (
-            <button ref={actionRef} className={`btn ${result === 'right' ? 'btn--matcha' : 'btn--shu'}`} onClick={onNext}>
-              Tiếp tục
+            <button ref={actionRef} className="btn btn--ai" onClick={onNext}>
+              {result === 'right' ? 'Câu tiếp theo' : 'Tiếp tục'}
             </button>
           ) : (
-            <button className="btn btn--matcha" onClick={onCheck} disabled={!canCheck}>
+            <button className="btn btn--ai" onClick={onCheck} disabled={!canCheck}>
               Kiểm tra
             </button>
           )}

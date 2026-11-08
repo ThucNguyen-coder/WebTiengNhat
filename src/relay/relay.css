@@ -19,7 +19,7 @@
 .scenario {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px;
   padding: 16px; border-radius: var(--r-lg); text-decoration: none;
-  background: var(--surface); border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line);
+  background: var(--surface); border: 2px solid var(--line); box-shadow: none;
   transition: border-color 0.15s;
 }
 .scenario:hover { border-color: var(--matcha); }
@@ -91,9 +91,9 @@
 .mic {
   display: grid; place-items: center; width: 104px; height: 104px; border-radius: 50%;
   border: 0; background: var(--shu); color: var(--on-shu); cursor: pointer;
-  box-shadow: 0 6px 0 var(--shu-deep);
+  box-shadow: none;
 }
-.mic:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--shu-deep); }
+.mic:active { transform: translateY(5px); box-shadow: none; }
 .mic.is-rec { animation: rec 1.2s ease-in-out infinite; }
 @keyframes rec { 50% { box-shadow: 0 6px 0 var(--shu-deep), 0 0 0 14px color-mix(in srgb, var(--shu) 25%, transparent); } }
 .relay-error { padding: 10px 14px; border-radius: 12px; background: var(--shu-tint); color: var(--ink); font-weight: 600; }
