@@ -24,14 +24,14 @@ export default function Home() {
   // The line being studied and the next one are open; every other line folds into one row.
   const isOpen = (line, i) => manual[line.topic.id] ?? (i === currentLine || i === currentLine + 1);
 
-  const open = (st, idx) => {
+  const open = (st, idx, topicId) => {
     if (!finished && idx > currentIdx) {
       setNotice('Hoàn thành ga trước để mở ga này.');
       setTimeout(() => setNotice(''), 2600);
       return;
     }
-    if (st.kind === 'lesson') go(`/lesson/${st.line.topic.id}/${st.index}`);
-    else go(`/game/${st.line.topic.id}`);
+    if (st.kind === 'lesson') go(`/lesson/${topicId}/${st.index}`);
+    else go(`/game/${topicId}`);
   };
 
   const indexOf = (id) => stations.findIndex((s) => s.id === id);
@@ -100,7 +100,7 @@ export default function Home() {
                           <button
                             type="button"
                             className="station-btn"
-                            onClick={() => open(st, idx)}
+                            onClick={() => open(st, idx, t.id)}
                             aria-label={`${label}${done ? ', đã có dấu' : locked ? ', đang khóa' : isCurrent ? ', bài hiện tại' : ''}`}
                             aria-disabled={locked || undefined}
                           >
