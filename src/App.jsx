@@ -45,8 +45,8 @@ export default function App() {
   }, [settings.theme]);
 
   // Focused, full-screen flows hide the navigation.
-  if (current === 'lesson') return <Lesson topicId={params[0]} index={Number(params[1] || 0)} />;
-  if (current === 'relay' && params[0]) return <RelayPlay id={params[0]} />;
+  if (current === 'lesson') return <Lesson key={`${params[0]}-${params[1]}`} topicId={params[0]} index={Number(params[1] || 0)} />;
+  if (current === 'relay' && params[0]) return <RelayPlay key={params[0]} id={params[0]} />;
 
   let page;
   switch (current) {
