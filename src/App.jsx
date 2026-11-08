@@ -8,6 +8,7 @@ import Lesson from './pages/Lesson';
 import Vocab from './pages/Vocab';
 import Kana from './pages/Kana';
 import Settings from './pages/Settings';
+import Stamps from './pages/Stamps';
 import SpaceGame from './game/SpaceGame';
 import RelayList from './relay/RelayList';
 import RelayPlay from './relay/RelayPlay';
@@ -53,6 +54,7 @@ export default function App() {
     case 'vocab': page = <Vocab topicId={params[0]} />; break;
     case 'game': page = <SpaceGame topicId={params[0]} />; break;
     case 'relay': page = <RelayList />; break;
+    case 'stamps': page = <Stamps />; break;
     case 'settings': page = <Settings />; break;
     default: page = <Home />;
   }

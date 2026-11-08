@@ -2,7 +2,7 @@
 .topic-card {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px;
   padding: 18px; border-radius: var(--r-lg); text-decoration: none;
-  background: var(--surface); border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line);
+  background: var(--surface); border: 2px solid var(--line); box-shadow: none;
   transition: border-color 0.15s;
 }
 .topic-card:hover { border-color: var(--tone); }
@@ -19,7 +19,7 @@
   display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px;
   border: 0; border-radius: 10px; background: transparent; color: var(--ink-2); font-weight: 800; cursor: pointer;
 }
-.seg button[aria-selected='true'] { background: var(--surface); color: var(--ink); box-shadow: 0 2px 0 var(--line); }
+.seg button[aria-selected='true'] { background: var(--surface); color: var(--ink); box-shadow: none; }
 
 .word-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .word-list li {
@@ -38,10 +38,10 @@
 .flash-face {
   position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
   border-radius: var(--r-lg); border: 2px solid var(--line); background: var(--surface);
-  box-shadow: 0 6px 0 var(--line);
+  box-shadow: none;
   backface-visibility: hidden; transition: transform 0.45s cubic-bezier(0.3, 1.2, 0.5, 1);
 }
-.flash-back { transform: rotateY(180deg); background: var(--ai-tint); border-color: var(--ai); box-shadow: 0 6px 0 var(--ai); }
+.flash-back { transform: rotateY(180deg); background: var(--ai-tint); border-color: var(--ai); box-shadow: none; }
 .flash-card.is-flipped .flash-front { transform: rotateY(-180deg); }
 .flash-card.is-flipped .flash-back { transform: rotateY(0); }
 .flash-tip { font-size: 14px; color: var(--ink-3); font-weight: 600; }

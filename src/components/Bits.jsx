@@ -133,3 +133,71 @@ export function shuffle(arr) {
   }
   return a;
 }
+
+// Hanamaru (花丸): the flower-shaped circle Japanese teachers draw on good work.
+export function Hanamaru({ size = 64, className = '' }) {
+  const petals = Array.from({ length: 8 }, (_, i) => {
+    const a = (i / 8) * Math.PI * 2;
+    return { x: 32 + Math.cos(a) * 17, y: 32 + Math.sin(a) * 17 };
+  });
+  return (
+    <svg className={`hanamaru ${className}`} width={size} height={size} viewBox="0 0 64 64" role="img" aria-label="Đúng, được chấm hoa mã">
+      <g fill="none" stroke="var(--pen)" strokeWidth="2.4" strokeLinecap="round">
+        <circle cx="32" cy="32" r="10" pathLength="1" />
+        {petals.map((p, i) => (
+          <circle key={i} cx={p.x} cy={p.y} r="8" pathLength="1" style={{ '--i': i }} />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+// Red-pen cross for a wrong answer. Shape is an X, never a tick.
+export function PenCross({ size = 28, className = '' }) {
+  return (
+    <svg className={`pencross ${className}`} width={size} height={size} viewBox="0 0 28 28" role="img" aria-label="Sai">
+      <path d="M5 5L23 23M23 5L5 23" fill="none" stroke="var(--pen)" strokeWidth="3.4" strokeLinecap="round" pathLength="1" />
+    </svg>
+  );
+}
+
+// Ticket-style progress: one punch hole per step, punched as you go.
+export function TicketProgress({ code, label, done, total }) {
+  return (
+    <div
+      className="ticket"
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={total}
+      aria-valuenow={done}
+      aria-label="Tiến độ bài học"
+    >
+      <span className="ticket-code">{code}</span>
+      <span className="ticket-label">{label}</span>
+      <span className="ticket-holes" aria-hidden="true">
+        {Array.from({ length: total }, (_, i) => (
+          <i key={i} className={i < done ? 'is-punched' : ''} />
+        ))}
+      </span>
+    </div>
+  );
+}
+
+// Station stamp (駅スタンプ): square stamp in the line colour with the station code.
+export function StationStamp({ code, name, date, tone, Icon, size = 92, empty = false }) {
+  if (empty) {
+    return (
+      <span className="stamp stamp--empty" style={{ '--size': `${size}px` }} role="img" aria-label={`${code}, chưa có dấu`}>
+        <span className="stamp-code">{code}</span>
+      </span>
+    );
+  }
+  return (
+    <span className={`stamp tone-${tone}`} style={{ '--size': `${size}px` }} role="img" aria-label={`Dấu ga ${code}, ${name}`}>
+      <span className="stamp-code">{code}</span>
+      {Icon && <Icon size={size * 0.34} weight="duotone" aria-hidden="true" />}
+      <span className="stamp-name jp" lang="ja">{name}</span>
+      {date && <span className="stamp-date">{date}</span>}
+    </span>
+  );
+}

@@ -4,7 +4,7 @@ import { TOPICS, topicById } from '../data/vocab';
 import { useProgress } from '../lib/store';
 import { speak } from '../lib/speech';
 import { Word, SpeakButton } from '../components/Bits';
-import { TOPIC_ICONS } from './Home';
+import { TOPIC_ICONS } from '../components/topicIcons';
 import './home.css';
 import './vocab.css';
 

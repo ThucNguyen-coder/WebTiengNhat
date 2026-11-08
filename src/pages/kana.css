@@ -4,14 +4,14 @@
 .kana-cell {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   min-height: 84px; border-radius: var(--r-md);
-  border: 2px solid var(--line); background: var(--surface); box-shadow: 0 4px 0 var(--line);
+  border: 2px solid var(--line); background: var(--surface); box-shadow: none;
   cursor: pointer; transition: border-color 0.12s, background 0.12s;
 }
 .kana-cell .jp { font-size: 34px; line-height: 1.1; }
 .kana-cell small { font-size: 13px; font-weight: 700; color: var(--ink-3); }
 .kana-cell:hover { border-color: var(--ink-3); }
-.kana-cell:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--line); }
-.kana-cell.is-active { border-color: var(--shu); background: var(--shu-tint); box-shadow: 0 4px 0 var(--shu); }
+.kana-cell:active { transform: translateY(3px); box-shadow: none; }
+.kana-cell.is-active { border-color: var(--shu); background: var(--shu-tint); box-shadow: none; }
 .kana-cell.is-active small { color: var(--shu); }
 
 @media (max-width: 480px) {
