@@ -192,3 +192,28 @@
   .g-missed li { grid-template-columns: auto 1fr auto; }
   .g-missed-read { display: none; }
 }
+
+/* ===== Phone: the arena covers the visible screen, above the keyboard ===== */
+.arena--phone {
+  position: fixed; left: 0; right: 0; z-index: 60;
+  min-height: 0; border-radius: 0;
+}
+.arena--phone .hud { top: max(10px, env(safe-area-inset-top, 0px)); }
+.arena--phone .side-ctrl { top: max(10px, env(safe-area-inset-top, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); }
+
+/* Short arena (phone with keyboard open): smaller HUD, words, ship and input */
+.arena.is-compact .hud { gap: 6px; }
+.arena.is-compact .hud-pill { padding: 4px 10px; font-size: 14px; gap: 6px; }
+.arena.is-compact .hud-pill svg { width: 16px; height: 16px; }
+.arena.is-compact .side-ctrl { flex-direction: row; gap: 6px; }
+.arena.is-compact .hud { right: 150px; }
+.arena.is-compact .g-icon { width: 36px; height: 36px; }
+.arena.is-compact .planet { width: 48px; height: 48px; top: 18%; right: 6%; opacity: 0.7; }
+.arena.is-compact .fword { padding: 3px 12px 5px; min-width: 64px; border-width: 2px; }
+.arena.is-compact .fword .fword-jp { font-size: 20px; }
+.arena.is-compact .fword-romaji { font-size: 11px; }
+.arena.is-compact .fword-typed { font-size: 13px; }
+.arena.is-compact .ship { bottom: 40px; }
+.arena.is-compact .type-bar { bottom: 6px; }
+.arena.is-compact .type-bar input { height: 32px; width: 200px; font-size: 16px; }
+.arena.is-compact .pop { padding: 4px 8px; font-size: 13px; }
