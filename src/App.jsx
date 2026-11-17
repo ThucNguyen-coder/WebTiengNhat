@@ -85,10 +85,10 @@ export default function App() {
               {streak}
               <span className="sr-only">ngày liên tiếp</span>
             </span>
-            <span title="XP hôm nay" style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--yamabuki-deep)' }}>
+            <span title="Điểm hôm nay" style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--yamabuki-deep)' }}>
               <Lightning size={22} weight="fill" aria-hidden="true" />
               {dailyXp}
-              <span className="sr-only">XP hôm nay</span>
+              <span className="sr-only">điểm hôm nay</span>
             </span>
             <a href="#/settings" className="icon-btn" aria-label="Cài đặt">
               <GearSix size={22} weight="bold" aria-hidden="true" />

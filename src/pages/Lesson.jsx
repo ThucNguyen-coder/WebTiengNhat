@@ -27,6 +27,7 @@ export default function Lesson({ topicId, index }) {
   const [stage, setStage] = useState('intro'); // intro | quiz | done
   const [introIdx, setIntroIdx] = useState(0);
   const [queue, setQueue] = useState(() => buildExercises(words, topic?.words || []));
+  const [firstTotal] = useState(() => queue.length); // số câu gốc, không tính câu làm lại
   const [pos, setPos] = useState(0);
   const [choice, setChoice] = useState(null);
   const [typed, setTyped] = useState('');
@@ -140,7 +141,7 @@ export default function Lesson({ topicId, index }) {
             </div>
             <div className="panel">
               <Target size={26} weight="fill" color="var(--matcha)" aria-hidden="true" />
-              <strong>{Math.round((queue.length - mistakes) / queue.length * 100)}% chính xác</strong>
+              <strong>{Math.round(Math.max(0, firstTotal - mistakes) / firstTotal * 100)}% chính xác</strong>
             </div>
           </div>
           <ul className="done-words">
