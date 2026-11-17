@@ -5,6 +5,7 @@ import {
 import { useProgress, go } from '../lib/store';
 import { buildLines, flattenStations } from '../lib/lines';
 import { Daru, ProgressRing } from '../components/Bits';
+import { SignInPrompt } from '../components/Account';
 import './home.css';
 
 export default function Home() {
@@ -160,6 +161,8 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        <SignInPrompt />
 
         <div className="panel stats">
           <div>
