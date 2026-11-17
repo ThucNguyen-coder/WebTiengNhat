@@ -13,6 +13,39 @@ const MILESTONES = 20;
 const KILLS_PER_MILESTONE = 8;
 const GROUND = 118; // px from bottom where words crash
 const WORD_H = 58; // approx. height of a falling pill
+// On short screens (phone with the keyboard open) everything shrinks.
+const COMPACT_H = 560;
+const GROUND_COMPACT = 92;
+const WORD_H_COMPACT = 46;
+const groundOf = (h) => (h < COMPACT_H ? GROUND_COMPACT : GROUND);
+const wordHOf = (h) => (h < COMPACT_H ? WORD_H_COMPACT : WORD_H);
+
+// Tracks the part of the screen that is actually visible, which on phones
+// shrinks when the on-screen keyboard opens.
+function useVisibleViewport() {
+  const read = () => {
+    const vv = window.visualViewport;
+    return {
+      h: vv ? vv.height : window.innerHeight,
+      top: vv ? vv.offsetTop : 0,
+      phone: window.matchMedia('(max-width: 860px)').matches,
+    };
+  };
+  const [view, setView] = useState(read);
+  useEffect(() => {
+    const on = () => setView(read());
+    const vv = window.visualViewport;
+    vv?.addEventListener('resize', on);
+    vv?.addEventListener('scroll', on);
+    window.addEventListener('resize', on);
+    return () => {
+      vv?.removeEventListener('resize', on);
+      vv?.removeEventListener('scroll', on);
+      window.removeEventListener('resize', on);
+    };
+  }, []);
+  return view;
+}
 const DIFF = {
   easy: { label: 'Dễ', desc: 'Có romaji gợi ý, rơi chậm', speed: 22, spawn: 3300, furigana: true, romaji: true },
   normal: { label: 'Thường', desc: 'Chỉ có furigana', speed: 30, spawn: 2700, furigana: true, romaji: false },
@@ -185,6 +218,7 @@ function Arena({ topic, diff, onEnd, onQuit }) {
   const [buffer, setBuffer] = useState('');
   const [paused, setPaused] = useState(false);
   const [shake, setShake] = useState(0);
+  const view = useVisibleViewport();
   const sound = settings.sound;
   const soundRef = useRef(sound);
   soundRef.current = sound;
@@ -203,11 +237,29 @@ function Arena({ topic, diff, onEnd, onQuit }) {
   useEffect(() => {
     const el = arenaRef.current;
     const ro = new ResizeObserver(([entry]) => {
-      size.current = { w: entry.contentRect.width, h: entry.contentRect.height };
+      const next = { w: entry.contentRect.width, h: entry.contentRect.height };
+      const prev = size.current;
+      // keep falling words at the same relative height when the arena resizes
+      // (e.g. the phone keyboard opens), so they don't crash all at once
+      const oldFloor = prev.h - groundOf(prev.h) - wordHOf(prev.h);
+      const newFloor = next.h - groundOf(next.h) - wordHOf(next.h);
+      if (eng.current && oldFloor > 0 && newFloor > 0 && Math.abs(oldFloor - newFloor) > 4) {
+        eng.current.words.forEach((w) => { w.y = w.y > 0 ? (w.y * newFloor) / oldFloor : w.y; });
+      }
+      size.current = next;
     });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!view.phone) return undefined;
+    const html = document.documentElement;
+    const prev = [document.body.style.overflow, html.style.overflow];
+    document.body.style.overflow = 'hidden';
+    html.style.overflow = 'hidden';
+    return () => { [document.body.style.overflow, html.style.overflow] = prev; };
+  }, [view.phone]);
 
   const end = useCallback(
     (won) => {
@@ -251,18 +303,23 @@ function Arena({ topic, diff, onEnd, onQuit }) {
       last = now;
       e.time += dt * 1000;
       const m = Math.min(MILESTONES, 1 + Math.floor(e.kills / KILLS_PER_MILESTONE));
-      const speed = cfg.speed + (m - 1) * 3.2;
+      // fall speed scales with the playable height so short screens stay fair
+      const H0 = size.current.h;
+      const playable = H0 - groundOf(H0);
+      const heightScale = Math.min(1, Math.max(0.45, playable / 480));
+      const speed = (cfg.speed + (m - 1) * 3.2) * heightScale;
       const interval = Math.max(950, cfg.spawn - (m - 1) * 95);
       const maxOn = Math.min(8, 3 + Math.floor(m / 3));
       if ((e.time - e.lastSpawn > interval || e.words.length === 0) && e.words.length < maxOn) {
         spawn();
         e.lastSpawn = e.time;
       }
-      const floor = size.current.h - GROUND;
+      const floor = size.current.h - groundOf(size.current.h);
+      const WH = wordHOf(size.current.h);
       for (const w of e.words) w.y += speed * dt * (w.id === e.target ? 0.85 : 1);
-      const crashed = e.words.filter((w) => w.y + WORD_H > floor);
+      const crashed = e.words.filter((w) => w.y + WH > floor);
       if (crashed.length) {
-        e.words = e.words.filter((w) => w.y + WORD_H <= floor);
+        e.words = e.words.filter((w) => w.y + WH <= floor);
         crashed.forEach((w) => {
           e.lives -= 1;
           e.combo = 0;
@@ -367,12 +424,15 @@ function Arena({ topic, diff, onEnd, onQuit }) {
   };
 
   const { w: W, h: H } = size.current;
+  const compact = H < COMPACT_H;
+  const ground = groundOf(H);
   const target = e.words.find((w) => w.id === e.target);
   const angle = target ? (Math.atan2(target.x + 60 - W / 2, H - 70 - (target.y + 30)) * 180) / Math.PI : 0;
 
   return (
     <div
-      className={`arena${shake % 2 ? ' shake-a' : shake ? ' shake-b' : ''}`}
+      className={`arena${view.phone ? ' arena--phone' : ''}${compact ? ' is-compact' : ''}${shake % 2 ? ' shake-a' : shake ? ' shake-b' : ''}`}
+      style={view.phone ? { top: view.top, height: view.h } : undefined}
       ref={arenaRef}
       onPointerDown={(ev) => {
         if (ev.target.closest('button')) return;
@@ -446,9 +506,9 @@ function Arena({ topic, diff, onEnd, onQuit }) {
       ))}
 
       {/* ground, defender, ship */}
-      <div className="ground" style={{ bottom: GROUND - 2 }} aria-hidden="true" />
+      <div className="ground" style={{ bottom: ground - 2 }} aria-hidden="true" />
       <div className="ship" style={{ transform: `translateX(-50%) rotate(${angle}deg)` }} aria-hidden="true">
-        <svg viewBox="0 0 64 80" width="56" height="70">
+        <svg viewBox="0 0 64 80" width={compact ? 38 : 56} height={compact ? 48 : 70}>
           <path d="M32 2C20 14 16 34 18 54h28c2-20-2-40-14-52z" fill="#e8eef8" />
           <path d="M32 2c-5 5-8 11-10 18h20C40 13 37 7 32 2z" fill="var(--shu)" />
           <circle cx="32" cy="34" r="7" fill="#24456b" stroke="#9fc3f0" strokeWidth="3" />
