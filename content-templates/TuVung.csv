@@ -1,0 +1,254 @@
+﻿topic_id,jp,kana,vi
+chao-hoi,こんにちは,こんにちは,xin chào
+chao-hoi,おはよう,おはよう,chào buổi sáng
+chao-hoi,こんばんは,こんばんは,chào buổi tối
+chao-hoi,ありがとう,ありがとう,cảm ơn
+chao-hoi,すみません,すみません,xin lỗi / làm phiền
+chao-hoi,さようなら,さようなら,tạm biệt
+chao-hoi,おやすみ,おやすみ,chúc ngủ ngon
+chao-hoi,はじめまして,はじめまして,rất vui được gặp
+chao-hoi,どうぞ,どうぞ,xin mời
+chao-hoi,はい,はい,vâng / có
+chao-hoi,いいえ,いいえ,không
+chao-hoi,ごめんなさい,ごめんなさい,xin lỗi (thân mật)
+gia-dinh,家族,かぞく,gia đình
+gia-dinh,父,ちち,bố (của mình)
+gia-dinh,母,はは,mẹ (của mình)
+gia-dinh,兄,あに,anh trai (của mình)
+gia-dinh,姉,あね,chị gái (của mình)
+gia-dinh,弟,おとうと,em trai
+gia-dinh,妹,いもうと,em gái
+gia-dinh,両親,りょうしん,bố mẹ
+gia-dinh,子供,こども,trẻ con
+gia-dinh,友達,ともだち,bạn bè
+gia-dinh,男の人,おとこのひと,người đàn ông
+gia-dinh,女の人,おんなのひと,người phụ nữ
+so-thoi-gian,一,いち,một
+so-thoi-gian,二,に,hai
+so-thoi-gian,三,さん,ba
+so-thoi-gian,四,よん,bốn
+so-thoi-gian,五,ご,năm
+so-thoi-gian,十,じゅう,mười
+so-thoi-gian,百,ひゃく,một trăm
+so-thoi-gian,今日,きょう,hôm nay
+so-thoi-gian,明日,あした,ngày mai
+so-thoi-gian,昨日,きのう,hôm qua
+so-thoi-gian,毎日,まいにち,mỗi ngày
+so-thoi-gian,時間,じかん,thời gian
+so-thoi-gian,午前,ごぜん,buổi sáng (AM)
+so-thoi-gian,午後,ごご,buổi chiều (PM)
+so-thoi-gian,週末,しゅうまつ,cuối tuần
+do-an,ご飯,ごはん,cơm / bữa ăn
+do-an,水,みず,nước
+do-an,お茶,おちゃ,trà
+do-an,肉,にく,thịt
+do-an,魚,さかな,cá
+do-an,野菜,やさい,rau
+do-an,果物,くだもの,trái cây
+do-an,卵,たまご,trứng
+do-an,パン,パン,bánh mì
+do-an,牛乳,ぎゅうにゅう,sữa bò
+do-an,コーヒー,コーヒー,cà phê
+do-an,朝ご飯,あさごはん,bữa sáng
+do-an,食べる,たべる,ăn
+do-an,飲む,のむ,uống
+do-an,おいしい,おいしい,ngon
+do-an,豚肉,ぶたにく,thịt heo
+do-an,鶏肉,とりにく,thịt gà
+do-an,寿司,すし,sushi
+do-an,塩,しお,muối
+do-an,砂糖,さとう,đường
+giao-thong,電車,でんしゃ,tàu điện
+giao-thong,駅,えき,nhà ga
+giao-thong,車,くるま,xe hơi
+giao-thong,自転車,じてんしゃ,xe đạp
+giao-thong,飛行機,ひこうき,máy bay
+giao-thong,地下鉄,ちかてつ,tàu điện ngầm
+giao-thong,道,みち,con đường
+giao-thong,切符,きっぷ,vé
+giao-thong,タクシー,タクシー,taxi
+giao-thong,バス,バス,xe buýt
+giao-thong,新幹線,しんかんせん,tàu cao tốc
+giao-thong,空港,くうこう,sân bay
+giao-thong,乗る,のる,lên (xe)
+giao-thong,降りる,おりる,xuống (xe)
+giao-thong,遅れる,おくれる,bị trễ
+truong-hoc,学校,がっこう,trường học
+truong-hoc,先生,せんせい,giáo viên
+truong-hoc,学生,がくせい,học sinh
+truong-hoc,本,ほん,sách
+truong-hoc,辞書,じしょ,từ điển
+truong-hoc,宿題,しゅくだい,bài tập về nhà
+truong-hoc,試験,しけん,kỳ thi
+truong-hoc,教室,きょうしつ,phòng học
+truong-hoc,勉強,べんきょう,việc học
+truong-hoc,鉛筆,えんぴつ,bút chì
+truong-hoc,紙,かみ,giấy
+truong-hoc,質問,しつもん,câu hỏi
+cong-viec,仕事,しごと,công việc
+cong-viec,会社,かいしゃ,công ty
+cong-viec,会議,かいぎ,cuộc họp
+cong-viec,部長,ぶちょう,trưởng phòng
+cong-viec,社長,しゃちょう,giám đốc
+cong-viec,資料,しりょう,tài liệu
+cong-viec,電話,でんわ,điện thoại
+cong-viec,予定,よてい,lịch trình / dự định
+cong-viec,連絡,れんらく,liên lạc
+cong-viec,伝える,つたえる,truyền đạt
+cong-viec,準備,じゅんび,chuẩn bị
+cong-viec,出張,しゅっちょう,đi công tác
+cong-viec,休み,やすみ,ngày nghỉ
+cong-viec,約束,やくそく,cuộc hẹn / lời hứa
+noi-chon,家,いえ,nhà
+noi-chon,部屋,へや,căn phòng
+noi-chon,病院,びょういん,bệnh viện
+noi-chon,銀行,ぎんこう,ngân hàng
+noi-chon,図書館,としょかん,thư viện
+noi-chon,公園,こうえん,công viên
+noi-chon,店,みせ,cửa hàng
+noi-chon,郵便局,ゆうびんきょく,bưu điện
+noi-chon,会議室,かいぎしつ,phòng họp
+noi-chon,受付,うけつけ,quầy lễ tân
+noi-chon,入口,いりぐち,lối vào
+noi-chon,出口,でぐち,lối ra
+noi-chon,右,みぎ,bên phải
+noi-chon,左,ひだり,bên trái
+thoi-tiet,天気,てんき,thời tiết
+thoi-tiet,雨,あめ,mưa
+thoi-tiet,雪,ゆき,tuyết
+thoi-tiet,風,かぜ,gió
+thoi-tiet,空,そら,bầu trời
+thoi-tiet,暑い,あつい,nóng (thời tiết)
+thoi-tiet,寒い,さむい,lạnh (thời tiết)
+thoi-tiet,暖かい,あたたかい,ấm áp
+thoi-tiet,涼しい,すずしい,mát mẻ
+thoi-tiet,春,はる,mùa xuân
+thoi-tiet,夏,なつ,mùa hè
+thoi-tiet,秋,あき,mùa thu
+thoi-tiet,冬,ふゆ,mùa đông
+thoi-tiet,傘,かさ,cái ô
+dong-tu,行く,いく,đi
+dong-tu,来る,くる,đến
+dong-tu,帰る,かえる,về
+dong-tu,見る,みる,xem / nhìn
+dong-tu,聞く,きく,nghe / hỏi
+dong-tu,話す,はなす,nói chuyện
+dong-tu,読む,よむ,đọc
+dong-tu,書く,かく,viết
+dong-tu,買う,かう,mua
+dong-tu,待つ,まつ,chờ
+dong-tu,会う,あう,gặp
+dong-tu,寝る,ねる,ngủ
+dong-tu,起きる,おきる,thức dậy
+dong-tu,忘れる,わすれる,quên
+dong-tu,覚える,おぼえる,ghi nhớ
+dong-tu,教える,おしえる,dạy / chỉ cho
+dong-tu,使う,つかう,sử dụng
+dong-tu,作る,つくる,làm / chế tạo
+dong-tu,歩く,あるく,đi bộ
+dong-tu,走る,はしる,chạy
+mua-sam,買い物,かいもの,mua sắm
+mua-sam,値段,ねだん,giá tiền
+mua-sam,高い,たかい,đắt / cao
+mua-sam,安い,やすい,rẻ
+mua-sam,円,えん,yên (tiền Nhật)
+mua-sam,お金,おかね,tiền
+mua-sam,財布,さいふ,cái ví
+mua-sam,袋,ふくろ,cái túi
+mua-sam,大きい,おおきい,to / lớn
+mua-sam,小さい,ちいさい,nhỏ
+mua-sam,色,いろ,màu sắc
+mua-sam,新しい,あたらしい,mới
+mua-sam,古い,ふるい,cũ
+mua-sam,服,ふく,quần áo
+mua-sam,靴,くつ,giày
+co-the-suc-khoe,体,からだ,cơ thể
+co-the-suc-khoe,頭,あたま,đầu
+co-the-suc-khoe,顔,かお,khuôn mặt
+co-the-suc-khoe,目,め,mắt
+co-the-suc-khoe,耳,みみ,tai
+co-the-suc-khoe,口,くち,miệng
+co-the-suc-khoe,手,て,tay
+co-the-suc-khoe,足,あし,chân
+co-the-suc-khoe,お腹,おなか,bụng
+co-the-suc-khoe,風邪,かぜ,cảm lạnh
+co-the-suc-khoe,熱,ねつ,sốt
+co-the-suc-khoe,薬,くすり,thuốc
+co-the-suc-khoe,元気,げんき,khỏe mạnh
+co-the-suc-khoe,痛い,いたい,đau
+co-the-suc-khoe,病気,びょうき,bệnh
+sinh-hoat,朝,あさ,buổi sáng
+sinh-hoat,昼,ひる,buổi trưa
+sinh-hoat,夜,よる,buổi tối / ban đêm
+sinh-hoat,洗う,あらう,rửa / giặt
+sinh-hoat,掃除,そうじ,dọn dẹp
+sinh-hoat,洗濯,せんたく,giặt giũ
+sinh-hoat,料理,りょうり,nấu ăn / món ăn
+sinh-hoat,風呂,ふろ,bồn tắm
+sinh-hoat,台所,だいどころ,nhà bếp
+sinh-hoat,窓,まど,cửa sổ
+sinh-hoat,電気,でんき,điện / đèn điện
+sinh-hoat,開ける,あける,mở
+sinh-hoat,閉める,しめる,đóng
+sinh-hoat,着る,きる,mặc (quần áo)
+sinh-hoat,散歩,さんぽ,đi dạo
+cam-xuc,嬉しい,うれしい,vui mừng
+cam-xuc,悲しい,かなしい,buồn
+cam-xuc,楽しい,たのしい,vui / thú vị
+cam-xuc,怖い,こわい,sợ / đáng sợ
+cam-xuc,眠い,ねむい,buồn ngủ
+cam-xuc,寂しい,さびしい,cô đơn / buồn tẻ
+cam-xuc,恥ずかしい,はずかしい,xấu hổ / ngại
+cam-xuc,心配,しんぱい,lo lắng
+cam-xuc,安心,あんしん,yên tâm
+cam-xuc,驚く,おどろく,ngạc nhiên
+cam-xuc,怒る,おこる,tức giận
+cam-xuc,笑う,わらう,cười
+cam-xuc,泣く,なく,khóc
+cam-xuc,好き,すき,thích
+cam-xuc,嫌い,きらい,ghét / không thích
+tinh-tu,難しい,むずかしい,khó
+tinh-tu,易しい,やさしい,dễ
+tinh-tu,忙しい,いそがしい,bận rộn
+tinh-tu,便利,べんり,tiện lợi
+tinh-tu,有名,ゆうめい,nổi tiếng
+tinh-tu,大切,たいせつ,quan trọng / quý giá
+tinh-tu,危ない,あぶない,nguy hiểm
+tinh-tu,明るい,あかるい,sáng sủa
+tinh-tu,暗い,くらい,tối
+tinh-tu,重い,おもい,nặng
+tinh-tu,軽い,かるい,nhẹ
+tinh-tu,強い,つよい,mạnh
+tinh-tu,弱い,よわい,yếu
+tinh-tu,静か,しずか,yên tĩnh
+tinh-tu,賑やか,にぎやか,náo nhiệt
+du-lich-khach-san,旅行,りょこう,du lịch
+du-lich-khach-san,予約,よやく,đặt trước
+du-lich-khach-san,荷物,にもつ,hành lý
+du-lich-khach-san,旅館,りょかん,nhà trọ kiểu Nhật
+du-lich-khach-san,ホテル,ホテル,khách sạn
+du-lich-khach-san,泊まる,とまる,ở lại / trọ
+du-lich-khach-san,観光,かんこう,tham quan
+du-lich-khach-san,地図,ちず,bản đồ
+du-lich-khach-san,案内,あんない,hướng dẫn
+du-lich-khach-san,鍵,かぎ,chìa khóa
+du-lich-khach-san,朝食,ちょうしょく,bữa sáng
+du-lich-khach-san,外国,がいこく,nước ngoài
+du-lich-khach-san,写真,しゃしん,bức ảnh
+du-lich-khach-san,お土産,おみやげ,quà lưu niệm
+du-lich-khach-san,出発,しゅっぱつ,xuất phát
+the-thao,運動,うんどう,vận động / tập thể dục
+the-thao,試合,しあい,trận đấu
+the-thao,選手,せんしゅ,vận động viên
+the-thao,練習,れんしゅう,luyện tập
+the-thao,勝つ,かつ,thắng
+the-thao,負ける,まける,thua
+the-thao,泳ぐ,およぐ,bơi
+the-thao,野球,やきゅう,bóng chày
+the-thao,サッカー,サッカー,bóng đá
+the-thao,テニス,テニス,quần vợt
+the-thao,水泳,すいえい,môn bơi lội
+the-thao,応援,おうえん,cổ vũ
+the-thao,優勝,ゆうしょう,vô địch
+the-thao,上手,じょうず,giỏi
+the-thao,下手,へた,kém / dở

@@ -23,7 +23,20 @@ if (typeof window !== 'undefined' && window.speechSynthesis) {
 export const ttsSupported = () => typeof window !== 'undefined' && 'speechSynthesis' in window;
 export const hasJapaneseVoice = () => !!(cachedVoice || pickVoice());
 
-export function speak(text, { rate = 0.95, onEnd } = {}) {
+// Pre-generated natural voices (public/audio, made by `npm run audio`).
+// When a sentence has a file it is played; otherwise the browser voice is used.
+let manifest = null;
+let currentAudio = null;
+let currentDone = null; // lets stopSpeaking() report the end, like speechSynthesis.cancel() does
+if (typeof window !== 'undefined') {
+  fetch('/audio/manifest.json', { cache: 'no-cache' })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((m) => { manifest = m?.files || null; })
+    .catch(() => { manifest = null; });
+}
+export const hasRecordedVoice = (text) => !!manifest?.[text];
+
+function speakBrowser(text, rate, onEnd) {
   if (!ttsSupported()) { onEnd?.(); return; }
   const synth = window.speechSynthesis;
   synth.cancel();
@@ -39,7 +52,42 @@ export function speak(text, { rate = 0.95, onEnd } = {}) {
   synth.speak(u);
 }
 
+export function speak(text, { rate = 0.95, onEnd } = {}) {
+  stopSpeaking();
+  const file = manifest?.[text];
+  if (!file || typeof Audio === 'undefined') {
+    speakBrowser(text, rate, onEnd);
+    return;
+  }
+  const audio = new Audio(`/audio/${file}`);
+  currentAudio = audio;
+  // settings use 0.7 / 0.95 / 1.15 for the browser voice; 0.95 is the natural speed of the files
+  audio.playbackRate = Math.min(2, Math.max(0.5, rate / 0.95));
+  audio.preservesPitch = true;
+  let finished = false;
+  const done = () => {
+    if (finished) return;
+    finished = true;
+    if (currentAudio === audio) currentAudio = null;
+    onEnd?.();
+  };
+  currentDone = done;
+  audio.addEventListener('ended', done);
+  audio.addEventListener('error', () => { if (!finished) { finished = true; speakBrowser(text, rate, onEnd); } });
+  audio.play().catch(() => {
+    // blocked (e.g. autoplay without a tap on iPhone) or failed: fall back to the browser voice
+    if (!finished) { finished = true; speakBrowser(text, rate, onEnd); }
+  });
+}
+
 export function stopSpeaking() {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+    const d = currentDone;
+    currentDone = null;
+    d?.();
+  }
   if (ttsSupported()) window.speechSynthesis.cancel();
 }
 
