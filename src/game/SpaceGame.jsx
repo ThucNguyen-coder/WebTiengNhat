@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Trophy, Flag, Heart, X, Pause, Play, SpeakerHigh, SpeakerSlash, Keyboard, RocketLaunch, ArrowCounterClockwise,
 } from '@phosphor-icons/react';
@@ -20,25 +20,39 @@ const WORD_H_COMPACT = 46;
 const groundOf = (h) => (h < COMPACT_H ? GROUND_COMPACT : GROUND);
 const wordHOf = (h) => (h < COMPACT_H ? WORD_H_COMPACT : WORD_H);
 
-// Tracks the part of the screen that is actually visible, which on phones
-// shrinks when the on-screen keyboard opens.
-function useVisibleViewport() {
-  const read = () => {
-    const vv = window.visualViewport;
-    return {
-      h: vv ? vv.height : window.innerHeight,
-      top: vv ? vv.offsetTop : 0,
-      phone: window.matchMedia('(max-width: 860px)').matches,
-    };
+// Tracks the part of the screen that is actually visible (position and size), which on
+// phones shrinks and can shift sideways when the on-screen keyboard opens.
+function readView() {
+  const vv = window.visualViewport;
+  return {
+    h: Math.round(vv ? vv.height : window.innerHeight),
+    w: Math.round(vv ? vv.width : window.innerWidth),
+    top: Math.round(vv ? vv.offsetTop : 0),
+    left: Math.round(vv ? vv.offsetLeft : 0),
+    phone: window.matchMedia('(max-width: 860px)').matches,
   };
-  const [view, setView] = useState(read);
+}
+const sameView = (a, b) => a.h === b.h && a.w === b.w && a.top === b.top && a.left === b.left && a.phone === b.phone;
+
+function useVisibleViewport() {
+  const [view, setView] = useState(readView);
   useEffect(() => {
-    const on = () => setView(read());
+    let raf = 0;
+    // batch bursts of resize/scroll events into one update per frame, and skip no-op updates
+    const on = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const next = readView();
+        setView((prev) => (sameView(prev, next) ? prev : next));
+      });
+    };
     const vv = window.visualViewport;
     vv?.addEventListener('resize', on);
     vv?.addEventListener('scroll', on);
     window.addEventListener('resize', on);
     return () => {
+      cancelAnimationFrame(raf);
       vv?.removeEventListener('resize', on);
       vv?.removeEventListener('scroll', on);
       window.removeEventListener('resize', on);
@@ -46,6 +60,7 @@ function useVisibleViewport() {
   }, []);
   return view;
 }
+
 const DIFF = {
   easy: { label: 'Dễ', desc: 'Có romaji gợi ý, rơi chậm', speed: 22, spawn: 3300, furigana: true, romaji: true },
   normal: { label: 'Thường', desc: 'Chỉ có furigana', speed: 30, spawn: 2700, furigana: true, romaji: false },
@@ -53,8 +68,9 @@ const DIFF = {
 };
 const TONES = ['shu', 'ai', 'matcha', 'yamabuki', 'sakura'];
 
-const STARS = Array.from({ length: 70 }, (_, i) => ({
+const STARS = Array.from({ length: 40 }, (_, i) => ({
   id: i,
+  twinkle: i % 4 === 0, // only a few stars animate, the rest stay still (cheaper on phones)
   x: Math.random() * 100,
   y: Math.random() * 100,
   s: Math.random() < 0.15 ? 3 : Math.random() < 0.5 ? 2 : 1,
@@ -104,16 +120,21 @@ export default function SpaceGame({ topicId }) {
   );
 }
 
-function Starfield() {
+// Static background: memoized so it never re-renders while the game runs.
+const Starfield = memo(function Starfield() {
   return (
     <div className="stars" aria-hidden="true">
       {STARS.map((s) => (
-        <i key={s.id} style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.s, height: s.s, animationDelay: `${s.d}s` }} />
+        <i
+          key={s.id}
+          className={s.twinkle ? 'tw' : undefined}
+          style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.s, height: s.s, animationDelay: s.twinkle ? `${s.d}s` : undefined }}
+        />
       ))}
       <div className="planet" />
     </div>
   );
-}
+});
 
 function Menu({ topic, setTopic, diff, setDiff, best, onStart }) {
   return (
@@ -214,7 +235,9 @@ function Arena({ topic, diff, onEnd, onQuit }) {
   const inputRef = useRef(null);
   const size = useRef({ w: 800, h: 600 });
   const eng = useRef(null);
+  const shipRef = useRef(null);
   const [, setTick] = useState(0);
+  const bump = useCallback(() => setTick((t) => (t + 1) % 1e6), []);
   const [buffer, setBuffer] = useState('');
   const [paused, setPaused] = useState(false);
   const [shake, setShake] = useState(0);
@@ -252,13 +275,24 @@ function Arena({ topic, diff, onEnd, onQuit }) {
     return () => ro.disconnect();
   }, []);
 
+  // Lock the page while playing on phones so it cannot scroll or pan sideways
+  // behind the game when the keyboard opens.
   useEffect(() => {
     if (!view.phone) return undefined;
     const html = document.documentElement;
-    const prev = [document.body.style.overflow, html.style.overflow];
-    document.body.style.overflow = 'hidden';
+    const body = document.body;
+    const keys = ['overflow', 'position', 'top', 'left', 'right', 'width', 'overscrollBehavior'];
+    const saved = { html: keys.map((k) => html.style[k]), body: keys.map((k) => body.style[k]) };
+    const scrollY = window.scrollY;
     html.style.overflow = 'hidden';
-    return () => { [document.body.style.overflow, html.style.overflow] = prev; };
+    html.style.overscrollBehavior = 'none';
+    Object.assign(body.style, {
+      overflow: 'hidden', position: 'fixed', top: `-${scrollY}px`, left: '0', right: '0', width: '100%', overscrollBehavior: 'none',
+    });
+    return () => {
+      keys.forEach((k, i) => { html.style[k] = saved.html[i]; body.style[k] = saved.body[i]; });
+      window.scrollTo(0, scrollY);
+    };
   }, [view.phone]);
 
   const end = useCallback(
@@ -310,15 +344,19 @@ function Arena({ topic, diff, onEnd, onQuit }) {
       const speed = (cfg.speed + (m - 1) * 3.2) * heightScale;
       const interval = Math.max(950, cfg.spawn - (m - 1) * 95);
       const maxOn = Math.min(8, 3 + Math.floor(m / 3));
+      let dirty = false; // something appeared or disappeared: React must re-render
       if ((e.time - e.lastSpawn > interval || e.words.length === 0) && e.words.length < maxOn) {
+        const before = e.words.length;
         spawn();
         e.lastSpawn = e.time;
+        if (e.words.length !== before) dirty = true;
       }
       const floor = size.current.h - groundOf(size.current.h);
       const WH = wordHOf(size.current.h);
       for (const w of e.words) w.y += speed * dt * (w.id === e.target ? 0.85 : 1);
       const crashed = e.words.filter((w) => w.y + WH > floor);
       if (crashed.length) {
+        dirty = true;
         e.words = e.words.filter((w) => w.y + WH <= floor);
         crashed.forEach((w) => {
           e.lives -= 1;
@@ -337,13 +375,29 @@ function Arena({ topic, diff, onEnd, onQuit }) {
           return;
         }
       }
+      const fxBefore = e.effects.length;
       e.effects = e.effects.filter((fx) => e.time - fx.t < (fx.type === 'pop' ? 1400 : 650));
-      setTick((t) => (t + 1) % 1e6);
+      if (e.effects.length !== fxBefore) dirty = true;
+
+      // Move the words and aim the ship by writing to the DOM directly:
+      // no React render per frame, which is what made phones stutter.
+      for (const w of e.words) {
+        if (w.el) w.el.style.transform = `translate(${w.x}px, ${w.y}px)`;
+      }
+      if (shipRef.current) {
+        const t = e.words.find((w) => w.id === e.target);
+        const W1 = size.current.w;
+        const H1 = size.current.h;
+        const a = t ? (Math.atan2(t.x + 60 - W1 / 2, H1 - 70 - (t.y + 30)) * 180) / Math.PI : 0;
+        shipRef.current.style.transform = `translateX(-50%) rotate(${a.toFixed(1)}deg)`;
+      }
+
+      if (dirty) bump();
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [paused, cfg, e, spawn, end]);
+  }, [paused, cfg, e, spawn, end, bump]);
 
   // pause on tab switch, Esc toggles pause
   useEffect(() => {
@@ -378,7 +432,7 @@ function Arena({ topic, diff, onEnd, onQuit }) {
     e.effects.push({ id: `b${w.id}`, type: 'boom', x: cx, y: cy, t: e.time, tone: w.tone });
     e.effects.push({ id: `p${w.id}`, type: 'pop', x: cx, y: cy, t: e.time, text: `${w.w.jp} = ${w.w.vi}`, gained });
     blip('laser', soundRef.current);
-    if (soundRef.current) speak(w.w.kana, { rate: 1.05 });
+    if (soundRef.current) setTimeout(() => speak(w.w.kana, { rate: 1.05 }), 150);
     if (e.kills >= MILESTONES * KILLS_PER_MILESTONE) end(true);
   };
 
@@ -432,7 +486,7 @@ function Arena({ topic, diff, onEnd, onQuit }) {
   return (
     <div
       className={`arena${view.phone ? ' arena--phone' : ''}${compact ? ' is-compact' : ''}${shake % 2 ? ' shake-a' : shake ? ' shake-b' : ''}`}
-      style={view.phone ? { top: view.top, height: view.h } : undefined}
+      style={view.phone ? { top: view.top, left: view.left, width: view.w, height: view.h } : undefined}
       ref={arenaRef}
       onPointerDown={(ev) => {
         if (ev.target.closest('button')) return;
@@ -485,7 +539,10 @@ function Arena({ topic, diff, onEnd, onQuit }) {
       {/* effects */}
       <svg className="fx-layer" width={W} height={H} aria-hidden="true">
         {e.effects.filter((f) => f.type === 'laser').map((f) => (
-          <line key={f.id} x1={f.x1} y1={f.y1} x2={f.x2} y2={f.y2} className="laser" />
+          <g key={f.id}>
+            <line x1={f.x1} y1={f.y1} x2={f.x2} y2={f.y2} className="laser-glow" />
+            <line x1={f.x1} y1={f.y1} x2={f.x2} y2={f.y2} className="laser" />
+          </g>
         ))}
       </svg>
       {e.effects.filter((f) => f.type === 'boom').map((f) => (
@@ -507,7 +564,7 @@ function Arena({ topic, diff, onEnd, onQuit }) {
 
       {/* ground, defender, ship */}
       <div className="ground" style={{ bottom: ground - 2 }} aria-hidden="true" />
-      <div className="ship" style={{ transform: `translateX(-50%) rotate(${angle}deg)` }} aria-hidden="true">
+      <div className="ship" ref={shipRef} style={{ transform: `translateX(-50%) rotate(${angle}deg)` }} aria-hidden="true">
         <svg viewBox="0 0 64 80" width={compact ? 38 : 56} height={compact ? 48 : 70}>
           <path d="M32 2C20 14 16 34 18 54h28c2-20-2-40-14-52z" fill="#e8eef8" />
           <path d="M32 2c-5 5-8 11-10 18h20C40 13 37 7 32 2z" fill="var(--shu)" />
@@ -556,12 +613,14 @@ function Arena({ topic, diff, onEnd, onQuit }) {
 }
 
 function FallingWord({ w, cfg, isTarget }) {
+  const setEl = (el) => { w.el = el; };
   const parts = rubyParts(w.w.jp, w.w.kana);
   const typedLen = w.units.slice(0, w.done).reduce((n, u) => n + u.kana.length, 0);
   const typed = w.w.kana.slice(0, typedLen); // keeps katakana as katakana
   const romaji = kanaToRomaji(w.w.kana);
   return (
     <div
+      ref={setEl}
       className={`fword tone-${w.tone}${isTarget ? ' is-target' : ''}`}
       style={{ transform: `translate(${w.x}px, ${w.y}px)` }}
     >
