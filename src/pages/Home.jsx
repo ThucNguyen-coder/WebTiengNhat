@@ -8,6 +8,7 @@ import { TOPICS, lessonsOf } from '../data/vocab';
 import { useProgress, go } from '../lib/store';
 import { Daru, Hanko, ProgressRing } from '../components/Bits';
 import './home.css';
+import ProgressWidget from '../components/ProgressWidget';
 
 export const TOPIC_ICONS = { HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun, Lightning, ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall };
 
@@ -139,6 +140,7 @@ export default function Home() {
           </div>
         </div>
 
+        <ProgressWidget />
         <div className="panel stats">
           <div>
             <Fire size={28} weight="fill" color="var(--shu)" aria-hidden="true" />

@@ -4,6 +4,7 @@ import { TOPICS, topicById } from '../data/vocab';
 import { useProgress } from '../lib/store';
 import { speak } from '../lib/speech';
 import { Word, SpeakButton } from '../components/Bits';
+import FlashcardDeck from '../components/FlashcardDeck';
 import { TOPIC_ICONS } from './Home';
 import './home.css';
 import './vocab.css';
@@ -98,7 +99,7 @@ function TopicWords({ topic }) {
           ))}
         </ul>
       ) : (
-        <Flashcards words={topic.words} />
+        <FlashcardDeck words={topic.words} />
       )}
     </div>
   );

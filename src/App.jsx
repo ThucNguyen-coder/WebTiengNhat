@@ -11,6 +11,7 @@ import Settings from './pages/Settings';
 import SpaceGame from './game/SpaceGame';
 import RelayList from './relay/RelayList';
 import RelayPlay from './relay/RelayPlay';
+import ThemeToggle from './components/ThemeToggle';
 
 const NAV = [
   { href: '#/', key: '', label: 'Học', Icon: Path },
@@ -70,6 +71,7 @@ export default function App() {
           ))}
         </nav>
         <div className="nav-spacer" />
+        <ThemeToggle variant="nav" />
         <a href="#/settings" className="nav-item" aria-current={current === 'settings' ? 'page' : undefined}>
           <GearSix size={26} weight={current === 'settings' ? 'fill' : 'bold'} aria-hidden="true" />
           Cài đặt
@@ -90,6 +92,7 @@ export default function App() {
               {dailyXp}
               <span className="sr-only">điểm hôm nay</span>
             </span>
+            <ThemeToggle />
             <a href="#/settings" className="icon-btn" aria-label="Cài đặt">
               <GearSix size={22} weight="bold" aria-hidden="true" />
             </a>

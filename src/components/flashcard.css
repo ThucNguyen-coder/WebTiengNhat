@@ -1,0 +1,11 @@
+.fc-rate { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.fc-rate .btn[aria-pressed='true'] { outline: 3px solid var(--ai); outline-offset: 2px; }
+.fc-badge {
+  position: absolute; z-index: 2; top: 10px; right: 10px; padding: 2px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 800; pointer-events: none;
+}
+.fc-badge--known { background: var(--matcha-tint); color: var(--matcha); }
+.fc-badge--review { background: var(--yamabuki-tint); color: var(--yamabuki-deep); }
+.fc-hint { font-size: 14px; text-align: center; }
+.fc-empty { max-width: 440px; text-align: center; }
+@media (max-width: 640px) { .fc-hint { display: none; } .fc-rate .btn { flex: 1; } }
