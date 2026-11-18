@@ -1,4 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useAuth } from './auth';
+import { fetchRemote, mergeStates, pushDiff, clearRemoteProgress } from './sync';
 
 // Storage key kept from the first version so existing progress is not lost.
 const KEY = 'kotoba-progress-v1';
@@ -42,6 +44,74 @@ export function ProgressProvider({ children }) {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage blocked */ }
   }, [state]);
 
+  /* ---------- account sync (Supabase) ---------- */
+  const { user } = useAuth();
+  const userId = user?.id || null;
+  const [sync, setSync] = useState({ status: 'idle', at: null, error: '' }); // idle | syncing | synced | error
+  const stateRef = useRef(state);
+  stateRef.current = state;
+  const pushed = useRef(null); // last state known to be saved remotely
+  const ready = useRef(false); // first merge done for the current user
+  const prevUser = useRef(null);
+
+  // Sign-in: merge this browser's progress with the account, then save the result.
+  useEffect(() => {
+    let cancelled = false;
+    const before = prevUser.current;
+    prevUser.current = userId;
+    ready.current = false;
+    pushed.current = null;
+
+    if (!userId) {
+      // Signed out on this device: clear local progress so the next person starts fresh.
+      if (before) setState((s) => ({ ...DEFAULT, settings: s.settings }));
+      setSync({ status: 'idle', at: null, error: '' });
+      return undefined;
+    }
+
+    (async () => {
+      setSync((x) => ({ ...x, status: 'syncing', error: '' }));
+      try {
+        const remote = await fetchRemote(userId);
+        if (cancelled) return;
+        const merged = mergeStates(stateRef.current, remote);
+        setState(merged);
+        await pushDiff(userId, remote, merged);
+        if (cancelled) return;
+        pushed.current = merged;
+        ready.current = true;
+        setSync({ status: 'synced', at: Date.now(), error: '' });
+      } catch (err) {
+        if (!cancelled) setSync({ status: 'error', at: null, error: err?.message || 'Lỗi không xác định' });
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [userId]);
+
+  // After that, save changes shortly after they happen.
+  useEffect(() => {
+    if (!userId || !ready.current || state === pushed.current) return undefined;
+    const t = setTimeout(async () => {
+      const next = stateRef.current;
+      setSync((x) => ({ ...x, status: 'syncing' }));
+      try {
+        await pushDiff(userId, pushed.current, next);
+        pushed.current = next;
+        setSync({ status: 'synced', at: Date.now(), error: '' });
+      } catch (err) {
+        setSync({ status: 'error', at: null, error: err?.message || 'Lỗi không xác định' });
+      }
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [state, userId]);
+
+  // Retry when the connection comes back.
+  useEffect(() => {
+    const on = () => setState((s) => ({ ...s }));
+    window.addEventListener('online', on);
+    return () => window.removeEventListener('online', on);
+  }, []);
+
   // Streak breaks if a day was skipped.
   const t = today();
   const streak = state.lastActive && dayDiff(state.lastActive, t) > 1 ? 0 : state.streak;
@@ -84,14 +154,25 @@ export function ProgressProvider({ children }) {
   );
   const updateSettings = useCallback((patch) => setState((s) => ({ ...s, settings: { ...s.settings, ...patch } })), []);
   const setDailyGoal = useCallback((goal) => setState((s) => ({ ...s, dailyGoal: goal })), []);
-  const reset = useCallback(() => setState({ ...DEFAULT, settings: state.settings }), [state.settings]);
+  const reset = useCallback(async () => {
+    const fresh = { ...DEFAULT, settings: stateRef.current.settings };
+    if (userId && ready.current) {
+      try {
+        await clearRemoteProgress(userId);
+        pushed.current = { ...fresh };
+      } catch (err) {
+        setSync({ status: 'error', at: null, error: err?.message || 'Lỗi không xác định' });
+      }
+    }
+    setState(fresh);
+  }, [userId]);
 
   const value = useMemo(
     () => ({
-      ...state, streak, dailyXp,
+      ...state, streak, dailyXp, sync,
       addXp, completeNode, markLearned, setGameBest, setRelayScore, updateSettings, setDailyGoal, reset,
     }),
-    [state, streak, dailyXp, addXp, completeNode, markLearned, setGameBest, setRelayScore, updateSettings, setDailyGoal, reset],
+    [state, streak, dailyXp, sync, addXp, completeNode, markLearned, setGameBest, setRelayScore, updateSettings, setDailyGoal, reset],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
