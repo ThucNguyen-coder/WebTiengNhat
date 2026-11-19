@@ -196,7 +196,7 @@ function Over({ s, onAgain, onMenu }) {
         <div><strong>{s.score}</strong><span>điểm{s.newBest ? ', kỷ lục mới' : ''}</span></div>
         <div><strong>{s.kills}</strong><span>từ bắn hạ</span></div>
         <div><strong>{s.milestone}/{MILESTONES}</strong><span>mốc đạt được</span></div>
-        <div><strong>+{s.xp}</strong><span>XP</span></div>
+        <div><strong>+{s.xp}</strong><span>điểm tích lũy</span></div>
       </div>
       {s.missed.length > 0 && (
         <>

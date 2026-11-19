@@ -1,0 +1,3 @@
+.nav-item--btn { width: 100%; background: transparent; font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; text-align: left; }
+.theme-icon { animation: theme-pop 0.3s ease; }
+@keyframes theme-pop { from { transform: rotate(-90deg) scale(0.5); opacity: 0; } to { transform: none; opacity: 1; } }

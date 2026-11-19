@@ -1,12 +1,33 @@
 import { useState } from 'react';
 import {
   Star, RocketLaunch, Lock, Check, Fire, Lightning, BookOpenText, ChatsCircle, CaretDown, Stamp, ArrowsLeftRight,
+  HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun,
+  ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall,
 } from '@phosphor-icons/react';
 import { useProgress, go } from '../lib/store';
 import { buildLines, flattenStations } from '../lib/lines';
 import { Daru, ProgressRing } from '../components/Bits';
 import { SignInPrompt } from '../components/Account';
+import ProgressWidget from '../components/ProgressWidget';
 import './home.css';
+
+export const TOPIC_ICONS = {
+  HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun,
+  Lightning, ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall,
+};
+
+const ZIG = [0, 1, 2, 1, 0, -1, -2, -1];
+
+export function buildPath() {
+  const nodes = [];
+  TOPICS.forEach((t, ti) => {
+    lessonsOf(t).forEach((_, li) =>
+      nodes.push({ id: `${t.id}:L${li}`, kind: 'lesson', topic: t, unit: ti, index: li }),
+    );
+    nodes.push({ id: `${t.id}:game`, kind: 'game', topic: t, unit: ti });
+  });
+  return nodes;
+}
 
 export default function Home() {
   const p = useProgress();
@@ -164,6 +185,7 @@ export default function Home() {
 
         <SignInPrompt />
 
+        <ProgressWidget />
         <div className="panel stats">
           <div>
             <Fire size={26} weight="fill" color="var(--shu)" aria-hidden="true" />

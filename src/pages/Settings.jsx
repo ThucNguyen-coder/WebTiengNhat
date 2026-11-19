@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useProgress } from '../lib/store';
 import { speak, hasJapaneseVoice, recognitionSupported } from '../lib/speech';
 import { AccountPanel } from '../components/Account';
@@ -37,7 +37,15 @@ export default function Settings() {
   const auth = useAuth();
   const s = p.settings;
   const [confirm, setConfirm] = useState(false);
-  const voice = hasJapaneseVoice();
+  const [voice, setVoice] = useState(hasJapaneseVoice());
+  useEffect(() => {
+    const synth = typeof window !== 'undefined' ? window.speechSynthesis : null;
+    if (!synth) return undefined;
+    const update = () => setVoice(hasJapaneseVoice());
+    update();
+    synth.addEventListener('voiceschanged', update);
+    return () => synth.removeEventListener('voiceschanged', update);
+  }, []);
   const mic = recognitionSupported();
 
   return (
@@ -100,10 +108,10 @@ export default function Settings() {
       <section className="panel">
         <h2>Mục tiêu mỗi ngày</h2>
         <Choice
-          label="XP mỗi ngày"
+          label="Điểm mỗi ngày"
           value={p.dailyGoal}
           onChange={p.setDailyGoal}
-          options={[10, 20, 30, 50].map((v) => ({ value: v, label: `${v} XP` }))}
+          options={[10, 20, 30, 50].map((v) => ({ value: v, label: `${v} điểm` }))}
         />
       </section>
 
@@ -112,7 +120,7 @@ export default function Settings() {
         <p className="muted" style={{ marginBottom: 12 }}>{auth.user ? 'Tiến độ được lưu trên trình duyệt này và trong tài khoản của bạn. Xóa tiến độ sẽ xóa ở cả hai nơi.' : 'Tiến độ được lưu trên trình duyệt này.'}</p>
         {confirm ? (
           <div className="danger-row">
-            <span>Xóa toàn bộ XP, chuỗi ngày và bài đã học?</span>
+            <span>Xóa toàn bộ điểm, chuỗi ngày và bài đã học?</span>
             <button className="btn btn--shu btn--sm" onClick={() => { p.reset(); setConfirm(false); }}>Xóa tiến độ</button>
             <button className="btn btn--sm" onClick={() => setConfirm(false)}>Giữ lại</button>
           </div>

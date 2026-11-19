@@ -1,0 +1,10 @@
+.pw { display: flex; flex-direction: column; gap: 12px; }
+.pw-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.pw-head h3 { margin: 0; }
+.pw-streak { display: inline-flex; align-items: center; gap: 4px; font-weight: 800; color: var(--shu); font-variant-numeric: tabular-nums; }
+.pw-big { font-size: 15px; color: var(--ink-2); }
+.pw-big strong { font-size: 28px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.pw-level { display: flex; flex-direction: column; gap: 4px; }
+.pw-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.pw .bar { height: 10px; }
+.pw-note { font-size: 14px; }
