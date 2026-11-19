@@ -28,6 +28,28 @@ const typeable = (kana) => {
 };
 const kanaOnly = (s) => isKana(s.replace(/ー/g, 'ー'));
 
+// Checks one word the way the app needs it. Returns { field, msg } or null when fine.
+// Used by the Google Sheet import and by the "Quản lý nội dung" page.
+export function wordProblem({ jp = '', kana = '', vi = '' }) {
+  if (!jp.trim()) return { field: 'jp', msg: 'Cần nhập chữ Nhật' };
+  if (!kana.trim()) return { field: 'kana', msg: 'Cần nhập cách đọc' };
+  if (!kanaOnly(kana.trim())) return { field: 'kana', msg: 'Cách đọc chỉ được có hiragana hoặc katakana (không kanji, không chữ Latin)' };
+  if (!typeable(kana.trim())) return { field: 'kana', msg: 'Cách đọc này không gõ được bằng romaji, hãy kiểm tra lại' };
+  if (!vi.trim()) return { field: 'vi', msg: 'Cần nhập nghĩa tiếng Việt' };
+  if (jp.trim().length > 40 || kana.trim().length > 40) return { field: 'jp', msg: 'Từ quá dài (tối đa 40 ký tự)' };
+  if (vi.trim().length > 80) return { field: 'vi', msg: 'Nghĩa quá dài (tối đa 80 ký tự)' };
+  return null;
+}
+
+// "Đồ ăn & thức uống" -> "do-an-thuc-uong"
+export function slugify(text) {
+  return text
+    .normalize('NFD').replace(/\p{M}/gu, '')
+    .replace(/đ/g, 'd').replace(/Đ/g, 'd')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+    .slice(0, 40);
+}
+
 const splitList = (s) => s.split(/[,，、]/).map((x) => x.trim()).filter(Boolean);
 const splitLines = (s) => s.split(/\r?\n|\s##\s/).map((x) => x.trim()).filter(Boolean);
 

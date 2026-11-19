@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import {
   Path, Translate, BookOpenText, RocketLaunch, ChatsCircle, GearSix, Fire, Lightning,
 } from '@phosphor-icons/react';
@@ -14,6 +14,9 @@ import RelayList from './relay/RelayList';
 import RelayPlay from './relay/RelayPlay';
 import ThemeToggle from './components/ThemeToggle';
 import { SidebarAccount, TopbarAccount, AuthToast } from './components/Account';
+
+// Only teachers open this page, so it is downloaded on demand.
+const ContentAdmin = lazy(() => import('./admin/ContentAdmin'));
 
 const NAV = [
   { href: '#/', key: '', label: 'Học', Icon: Path },
@@ -58,6 +61,7 @@ export default function App() {
     case 'relay': page = <RelayList />; break;
     case 'stamps': page = <Stamps />; break;
     case 'settings': page = <Settings />; break;
+    case 'noi-dung': page = <Suspense fallback={<p className="page muted">Đang mở…</p>}><ContentAdmin /></Suspense>; break;
     default: page = <Home />;
   }
 
