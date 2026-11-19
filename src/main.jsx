@@ -8,18 +8,11 @@ import './styles.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-<<<<<<< HEAD
-    <ProgressProvider>
-      <App />
-            <ChatWidget />
-    </ProgressProvider>
-=======
     <AuthProvider>
       <ProgressProvider>
         <App />
         <ChatWidget />
       </ProgressProvider>
     </AuthProvider>
->>>>>>> main
   </React.StrictMode>,
 );
