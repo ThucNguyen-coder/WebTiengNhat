@@ -8,10 +8,15 @@ import Lesson from './pages/Lesson';
 import Vocab from './pages/Vocab';
 import Kana from './pages/Kana';
 import Settings from './pages/Settings';
+import Stamps from './pages/Stamps';
 import SpaceGame from './game/SpaceGame';
 import RelayList from './relay/RelayList';
 import RelayPlay from './relay/RelayPlay';
 import ThemeToggle from './components/ThemeToggle';
+<<<<<<< HEAD
+=======
+import { SidebarAccount, TopbarAccount, AuthToast } from './components/Account';
+>>>>>>> main
 
 const NAV = [
   { href: '#/', key: '', label: 'Học', Icon: Path },
@@ -45,8 +50,8 @@ export default function App() {
   }, [settings.theme]);
 
   // Focused, full-screen flows hide the navigation.
-  if (current === 'lesson') return <Lesson topicId={params[0]} index={Number(params[1] || 0)} />;
-  if (current === 'relay' && params[0]) return <RelayPlay id={params[0]} />;
+  if (current === 'lesson') return <Lesson key={`${params[0]}-${params[1]}`} topicId={params[0]} index={Number(params[1] || 0)} />;
+  if (current === 'relay' && params[0]) return <RelayPlay key={params[0]} id={params[0]} />;
 
   let page;
   switch (current) {
@@ -54,6 +59,7 @@ export default function App() {
     case 'vocab': page = <Vocab topicId={params[0]} />; break;
     case 'game': page = <SpaceGame topicId={params[0]} />; break;
     case 'relay': page = <RelayList />; break;
+    case 'stamps': page = <Stamps />; break;
     case 'settings': page = <Settings />; break;
     default: page = <Home />;
   }
@@ -72,6 +78,10 @@ export default function App() {
         </nav>
         <div className="nav-spacer" />
         <ThemeToggle variant="nav" />
+<<<<<<< HEAD
+=======
+        <SidebarAccount />
+>>>>>>> main
         <a href="#/settings" className="nav-item" aria-current={current === 'settings' ? 'page' : undefined}>
           <GearSix size={26} weight={current === 'settings' ? 'fill' : 'bold'} aria-hidden="true" />
           Cài đặt
@@ -92,6 +102,10 @@ export default function App() {
               {dailyXp}
               <span className="sr-only">điểm hôm nay</span>
             </span>
+<<<<<<< HEAD
+=======
+            <TopbarAccount />
+>>>>>>> main
             <ThemeToggle />
             <a href="#/settings" className="icon-btn" aria-label="Cài đặt">
               <GearSix size={22} weight="bold" aria-hidden="true" />
@@ -100,6 +114,7 @@ export default function App() {
         </header>
 
         <main id="main">{page}</main>
+        {current !== 'settings' && <AuthToast />}
 
         <nav className="bottom-nav" aria-label="Điều hướng chính">
           {NAV.map(({ href, key, label, Icon }) => (

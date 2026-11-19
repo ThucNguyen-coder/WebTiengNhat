@@ -5,7 +5,11 @@ import { useProgress } from '../lib/store';
 import { speak } from '../lib/speech';
 import { Word, SpeakButton } from '../components/Bits';
 import FlashcardDeck from '../components/FlashcardDeck';
+<<<<<<< HEAD
 import { TOPIC_ICONS } from './Home';
+=======
+import { TOPIC_ICONS } from '../components/topicIcons';
+>>>>>>> main
 import './home.css';
 import './vocab.css';
 

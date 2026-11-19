@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useProgress } from '../lib/store';
 import { speak, hasJapaneseVoice, recognitionSupported } from '../lib/speech';
+import { AccountPanel } from '../components/Account';
+import { useAuth } from '../lib/auth';
 import './settings.css';
 
 function Toggle({ label, desc, checked, onChange }) {
@@ -32,6 +34,7 @@ function Choice({ label, value, options, onChange }) {
 
 export default function Settings() {
   const p = useProgress();
+  const auth = useAuth();
   const s = p.settings;
   const [confirm, setConfirm] = useState(false);
   const [voice, setVoice] = useState(hasJapaneseVoice());
@@ -53,6 +56,8 @@ export default function Settings() {
           <p>Tùy chỉnh cách hiển thị chữ Nhật, âm thanh và mục tiêu mỗi ngày.</p>
         </div>
       </div>
+
+      <AccountPanel />
 
       <section className="panel">
         <h2>Hiển thị</h2>
@@ -112,7 +117,7 @@ export default function Settings() {
 
       <section className="panel">
         <h2>Dữ liệu</h2>
-        <p className="muted" style={{ marginBottom: 12 }}>Tiến độ được lưu trên trình duyệt này.</p>
+        <p className="muted" style={{ marginBottom: 12 }}>{auth.user ? 'Tiến độ được lưu trên trình duyệt này và trong tài khoản của bạn. Xóa tiến độ sẽ xóa ở cả hai nơi.' : 'Tiến độ được lưu trên trình duyệt này.'}</p>
         {confirm ? (
           <div className="danger-row">
             <span>Xóa toàn bộ điểm, chuỗi ngày và bài đã học?</span>

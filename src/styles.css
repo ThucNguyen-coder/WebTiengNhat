@@ -10,6 +10,10 @@
 
   --logo-blue: #1643a0;
   --logo-red: #e20040;
+  --pen: #d4003c;
+  --ticket: #fdf1d4;
+  --ticket-line: #e0b44a;
+  --ticket-ink: #633806;
 
   --shu: #d7263d;
   --shu-deep: #a51b2e;
@@ -57,6 +61,10 @@
     --line: #33424a;
     --logo-blue: #a9c0f5;
     --logo-red: #ff3d6a;
+    --pen: #ff6b8d;
+    --ticket: #3a3220;
+    --ticket-line: #8a7430;
+    --ticket-ink: #f1d58a;
     --shu: #ff6b7a;
     --shu-deep: #c24555;
     --shu-tint: #3a2126;
@@ -86,6 +94,10 @@
   --line: #33424a;
   --logo-blue: #a9c0f5;
   --logo-red: #ff3d6a;
+  --pen: #ff6b8d;
+  --ticket: #3a3220;
+  --ticket-line: #8a7430;
+  --ticket-ink: #f1d58a;
   --shu: #ff6b7a;
   --shu-deep: #c24555;
   --shu-tint: #3a2126;
@@ -146,14 +158,14 @@ ruby rt { font-size: 0.42em; font-weight: 500; color: var(--ink-2); letter-spaci
   border: 2px solid var(--b-deep); border-radius: var(--r-md);
   background: var(--b); color: var(--b-ink);
   font-weight: 800; font-size: 16px; letter-spacing: 0.01em;
-  box-shadow: 0 4px 0 var(--b-deep);
+  box-shadow: none;
   cursor: pointer; touch-action: manipulation; user-select: none;
   transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s;
   text-decoration: none;
 }
 .btn:hover { filter: brightness(1.04); }
-.btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--b-deep); }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: 0 4px 0 var(--b-deep); }
+.btn:active { transform: translateY(1px); filter: brightness(0.96); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn--shu { --b: var(--shu); --b-deep: var(--shu-deep); --b-ink: var(--on-shu); }
 .btn--matcha { --b: var(--matcha); --b-deep: var(--matcha-deep); --b-ink: var(--on-matcha); }
 .btn--ai { --b: var(--ai); --b-deep: var(--ai-deep); --b-ink: var(--on-ai); }

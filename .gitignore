@@ -4,3 +4,8 @@ dist/
 *.log
 .DS_Store
 .vscode/
+
+# Local environment files (Supabase keys etc.)
+.env
+.env.*
+!.env.example
