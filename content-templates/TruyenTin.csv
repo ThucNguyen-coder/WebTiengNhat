@@ -1,0 +1,113 @@
+﻿id,title,place,level,tier,from,to,message_jp,message_kana,message_vi,model_jp,model_kana,model_vi,keypoints,chunks,extra
+e-com-chin,Cơm chín rồi,Gia đình,N5,1,お母さん | おかあさん | Mẹ | 母 | sakura,お兄ちゃん | おにいちゃん | Anh trai | 兄 | ai,ごはんだよ、とお兄ちゃんに言ってね。,ごはんだよ、とおにいちゃんにいってね。,"Cơm chín rồi, nói với anh nhé.",お兄ちゃん、ごはんだよ。,おにいちゃん、ごはんだよ。,"Anh ơi, ăn cơm thôi.","Nhắn cho ai | anh trai | お兄ちゃん, おにいちゃん, 兄
+Việc gì | ăn cơm | ごはん, ご飯",お兄ちゃん=おにいちゃん / ごはん / だよ,おやすみ
+e-di-boi,Ngày mai đi bơi,Trường học,N5,1,先生 | せんせい | Cô giáo | 先 | ai,みんな | みんな | Các bạn trong lớp | 皆 | yamabuki,あしたはプールです、とみんなに言ってね。,あしたはプールです、とみんなにいってね。,"Ngày mai đi bơi, nói với mọi người nhé.",みんな、あしたはプールだよ。,みんな、あしたはプールだよ。,"Mọi người ơi, mai đi bơi nhé.","Khi nào | ngày mai | あした, 明日
+Ở đâu | bể bơi | プール, ぷーる",みんな / あした / は / プール / だよ,きょう / うみ
+e-mang-o,Nhớ mang ô,Gia đình,N5,1,お母さん | おかあさん | Mẹ | 母 | sakura,お姉ちゃん | おねえちゃん | Chị gái | 姉 | matcha,かさをもっていってね、とお姉ちゃんに言ってね。,かさをもっていってね、とおねえちゃんにいってね。,"Mang ô theo nhé, nói với chị.",お姉ちゃん、傘を持っていって。,おねえちゃん、かさをもっていって。,"Chị ơi, mang ô theo nhé.","Nhắn cho ai | chị gái | お姉ちゃん, おねえちゃん, 姉
+Mang gì | cái ô | 傘, かさ",お姉ちゃん=おねえちゃん / 傘=かさ / を / 持っていって=もっていって,帽子=ぼうし
+e-tiec-chu-nhat,Tiệc Chủ nhật,Bạn bè,N5,1,リン | りん | Bạn thân | リ | sakura,健太 | けんた | Bạn của Rin | 健 | matcha,パーティーは日曜日だよ、と健太に言ってね。,パーティーはにちようびだよ、とけんたにいってね。,"Tiệc vào Chủ nhật, nói với Kenta nhé.",健太、パーティーは日曜日だよ。,けんた、パーティーはにちようびだよ。,"Kenta ơi, tiệc vào Chủ nhật đó.","Nhắn cho ai | Kenta | 健太, けんた
+Việc gì | bữa tiệc | パーティー, ぱーてぃー
+Ngày nào | Chủ nhật | 日曜日, にちようび, 日曜",健太=けんた / パーティー / は / 日曜日=にちようび / だよ,土曜日=どようび / 月曜日=げつようび
+e-bai-tap,Bài tập 10 trang,Trường học,N5,1,先生 | せんせい | Cô giáo | 先 | ai,みんな | みんな | Các bạn trong lớp | 皆 | yamabuki,しゅくだいは十ページです、とみんなに言ってね。,しゅくだいはじゅうページです、とみんなにいってね。,"Bài tập là 10 trang, nói với mọi người nhé.",みんな、宿題は十ページです。,みんな、しゅくだいはじゅうページです。,"Mọi người ơi, bài tập là 10 trang.","Việc gì | bài tập | 宿題, しゅくだい
+Bao nhiêu | mười trang | 十ページ, 10ページ, じゅうページ",みんな / 宿題=しゅくだい / は / 十ページ=じゅうページ / です,五ページ=ごページ / 本=ほん
+e-mua-tao,Mua ba quả táo,Gia đình,N5,1,お母さん | おかあさん | Mẹ | 母 | sakura,お父さん | おとうさん | Bố | 父 | shu,りんごを三つ買ってきてね、とお父さんに言ってね。,りんごをみっつかってきてね、とおとうさんにいってね。,"Mua 3 quả táo nhé, nói với bố.",お父さん、りんごを三つ買ってきて。,おとうさん、りんごをみっつかってきて。,"Bố ơi, mua giúp con 3 quả táo.","Nhắn cho ai | bố | お父さん, おとうさん, 父
+Mua gì | quả táo | りんご, 林檎
+Bao nhiêu | ba quả | 三つ, みっつ, 3つ",お父さん=おとうさん / りんご / を / 三つ=みっつ / 買ってきて=かってきて,みかん / 二つ=ふたつ
+e-da-ngoai,Ngày mai đi dã ngoại,Trường học,N5,1,先生 | せんせい | Cô giáo | 先 | ai,友達 | ともだち | Bạn cùng lớp | 友 | yamabuki,あしたはえんそくです、と友達に言ってね。,あしたはえんそくです、とともだちにいってね。,"Ngày mai đi dã ngoại, nói với bạn nhé.",友達、あしたは遠足です。,ともだち、あしたはえんそくです。,"Bạn ơi, mai đi dã ngoại đó.","Khi nào | ngày mai | あした, 明日
+Việc gì | đi dã ngoại | 遠足, えんそく",友達=ともだち / あした / は / 遠足=えんそく / です,運動会=うんどうかい / きょう
+hop-doi-gio,Cuộc họp đổi giờ,Văn phòng,N4,,田中さん | たなかさん | Đồng nghiệp | 田 | ai,部長 | ぶちょう | Trưởng phòng | 部 | shu,すみません、部長に伝えてください。会議は三時からになりました。,すみません、ぶちょうにつたえてください。かいぎはさんじからになりました。,"Xin lỗi, nhờ bạn nói với trưởng phòng: cuộc họp chuyển sang bắt đầu từ 3 giờ.",部長、会議は三時からになったそうです。,ぶちょう、かいぎはさんじからになったそうです。,"Thưa trưởng phòng, nghe nói cuộc họp sẽ bắt đầu từ 3 giờ.","Việc gì | cuộc họp | 会議, かいぎ, ミーティング
+Khi nào | 3 giờ | 三時, 3時, さんじ, 15時, じゅうごじ",,
+hop-doi-gio,Cuộc họp đổi giờ,Văn phòng,N4,,部長 | ぶちょう | Trưởng phòng | 部 | shu,田中さん | たなかさん | Đồng nghiệp | 田 | ai,わかりました。じゃ、資料を十部コピーしておいてください、と田中さんに言ってください。,わかりました。じゃ、しりょうをじゅうぶコピーしておいてください、とたなかさんにいってください。,Tôi hiểu rồi. Vậy nhờ nói với anh Tanaka hãy photo sẵn 10 bộ tài liệu.,田中さん、部長が資料を十部コピーしておいてくださいと言っていました。,たなかさん、ぶちょうがしりょうをじゅうぶコピーしておいてくださいといっていました。,"Anh Tanaka, trưởng phòng dặn anh photo sẵn 10 bộ tài liệu.","Cái gì | tài liệu | 資料, しりょう
+Bao nhiêu | 10 bộ | 十部, 10部, じゅうぶ, じゅっぷ, 10
+Làm gì | photo | コピー, こぴ",,
+loi-nhan-dien-thoai,Lời nhắn qua điện thoại,Văn phòng,N4,,山田さん | やまださん | Khách hàng (gọi điện) | 山 | matcha,鈴木さん | すずきさん | Đồng nghiệp | 鈴 | ai,山田です。明日の約束ですが、十時ではなく十一時にしてください。,やまだです。あしたのやくそくですが、じゅうじではなくじゅういちじにしてください。,"Tôi là Yamada. Về cuộc hẹn ngày mai, xin đổi từ 10 giờ sang 11 giờ.",鈴木さん、山田さんから電話がありました。明日の約束を十一時にしてほしいそうです。,すずきさん、やまださんからでんわがありました。あしたのやくそくをじゅういちじにしてほしいそうです。,"Anh Suzuki, anh Yamada gọi điện. Anh ấy muốn đổi cuộc hẹn ngày mai sang 11 giờ.","Ai | anh Yamada | 山田, やまだ
+Khi nào | ngày mai | 明日, あした, あす
+Giờ mới | 11 giờ | 十一時, 11時, じゅういちじ",,
+loi-dan-thay-giao,Lời dặn của thầy giáo,Trường học,N5,,先生 | せんせい | Thầy giáo | 先 | ai,クラスのみんな | くらすのみんな | Các bạn cùng lớp | 皆 | yamabuki,明日は試験がありますから、辞書を持ってきてください、とみんなに伝えてください。,あしたはしけんがありますから、じしょをもってきてください、とみんなにつたえてください。,Ngày mai có bài thi nên các em hãy mang từ điển đến. Nhờ em nói với mọi người.,みんな、明日は試験があるから、辞書を持ってきてって先生が言ってたよ。,みんな、あしたはしけんがあるから、じしょをもってきてってせんせいがいってたよ。,"Mọi người ơi, thầy dặn mai có bài thi nên nhớ mang từ điển nhé.","Khi nào | ngày mai | 明日, あした
+Sự kiện | bài thi | 試験, しけん, テスト
+Mang gì | từ điển | 辞書, じしょ",,
+bua-toi,Bữa tối ở nhà,Gia đình,N5,,お母さん | おかあさん | Mẹ | 母 | sakura,弟 | おとうと | Em trai | 弟 | matcha,晩ご飯は七時だから、それまでに帰ってきて、と弟に言ってね。,ばんごはんはしちじだから、それまでにかえってきて、とおとうとにいってね。,Bữa tối lúc 7 giờ nên dặn em trai về trước giờ đó nhé.,お母さんが、晩ご飯は七時だから、それまでに帰ってきてって。,おかあさんが、ばんごはんはしちじだから、それまでにかえってきてって。,"Mẹ bảo bữa tối lúc 7 giờ, về trước giờ đó nhé.","Việc gì | bữa tối | 晩ご飯, 晩御飯, ばんごはん, 夕ご飯, ゆうごはん, ご飯, ごはん
+Mấy giờ | 7 giờ | 七時, 7時, しちじ, ななじ, 19時
+Dặn gì | về nhà | 帰って, かえって, 帰る, かえる",,
+bua-toi,Bữa tối ở nhà,Gia đình,N5,,弟 | おとうと | Em trai | 弟 | matcha,お母さん | おかあさん | Mẹ | 母 | sakura,ごめん、今日は友達の家で勉強するから、八時ごろ帰るよ。,ごめん、きょうはともだちのいえでべんきょうするから、はちじごろかえるよ。,"Xin lỗi, hôm nay em học ở nhà bạn nên khoảng 8 giờ mới về.",お母さん、弟は友達の家で勉強するから、八時ごろ帰るそうです。,おかあさん、おとうとはともだちのいえでべんきょうするから、はちじごろかえるそうです。,"Mẹ ơi, em nó học ở nhà bạn nên khoảng 8 giờ mới về ạ.","Ở đâu | nhà bạn | 友達, ともだち
+Làm gì | học bài | 勉強, べんきょう
+Mấy giờ về | khoảng 8 giờ | 八時, 8時, はちじ, 20時",,
+tau-bi-tre,Tàu bị trễ,Nhà ga,N4,,駅員さん | えきいんさん | Nhân viên nhà ga | 駅 | ai,リンさん | りんさん | Bạn đi cùng | リ | sakura,事故のため、電車が三十分ぐらい遅れています。,じこのため、でんしゃがさんじゅっぷんぐらいおくれています。,"Do tai nạn, tàu đang bị trễ khoảng 30 phút.",電車が事故で三十分ぐらい遅れているって。,でんしゃがじこでさんじゅっぷんぐらいおくれているって。,Nghe nói tàu bị trễ khoảng 30 phút vì tai nạn.,"Cái gì | tàu điện | 電車, でんしゃ
+Bao lâu | 30 phút | 三十分, 30分, さんじゅっぷん, さんじっぷん
+Tình trạng | bị trễ | 遅れ, おくれ",,
+tau-bi-tre,Tàu bị trễ,Nhà ga,N4,,リンさん | りんさん | Bạn đi cùng | リ | sakura,駅員さん | えきいんさん | Nhân viên nhà ga | 駅 | ai,じゃ、バスで行ったほうがいいか、駅員さんに聞いてくれる？,じゃ、バスでいったほうがいいか、えきいんさんにきいてくれる？,Vậy hỏi nhân viên nhà ga giúp mình xem có nên đi xe buýt không?,すみません、バスで行ったほうがいいですか。,すみません、バスでいったほうがいいですか。,"Xin lỗi, tôi có nên đi bằng xe buýt không ạ?","Phương tiện | xe buýt | バス, ばす
+Hỏi gì | có nên đi | ほうがいい, 行った, いった, 行く, いく",,
+tau-bi-tre,Tàu bị trễ,Nhà ga,N4,,駅員さん | えきいんさん | Nhân viên nhà ga | 駅 | ai,リンさん | りんさん | Bạn đi cùng | リ | sakura,はい、駅の前から空港行きのバスが十分おきに出ていますよ。,はい、えきのまえからくうこういきのバスがじゅっぷんおきにでていますよ。,"Vâng, xe buýt đi sân bay chạy 10 phút một chuyến từ trước nhà ga.",駅の前から空港行きのバスが十分おきに出ているって。,えきのまえからくうこういきのバスがじゅっぷんおきにでているって。,"Có xe buýt đi sân bay từ trước nhà ga, 10 phút một chuyến.","Ở đâu | trước nhà ga | 駅の前, えきのまえ, 駅前, えきまえ
+Đi đâu | sân bay | 空港, くうこう
+Bao lâu một chuyến | 10 phút | 十分, 10分, じゅっぷん, じっぷん",,
+nha-hang-het-cho,Nhà hàng hết chỗ,Nhà hàng,N4,,店員さん | てんいんさん | Nhân viên nhà hàng | 店 | yamabuki,健太 | けんた | Bạn thân | 健 | matcha,すみません、今満席なので、二十分ほどお待ちいただけますか。,すみません、いままんせきなので、にじゅっぷんほどおまちいただけますか。,"Xin lỗi, hiện đã kín chỗ, quý khách chờ khoảng 20 phút được không ạ?",今いっぱいだから、二十分ぐらい待ってほしいって。,いまいっぱいだから、にじゅっぷんぐらいまってほしいって。,"Giờ kín chỗ rồi, họ nhờ mình chờ khoảng 20 phút.","Tình trạng | kín chỗ | 満席, まんせき, いっぱい
+Bao lâu | 20 phút | 二十分, 20分, にじゅっぷん, にじっぷん
+Yêu cầu | chờ | 待, まっ, まつ, まち",,
+nha-hang-het-cho,Nhà hàng hết chỗ,Nhà hàng,N4,,健太 | けんた | Bạn thân | 健 | matcha,店員さん | てんいんさん | Nhân viên nhà hàng | 店 | yamabuki,いいよ、待つって伝えて。名前はグエンです。,いいよ、まつってつたえて。なまえはグエンです。,"Được, nói là mình chờ nhé. Tên là Nguyễn.",じゃ、待ちます。名前はグエンです。,じゃ、まちます。なまえはグエンです。,Vậy chúng tôi sẽ chờ. Tên là Nguyễn.,"Trả lời | sẽ chờ | 待, まち, まつ
+Tên | Nguyễn | グエン, ぐえん",,
+ket-qua-kham,Kết quả khám bệnh,Bệnh viện,N4,,受付の人 | うけつけのひと | Lễ tân bệnh viện | 受 | ai,お父さん | おとうさん | Bố | 父 | shu,お父様の検査の結果は来週の月曜日に出ます。,おとうさまのけんさのけっかはらいしゅうのげつようびにでます。,Kết quả xét nghiệm của bố bạn sẽ có vào thứ Hai tuần sau.,お父さん、検査の結果は来週の月曜日に出るって。,おとうさん、けんさのけっかはらいしゅうのげつようびにでるって。,"Bố ơi, kết quả xét nghiệm thứ Hai tuần sau mới có.","Cái gì | kết quả xét nghiệm | 結果, けっか
+Tuần nào | tuần sau | 来週, らいしゅう
+Thứ mấy | thứ Hai | 月曜, げつよう",,
+du-bao-thoi-tiet,Dự báo thời tiết,Ở nhà,N5,,ラジオ | らじお | Bản tin radio | 天 | ai,お姉ちゃん | おねえちゃん | Chị gái | 姉 | sakura,明日は午後から雨が降るでしょう。気温は低く、寒くなりそうです。,あしたはごごからあめがふるでしょう。きおんはひくく、さむくなりそうです。,"Ngày mai từ chiều sẽ có mưa. Nhiệt độ thấp, trời có vẻ sẽ lạnh.",お姉ちゃん、明日は午後から雨で寒くなるって。,おねえちゃん、あしたはごごからあめでさむくなるって。,"Chị ơi, mai từ chiều trời mưa và lạnh đấy.","Khi nào | ngày mai | 明日, あした
+Từ lúc nào | buổi chiều | 午後, ごご
+Thời tiết | mưa | 雨, あめ
+Nhiệt độ | lạnh | 寒, さむ",,
+cong-tac-osaka,Chuyến công tác Osaka,Văn phòng,N4,,部長 | ぶちょう | Trưởng phòng | 部 | shu,佐藤さん | さとうさん | Đồng nghiệp | 佐 | matcha,来週の大阪の出張は、佐藤さんにお願いしたいと伝えてくれますか。新幹線の切符は私が準備します。,らいしゅうのおおさかのしゅっちょうは、さとうさんにおねがいしたいとつたえてくれますか。しんかんせんのきっぷはわたしがじゅんびします。,Nhờ cậu nói với anh Sato: tôi muốn nhờ anh ấy đi công tác Osaka tuần sau. Vé Shinkansen tôi sẽ chuẩn bị.,佐藤さん、部長が来週の大阪出張をお願いしたいそうです。新幹線の切符は部長が準備するそうです。,さとうさん、ぶちょうがらいしゅうのおおさかしゅっちょうをおねがいしたいそうです。しんかんせんのきっぷはぶちょうがじゅんびするそうです。,"Anh Sato, trưởng phòng muốn nhờ anh đi công tác Osaka tuần sau. Vé Shinkansen trưởng phòng sẽ chuẩn bị.","Khi nào | tuần sau | 来週, らいしゅう
+Đi đâu | Osaka | 大阪, おおさか
+Việc gì | công tác | 出張, しゅっちょう
+Vé tàu | vé Shinkansen | 切符, きっぷ, チケット, 新幹線, しんかんせん",,
+cong-tac-osaka,Chuyến công tác Osaka,Văn phòng,N4,,佐藤さん | さとうさん | Đồng nghiệp | 佐 | matcha,部長 | ぶちょう | Trưởng phòng | 部 | shu,わかりました。でも、木曜日は午前中に別の会議があるので、午後から出発してもいいか聞いてください。,わかりました。でも、もくようびはごぜんちゅうにべつのかいぎがあるので、ごごからしゅっぱつしてもいいかきいてください。,"Tôi hiểu. Nhưng sáng thứ Năm tôi có cuộc họp khác, nhờ hỏi giúp xuất phát từ buổi chiều có được không.",部長、佐藤さんは木曜日の午前中に別の会議があるので、午後から出発してもいいですか、とのことです。,ぶちょう、さとうさんはもくようびのごぜんちゅうにべつのかいぎがあるので、ごごからしゅっぱつしてもいいですか、とのことです。,"Thưa trưởng phòng, anh Sato có cuộc họp khác sáng thứ Năm nên hỏi có thể xuất phát từ chiều được không.","Thứ mấy | thứ Năm | 木曜, もくよう
+Lý do | có cuộc họp khác | 会議, かいぎ
+Đề nghị | đi từ buổi chiều | 午後, ごご",,
+hen-tiec-thu-bay,Hẹn đi tiệc thứ Bảy,Bạn bè,N5,,リン | りん | Bạn cùng lớp | リ | sakura,健太 | けんた | Bạn thân | 健 | matcha,土曜日のパーティー、六時に駅の北口で会おうって健太に言っておいて。,どようびのパーティー、ろくじにえきのきたぐちであおうってけんたにいっておいて。,"Nhắn Kenta giúp mình: tiệc thứ Bảy, gặp nhau lúc 6 giờ ở cửa Bắc nhà ga nhé.",健太、土曜日のパーティーは六時に駅の北口で会おうってリンが言ってたよ。,けんた、どようびのパーティーはろくじにえきのきたぐちであおうってリンがいってたよ。,"Kenta ơi, Linh nói tiệc thứ Bảy gặp nhau lúc 6 giờ ở cửa Bắc nhà ga.","Ngày nào | thứ Bảy | 土曜, どよう
+Mấy giờ | 6 giờ | 六時, 6時, ろくじ, 18時
+Ở đâu | cửa Bắc nhà ga | 北口, きたぐち",,
+cua-hang-giam-gia,Giày giảm giá,Cửa hàng,N5,,店員さん | てんいんさん | Nhân viên cửa hàng | 店 | yamabuki,お母さん | おかあさん | Mẹ | 母 | sakura,すみません、お母さんに伝えてください。この靴は今日だけ半額で、二千円になります。,すみません、おかあさんにつたえてください。このくつはきょうだけはんがくで、にせんえんになります。,"Xin lỗi, nhờ bạn nói với mẹ: đôi giày này chỉ hôm nay giảm nửa giá, còn 2.000 yên.",お母さん、この靴は今日だけ半額で二千円だって。,おかあさん、このくつはきょうだけはんがくでにせんえんだって。,"Mẹ ơi, đôi giày này chỉ hôm nay giảm nửa giá, còn 2.000 yên đấy.","Cái gì | giày | 靴, くつ
+Khi nào | chỉ hôm nay | 今日, きょう
+Giảm giá | nửa giá | 半額, はんがく, 半分, はんぶん
+Giá | 2.000 yên | 二千円, 2000円, 2千円, にせんえん",,
+cua-hang-giam-gia,Giày giảm giá,Cửa hàng,N5,,お母さん | おかあさん | Mẹ | 母 | sakura,店員さん | てんいんさん | Nhân viên cửa hàng | 店 | yamabuki,じゃあ、その靴を買います。サイズは二十四センチだと言ってください。,じゃあ、そのくつをかいます。サイズはにじゅうよんセンチだといってください。,Vậy tôi mua đôi giày đó. Nhờ nói là cỡ 24 cm.,その靴を買います。サイズは二十四センチです。,そのくつをかいます。サイズはにじゅうよんセンチです。,Chúng tôi mua đôi giày đó. Cỡ là 24 cm.,"Quyết định | mua | 買, かい, かう
+Cỡ giày | 24 cm | 二十四, 24, にじゅうよん",,
+bao-bac-si,Lời dặn của bác sĩ,Bệnh viện,N4,,お医者さん | おいしゃさん | Bác sĩ | 医 | ai,おばあさん | おばあさん | Bà | 祖 | sakura,お薬は一日三回、ご飯のあとに飲んでください。おばあさんに伝えてください。,おくすりはいちにちさんかい、ごはんのあとにのんでください。おばあさんにつたえてください。,"Thuốc uống ba lần một ngày, sau bữa ăn. Nhờ bạn nói lại với bà.",おばあさん、薬は一日三回、ご飯のあとに飲むそうです。,おばあさん、くすりはいちにちさんかい、ごはんのあとにのむそうです。,"Bà ơi, bác sĩ bảo thuốc uống ba lần một ngày, sau bữa ăn.","Cái gì | thuốc | 薬, くすり
+Số lần | 3 lần một ngày | 三回, 3回, さんかい
+Khi nào | sau bữa ăn | あと, 後, 食後, しょくご",,
+bao-bac-si,Lời dặn của bác sĩ,Bệnh viện,N4,,おばあさん | おばあさん | Bà | 祖 | sakura,お医者さん | おいしゃさん | Bác sĩ | 医 | ai,はい、わかりました。熱は昨日からありますが、今日は下がったと伝えてください。,はい、わかりました。ねつはきのうからありますが、きょうはさがったとつたえてください。,"Vâng, tôi hiểu. Nhờ nói với bác sĩ: tôi sốt từ hôm qua nhưng hôm nay đã hạ.",先生、熱は昨日からありましたが、今日は下がりました。,せんせい、ねつはきのうからありましたが、きょうはさがりました。,"Thưa bác sĩ, bà bị sốt từ hôm qua nhưng hôm nay đã hạ rồi.","Triệu chứng | sốt | 熱, ねつ
+Từ khi nào | từ hôm qua | 昨日, きのう
+Hiện tại | đã hạ | 下が, さが",,
+don-nha-cuoi-tuan,Dọn nhà cuối tuần,Gia đình,N5,,お父さん | おとうさん | Bố | 父 | shu,お姉ちゃん | おねえちゃん | Chị gái | 姉 | sakura,土曜日の朝九時から掃除をするよ。お姉ちゃんには台所をお願いって伝えて。,どようびのあさくじからそうじをするよ。おねえちゃんにはだいどころをおねがいってつたえて。,Thứ Bảy 9 giờ sáng bố bắt đầu dọn nhà. Nhắn chị nhờ chị dọn nhà bếp nhé.,お姉ちゃん、土曜日の朝九時から掃除だって。台所をお願いって。,おねえちゃん、どようびのあさくじからそうじだって。だいどころをおねがいって。,"Chị ơi, bố bảo thứ Bảy 9 giờ sáng dọn nhà, nhờ chị dọn nhà bếp.","Ngày nào | thứ Bảy | 土曜, どよう
+Mấy giờ | 9 giờ sáng | 九時, 9時, くじ
+Việc gì | dọn dẹp | 掃除, そうじ
+Chỗ nào | nhà bếp | 台所, だいどころ",,
+dat-ban-sinh-nhat,Đặt bàn sinh nhật,Nhà hàng,N4,,店員さん | てんいんさん | Nhân viên nhà hàng | 店 | yamabuki,リンさん | りんさん | Bạn đi cùng | リ | sakura,すみません、土曜日の夜七時なら、四人の席が取れますと伝えてください。,すみません、どようびのよるしちじなら、よにんのせきがとれますとつたえてください。,"Xin lỗi, nhờ bạn nói lại: nếu thứ Bảy 7 giờ tối thì có thể giữ bàn cho 4 người.",リンさん、土曜日の夜七時なら四人の席が取れるそうです。,りんさん、どようびのよるしちじならよにんのせきがとれるそうです。,"Linh ơi, nghe nói thứ Bảy 7 giờ tối thì giữ được bàn cho 4 người.","Ngày nào | thứ Bảy | 土曜, どよう
+Mấy giờ | 7 giờ tối | 七時, 7時, しちじ, ななじ, 19時
+Bao nhiêu người | 4 người | 四人, 4人, よにん",,
+dat-ban-sinh-nhat,Đặt bàn sinh nhật,Nhà hàng,N4,,リンさん | りんさん | Bạn đi cùng | リ | sakura,店員さん | てんいんさん | Nhân viên nhà hàng | 店 | yamabuki,じゃ、その時間でお願いします。誕生日のお祝いなので、ケーキを持ってきてもいいか聞いてください。,じゃ、そのじかんでおねがいします。たんじょうびのおいわいなので、ケーキをもってきてもいいかきいてください。,Vậy xin đặt giờ đó. Vì là tiệc sinh nhật nên nhờ hỏi xem có được mang bánh kem đến không.,すみません、その時間でお願いします。誕生日なので、ケーキを持ってきてもいいですか。,すみません、そのじかんでおねがいします。たんじょうびなので、ケーキをもってきてもいいですか。,"Xin lỗi, chúng tôi đặt giờ đó. Vì là sinh nhật nên có thể mang bánh kem đến được không ạ?","Dịp gì | sinh nhật | 誕生日, たんじょうび
+Mang gì | bánh kem | ケーキ, けーき
+Hỏi gì | có được mang đến không | 持って, もって",,
+dat-ban-sinh-nhat,Đặt bàn sinh nhật,Nhà hàng,N4,,店員さん | てんいんさん | Nhân viên nhà hàng | 店 | yamabuki,リンさん | りんさん | Bạn đi cùng | リ | sakura,はい、ケーキはいいですよ。ただ、お酒は持ってこないでくださいと伝えてください。,はい、ケーキはいいですよ。ただ、おさけはもってこないでくださいとつたえてください。,"Vâng, bánh kem thì được ạ. Có điều xin đừng mang rượu đến. Nhờ bạn nói lại.",ケーキはいいけど、お酒は持ってこないでほしいって。,ケーキはいいけど、おさけはもってこないでほしいって。,"Bánh kem thì được, nhưng họ nhờ đừng mang rượu đến.","Được phép | bánh kem | ケーキ, けーき
+Cấm | rượu | お酒, おさけ, 酒, さけ
+Yêu cầu | đừng mang đến | 持ってこない, もってこない, 持って来ない, もってこ",,
+doi-phong-khach-san,Đổi phòng khách sạn,Khách sạn,N4,,フロントの人 | ふろんとのひと | Lễ tân khách sạn | 宿 | ai,リンさん | りんさん | Bạn đi cùng | リ | sakura,お客様、ご予約のお部屋は海側の三階になります。朝ごはんは七時から九時まで、一階のレストランです。チェックアウトは十一時ですので、お連れの方にお伝えください。,おきゃくさま、ごよやくのおへやはうみがわのさんがいになります。あさごはんはしちじからくじまで、いっかいのレストランです。チェックアウトはじゅういちじですので、おつれのかたにおつたえください。,"Quý khách, phòng đã đặt của quý khách ở tầng 3 hướng biển. Bữa sáng từ 7 đến 9 giờ tại nhà hàng tầng 1. Trả phòng lúc 11 giờ, xin nhờ quý khách nói lại với người đi cùng.",リンさん、部屋は海側の三階で、朝ごはんは七時から九時まで一階のレストランだそうです。チェックアウトは十一時だって。,りんさん、へやはうみがわのさんがいで、あさごはんはしちじからくじまでいっかいのレストランだそうです。チェックアウトはじゅういちじだって。,"Linh ơi, phòng ở tầng 3 hướng biển, bữa sáng 7 đến 9 giờ ở nhà hàng tầng 1. Trả phòng lúc 11 giờ.","Tầng | tầng 3 | 三階, 3階, さんがい
+Hướng phòng | hướng biển | 海側, うみがわ
+Bữa sáng | từ 7 giờ | 七時, 7時, しちじ, ななじ
+Ăn ở đâu | nhà hàng tầng 1 | 一階, 1階, いっかい
+Trả phòng | 11 giờ | 十一時, 11時, じゅういちじ",,
+doi-phong-khach-san,Đổi phòng khách sạn,Khách sạn,N4,,リンさん | りんさん | Bạn đi cùng | リ | sakura,フロントの人 | ふろんとのひと | Lễ tân khách sạn | 宿 | ai,わかりました。ありがとうございます。実は友達が足が痛いので、エレベーターに近い部屋に変えてもらえるか、それから荷物を駅まで送ってもらえるか聞いてください。,わかりました。ありがとうございます。じつはともだちがあしがいたいので、エレベーターにちかいへやにかえてもらえるか、それからにもつをえきまでおくってもらえるかきいてください。,"Tôi hiểu rồi, cảm ơn. Thật ra bạn tôi bị đau chân, nhờ hỏi xem có đổi sang phòng gần thang máy được không, và có gửi hành lý ra nhà ga giúp được không.",すみません、友達が足を痛めているので、エレベーターに近い部屋に変えていただけますか。それから、荷物を駅まで送っていただけますか。,すみません、ともだちがあしをいためているので、エレベーターにちかいへやにかえていただけますか。それから、にもつをえきまでおくっていただけますか。,"Xin lỗi, bạn tôi bị đau chân nên có thể đổi sang phòng gần thang máy được không ạ? Ngoài ra có thể gửi hành lý ra nhà ga giúp không ạ?","Lý do | đau chân | 足, あし
+Yêu cầu phòng | gần thang máy | エレベーター, えれべーた
+Cái cần gửi | hành lý | 荷物, にもつ
+Gửi đến đâu | nhà ga | 駅, えき",,
+doi-phong-khach-san,Đổi phòng khách sạn,Khách sạn,N4,,フロントの人 | ふろんとのひと | Lễ tân khách sạn | 宿 | ai,リンさん | りんさん | Bạn đi cùng | リ | sakura,かしこまりました。エレベーターの隣のお部屋にご案内します。荷物は明日の朝八時までに玄関に出していただければ、駅へお送りできます。料金は五百円です、とお伝えください。,かしこまりました。エレベーターのとなりのおへやにごあんないします。にもつはあしたのあさはちじまでにげんかんにだしていただければ、えきへおおくりできます。りょうきんはごひゃくえんです、とおつたえください。,"Vâng ạ. Chúng tôi sẽ đưa quý khách sang phòng cạnh thang máy. Nếu để hành lý ở sảnh trước 8 giờ sáng mai, chúng tôi có thể gửi ra ga. Phí là 500 yên, xin nhờ nói lại.",リンさん、エレベーターの隣の部屋に変えてもらえるって。荷物は明日の朝八時までに玄関に出せば、駅へ送ってくれるそうです。料金は五百円です。,りんさん、エレベーターのとなりのへやにかえてもらえるって。にもつはあしたのあさはちじまでにげんかんにだせば、えきへおくってくれるそうです。りょうきんはごひゃくえんです。,"Linh ơi, họ đổi cho phòng cạnh thang máy. Hành lý để ở sảnh trước 8 giờ sáng mai thì họ gửi ra ga giúp. Phí 500 yên.","Phòng mới | cạnh thang máy | 隣, となり
+Hành lý | để ở sảnh | 玄関, げんかん
+Khi nào | sáng mai | 明日, あした
+Hạn chót | 8 giờ | 八時, 8時, はちじ
+Phí | 500 yên | 五百円, 500円, ごひゃくえん",,
+tran-dau-chu-nhat,Trận đấu Chủ nhật,Câu lạc bộ,N4,,コーチ | こーち | Huấn luyện viên | 監 | shu,健太 | けんた | Đồng đội | 健 | matcha,みんなに伝えてください。今度の日曜日の試合は、雨でも予定どおりあります。集合は朝七時に学校の前で、お弁当と水を持ってきてください。ユニフォームは当日の朝配ります。,みんなにつたえてください。こんどのにちようびのしあいは、あめでもよていどおりあります。しゅうごうはあさしちじにがっこうのまえで、おべんとうとみずをもってきてください。ユニフォームはとうじつのあさくばります。,"Nhờ em nói với mọi người: trận đấu Chủ nhật tới dù mưa vẫn diễn ra như kế hoạch. Tập trung 7 giờ sáng trước cổng trường, mang cơm hộp và nước. Đồng phục sẽ phát vào sáng hôm thi đấu.",みんな、今度の日曜日の試合は雨でもあるそうです。朝七時に学校の前に集合して、お弁当と水を持ってきてください。ユニフォームは当日の朝配るって。,みんな、こんどのにちようびのしあいはあめでもあるそうです。あさしちじにがっこうのまえにしゅうごうして、おべんとうとみずをもってきてください。ユニフォームはとうじつのあさくばるって。,"Mọi người ơi, trận Chủ nhật tới mưa vẫn đấu. 7 giờ sáng tập trung trước trường, mang cơm hộp và nước. Đồng phục phát sáng hôm đó.","Ngày nào | Chủ nhật | 日曜, にちよう
+Thời tiết | mưa vẫn đấu | 雨, あめ
+Tập trung lúc | 7 giờ sáng | 七時, 7時, しちじ, ななじ
+Mang gì | cơm hộp | 弁当, べんとう
+Đồng phục | phát sáng hôm đó | ユニフォーム, ゆにふぉーむ",,
+tran-dau-chu-nhat,Trận đấu Chủ nhật,Câu lạc bộ,N4,,健太 | けんた | Đồng đội | 健 | matcha,コーチ | こーち | Huấn luyện viên | 監 | shu,了解です。でも、僕は日曜日の朝に病院の予約があるので、九時ごろ遅れて行ってもいいか聞いてください。それから、弟も応援に来たいと言っています。,りょうかいです。でも、ぼくはにちようびのあさにびょういんのよやくがあるので、くじごろおくれていってもいいかきいてください。それから、おとうともおうえんにきたいといっています。,"Rõ rồi ạ. Nhưng sáng Chủ nhật em có hẹn ở bệnh viện, nhờ hỏi xem em đến muộn khoảng 9 giờ được không. Ngoài ra em trai em cũng muốn đến cổ vũ.",コーチ、日曜日の朝に病院の予約があるので、九時ごろ遅れて行ってもいいですか。それから、弟が応援に来たいと言っています。,コーチ、にちようびのあさにびょういんのよやくがあるので、くじごろおくれていってもいいですか。それから、おとうとがおうえんにきたいといっています。,"Thưa huấn luyện viên, sáng Chủ nhật em có hẹn ở bệnh viện nên có thể đến muộn khoảng 9 giờ không ạ? Em trai em cũng muốn đến cổ vũ.","Lý do | hẹn ở bệnh viện | 病院, びょういん
+Giờ đến | khoảng 9 giờ | 九時, 9時, くじ
+Xin phép | đến muộn | 遅れ, おくれ
+Ai đến cùng | em trai | 弟, おとうと
+Để làm gì | cổ vũ | 応援, おうえん",,
