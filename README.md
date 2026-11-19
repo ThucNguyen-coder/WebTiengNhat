@@ -38,6 +38,10 @@ Không bao giờ đưa khóa `sb_secret_` / `service_role` hay Client secret c�
 - `src/lib/sync.js`: gộp và lưu tiến độ
 - `src/components/Account.jsx`: giao diện tài khoản
 
+## Quản lý nội dung (giáo viên)
+
+Giáo viên thêm, sửa chủ đề và từ vựng ngay trên web. Cài đặt và hướng dẫn: [docs/quan-ly-noi-dung.md](docs/quan-ly-noi-dung.md).
+
 ## Giọng đọc AI và nội dung từ Google Sheet
 
 Xem hướng dẫn đầy đủ trong [docs/giong-doc-va-google-sheet.md](docs/giong-doc-va-google-sheet.md).

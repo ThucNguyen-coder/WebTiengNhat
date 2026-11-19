@@ -1,18 +1,18 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
-import ChatWidget from './components/ChatWidget';
-import { ProgressProvider } from './lib/store';
-import { AuthProvider } from './lib/auth';
+import { loadRemoteContent } from './lib/remoteContent';
 import './styles.css';
 
-createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <AuthProvider>
-      <ProgressProvider>
-        <App />
-        <ChatWidget />
-      </ProgressProvider>
-    </AuthProvider>
-  </React.StrictMode>,
-);
+// Content edited by teachers (Supabase) is loaded first, then the app modules,
+// so every page sees the same topics. Root is imported afterwards on purpose.
+const root = createRoot(document.getElementById('root'));
+
+loadRemoteContent()
+  .then(() => import('./Root'))
+  .then(({ default: Root }) => {
+    root.render(
+      <React.StrictMode>
+        <Root />
+      </React.StrictMode>,
+    );
+  });
