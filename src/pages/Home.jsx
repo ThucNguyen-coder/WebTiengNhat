@@ -7,6 +7,7 @@ import { buildLines, flattenStations } from '../lib/lines';
 import { Daru, ProgressRing } from '../components/Bits';
 import { SignInPrompt } from '../components/Account';
 import './home.css';
+import ProgressWidget from '../components/ProgressWidget';
 
 export default function Home() {
   const p = useProgress();
@@ -164,6 +165,7 @@ export default function Home() {
 
         <SignInPrompt />
 
+        <ProgressWidget />
         <div className="panel stats">
           <div>
             <Fire size={26} weight="fill" color="var(--shu)" aria-hidden="true" />

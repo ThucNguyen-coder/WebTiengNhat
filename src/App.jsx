@@ -12,6 +12,7 @@ import Stamps from './pages/Stamps';
 import SpaceGame from './game/SpaceGame';
 import RelayList from './relay/RelayList';
 import RelayPlay from './relay/RelayPlay';
+import ThemeToggle from './components/ThemeToggle';
 import { SidebarAccount, TopbarAccount, AuthToast } from './components/Account';
 
 const NAV = [
@@ -73,6 +74,7 @@ export default function App() {
           ))}
         </nav>
         <div className="nav-spacer" />
+        <ThemeToggle variant="nav" />
         <SidebarAccount />
         <a href="#/settings" className="nav-item" aria-current={current === 'settings' ? 'page' : undefined}>
           <GearSix size={26} weight={current === 'settings' ? 'fill' : 'bold'} aria-hidden="true" />
@@ -95,6 +97,7 @@ export default function App() {
               <span className="sr-only">XP hôm nay</span>
             </span>
             <TopbarAccount />
+            <ThemeToggle />
             <a href="#/settings" className="icon-btn" aria-label="Cài đặt">
               <GearSix size={22} weight="bold" aria-hidden="true" />
             </a>

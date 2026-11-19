@@ -1,0 +1,12 @@
+/* Ẩn bong bóng chat ở màn hình tập trung */
+body[data-hide-chat] #dify-chatbot-bubble-button,
+body[data-hide-chat] #dify-chatbot-bubble-window { display: none !important; }
+
+/* Trên điện thoại: nâng lên khỏi thanh điều hướng dưới */
+@media (max-width: 860px) {
+  #dify-chatbot-bubble-button { bottom: 84px !important; }
+  #dify-chatbot-bubble-window {
+    bottom: 150px !important;
+    max-height: calc(100dvh - 170px) !important;
+  }
+}
