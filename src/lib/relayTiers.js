@@ -3,6 +3,8 @@
 import { SCENARIOS, DIFFICULTIES } from '../data/relay';
 import { EASY_SCENARIOS } from '../data/relayEasy';
 import { isKana } from './kana';
+import sheetContent from '../data/generated/sheetContent.json';
+import { mergeScenarios } from '../data/sheetMerge';
 
 export { DIFFICULTIES };
 
@@ -18,10 +20,11 @@ function deriveTier(sc) {
   return sc.level === 'N5' && short ? 2 : 3;
 }
 
-export const ALL_SCENARIOS = [
-  ...EASY_SCENARIOS,
-  ...SCENARIOS.map((sc) => ({ ...sc, tier: sc.tier ?? deriveTier(sc) })),
-];
+// Scenarios from code, then the ones from the Google Sheet (same id = sheet wins).
+export const ALL_SCENARIOS = mergeScenarios([...EASY_SCENARIOS, ...SCENARIOS], sheetContent).map((sc) => ({
+  ...sc,
+  tier: sc.tier ?? deriveTier(sc),
+}));
 
 export const scenarioById = (id) => ALL_SCENARIOS.find((sc) => sc.id === id);
 export const scenariosOfTier = (tier) => ALL_SCENARIOS.filter((sc) => sc.tier === tier);

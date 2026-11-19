@@ -37,3 +37,14 @@ Không bao giờ đưa khóa `sb_secret_` / `service_role` hay Client secret c�
 - `src/lib/auth.jsx`: đăng nhập, đăng xuất, xóa tài khoản
 - `src/lib/sync.js`: gộp và lưu tiến độ
 - `src/components/Account.jsx`: giao diện tài khoản
+
+## Giọng đọc AI và nội dung từ Google Sheet
+
+Xem hướng dẫn đầy đủ trong [docs/giong-doc-va-google-sheet.md](docs/giong-doc-va-google-sheet.md).
+
+- `npm run audio`: tạo file giọng AI (Google Cloud Text-to-Speech) cho câu, từ còn thiếu
+- `npm run content`: lấy nội dung từ Google Sheet
+- `npm run check-content`: kiểm tra các tệp CSV của Sheet
+- `npm run content-templates`: xuất nội dung hiện có ra CSV để nhập vào Sheet
+
+Cả hai bước tự chạy trước mỗi lần build, và tự bỏ qua khi chưa cấu hình.

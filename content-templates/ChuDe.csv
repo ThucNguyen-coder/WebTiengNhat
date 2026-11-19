@@ -1,0 +1,18 @@
+﻿id,title,jp_title,level,color,icon
+chao-hoi,Chào hỏi,あいさつ,N5,shu,HandWaving
+gia-dinh,Gia đình,かぞく,N5,yamabuki,UsersThree
+so-thoi-gian,Số & thời gian,じかん,N5,ai,Clock
+do-an,Đồ ăn & thức uống,たべもの,N5,sakura,BowlFood
+giao-thong,Giao thông,のりもの,N5,matcha,Train
+truong-hoc,Trường học,がっこう,N5,ai,Student
+cong-viec,Công việc,しごと,N4,shu,Briefcase
+noi-chon,Nơi chốn,ばしょ,N5,matcha,MapPin
+thoi-tiet,Thời tiết,てんき,N5,yamabuki,CloudSun
+dong-tu,Động từ thường dùng,どうし,N4,sakura,Lightning
+mua-sam,Mua sắm,かいもの,N5,yamabuki,ShoppingCart
+co-the-suc-khoe,Cơ thể & sức khỏe,からだ,N4,shu,Heartbeat
+sinh-hoat,Sinh hoạt hằng ngày,せいかつ,N5,matcha,House
+cam-xuc,Cảm xúc,きもち,N4,sakura,Smiley
+tinh-tu,Tính từ thường dùng,けいようし,N4,ai,Sparkle
+du-lich-khach-san,Du lịch & khách sạn,りょこう,N4,matcha,Suitcase
+the-thao,Thể thao,スポーツ,N4,ai,SoccerBall

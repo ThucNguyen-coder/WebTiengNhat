@@ -3,7 +3,11 @@
 
 const w = (jp, kana, vi) => ({ jp, kana, vi });
 
-export const TOPICS = [
+import sheetContent from './generated/sheetContent.json';
+import { mergeTopics } from './sheetMerge';
+
+// Topics written in code. Content from the Google Sheet is merged on top (see sheetMerge.js).
+export const BASE_TOPICS = [
   {
     id: 'chao-hoi',
     title: 'Chào hỏi',
@@ -428,6 +432,8 @@ export const TOPICS = [
     ],
   },
 ];
+
+export const TOPICS = mergeTopics(BASE_TOPICS, sheetContent);
 
 export const ALL_WORDS = TOPICS.flatMap((t) => t.words.map((wd) => ({ ...wd, topic: t.id })));
 
