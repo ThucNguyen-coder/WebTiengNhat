@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import {
   Star, RocketLaunch, Lock, Check, Fire, Lightning, BookOpenText, ChatsCircle, CaretDown, Stamp, ArrowsLeftRight,
+  HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun,
+  ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall,
 } from '@phosphor-icons/react';
 import { useProgress, go } from '../lib/store';
 import { buildLines, flattenStations } from '../lib/lines';
 import { Daru, ProgressRing } from '../components/Bits';
 import { SignInPrompt } from '../components/Account';
-import './home.css';
 import ProgressWidget from '../components/ProgressWidget';
-<<<<<<< HEAD
+import './home.css';
 
-export const TOPIC_ICONS = { HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun, Lightning, ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall };
+export const TOPIC_ICONS = {
+  HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun,
+  Lightning, ShoppingCart, Heartbeat, House, Smiley, Sparkle, Suitcase, SoccerBall,
+};
 
 const ZIG = [0, 1, 2, 1, 0, -1, -2, -1];
 
@@ -24,8 +28,6 @@ export function buildPath() {
   });
   return nodes;
 }
-=======
->>>>>>> main
 
 export default function Home() {
   const p = useProgress();
@@ -181,11 +183,8 @@ export default function Home() {
           </div>
         </div>
 
-<<<<<<< HEAD
-=======
         <SignInPrompt />
 
->>>>>>> main
         <ProgressWidget />
         <div className="panel stats">
           <div>
