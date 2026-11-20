@@ -27,6 +27,11 @@ const typeable = (kana) => {
   }
 };
 const kanaOnly = (s) => isKana(s.replace(/ー/g, 'ー'));
+// Sentence readings (and word tiles) may also hold punctuation and spaces.
+const SENTENCE_MARKS = /[\s、。，．,.!?！？「」『』（）()・…〜~―-]/g;
+export const sentenceKana = (s) => { const t = s.replace(SENTENCE_MARKS, ''); return t.length > 0 && kanaOnly(t); };
+
+const KANA_MSG = 'chỉ được có hiragana hoặc katakana (không kanji, không chữ Latin)';
 
 // Checks one word the way the app needs it. Returns { field, msg } or null when fine.
 // Used by the Google Sheet import and by the "Quản lý nội dung" page.
@@ -50,7 +55,93 @@ export function slugify(text) {
     .slice(0, 40);
 }
 
-const splitList = (s) => s.split(/[,，、]/).map((x) => x.trim()).filter(Boolean);
+/* ---------- small checks shared by the sheet import and the "Quản lý nội dung" page ---------- */
+
+// Reading of a name or a word tile: kana only. Returns a message or ''.
+export function readingProblem(kana = '') {
+  if (!kana.trim()) return 'Cần nhập cách đọc';
+  return kanaOnly(kana.trim()) ? '' : `Cách đọc ${KANA_MSG}`;
+}
+
+// Reading of a whole sentence: kana plus punctuation. Returns a message or ''.
+export function sentenceReadingProblem(kana = '') {
+  if (!kana.trim()) return 'Cần nhập cách đọc';
+  return sentenceKana(kana.trim()) ? '' : `Cách đọc ${KANA_MSG}`;
+}
+
+// A key point { label, vi, accept: [...] }. Returns a message or ''.
+export function keypointProblem(kp) {
+  if (!kp.label?.trim()) return 'Cần nhãn (ví dụ: Khi nào)';
+  if (!kp.vi?.trim()) return 'Cần nghĩa tiếng Việt';
+  if (!kp.accept?.length) return 'Cần ít nhất một cách viết được chấp nhận';
+  return '';
+}
+
+// Do the word tiles, put together in order, give the model sentence?
+export const tilesMatch = (chunks, modelJp) =>
+  chunks.length > 0 && normalizeJa(chunks.map((c) => c.jp).join('')) === normalizeJa(modelJp);
+
+const SENTENCE_FIELDS = [['message', 'Lời nhắn'], ['model', 'Câu mẫu']];
+
+// Every problem of one scenario (app shape: { id, title, place, level, tier, cast: {key: person}, steps }).
+// Returns [{ path, msg }]; path is e.g. "title", "cast.p1.kana", "steps.0.model.jp", "steps.1.chunks".
+export function scenarioProblems(sc) {
+  const out = [];
+  const add = (path, msg) => msg && out.push({ path, msg });
+  if (!sc.title?.trim()) add('title', 'Cần nhập tên tình huống');
+  else if (sc.title.trim().length > 80) add('title', 'Tên quá dài (tối đa 80 ký tự)');
+  if ((sc.place || '').length > 60) add('place', 'Tối đa 60 ký tự');
+  const cast = sc.cast || {};
+  const keys = Object.keys(cast);
+  if (keys.length < 2) add('cast', 'Cần ít nhất 2 nhân vật');
+  keys.forEach((k) => {
+    const p = cast[k];
+    if (!p.name?.trim()) add(`cast.${k}.name`, 'Cần nhập tên');
+    add(`cast.${k}.kana`, readingProblem(p.kana));
+    if (!TONES.includes(p.tone)) add(`cast.${k}.tone`, 'Chọn một màu');
+  });
+  const names = keys.map((k) => cast[k].name?.trim()).filter(Boolean);
+  keys.forEach((k) => {
+    const n = cast[k].name?.trim();
+    if (n && names.indexOf(n) !== names.lastIndexOf(n)) add(`cast.${k}.name`, 'Hai nhân vật trùng tên');
+  });
+  const steps = sc.steps || [];
+  if (!steps.length) add('steps', 'Cần ít nhất một lượt nhắn');
+  steps.forEach((st, i) => {
+    const at = `steps.${i}`;
+    if (!cast[st.from]) add(`${at}.from`, 'Chọn người nhắn');
+    if (!cast[st.to]) add(`${at}.to`, 'Chọn người nhận');
+    if (st.from && st.from === st.to) add(`${at}.to`, 'Người nhận phải khác người nhắn');
+    SENTENCE_FIELDS.forEach(([f, name]) => {
+      const s = st[f] || {};
+      if (!s.jp?.trim()) add(`${at}.${f}.jp`, `Cần nhập ${name.toLowerCase()} tiếng Nhật`);
+      add(`${at}.${f}.kana`, sentenceReadingProblem(s.kana));
+      if (!s.vi?.trim()) add(`${at}.${f}.vi`, 'Cần nhập nghĩa tiếng Việt');
+    });
+    const kps = st.keypoints || [];
+    if (!kps.length) add(`${at}.keypoints`, 'Cần ít nhất một ý chính');
+    kps.forEach((kp, j) => {
+      const msg = keypointProblem(kp);
+      const model = [normalizeJa(st.model?.jp || ''), normalizeJa(st.model?.kana || '')];
+      const inModel = (kp.accept || []).some((a) => model.some((m) => m && normalizeJa(a) && m.includes(normalizeJa(a))));
+      add(`${at}.keypoints.${j}`, msg || (st.model?.jp?.trim() && !inModel
+        ? 'Câu mẫu chưa có cách viết nào của ý này (học viên nói đúng câu mẫu cũng bị trừ điểm)' : ''));
+    });
+    const chunks = st.chunks || [];
+    if (sc.tier === 1 && !chunks.length) add(`${at}.chunks`, 'Bậc 1 cần các thẻ từ để học viên ghép câu');
+    [['chunks', chunks], ['extra', st.extra || []]].forEach(([f, list]) =>
+      list.forEach((c, j) => {
+        if (!c.jp?.trim()) add(`${at}.${f}.${j}`, 'Thẻ trống');
+        else add(`${at}.${f}.${j}`, sentenceReadingProblem(c.kana));
+      }));
+    if (chunks.length && st.model?.jp?.trim() && !tilesMatch(chunks, st.model.jp)) {
+      add(`${at}.chunks`, 'Các thẻ ghép lại chưa khớp câu mẫu');
+    }
+  });
+  return out;
+}
+
+export const splitList = (s) => s.split(/[,，、]/).map((x) => x.trim()).filter(Boolean);
 const splitLines = (s) => s.split(/\r?\n|\s##\s/).map((x) => x.trim()).filter(Boolean);
 
 function parsePerson(cell) {
@@ -65,7 +156,7 @@ function parsePerson(cell) {
   };
 }
 
-function parseTiles(cell) {
+export function parseTiles(cell) {
   if (!cell) return [];
   return cell.split('/').map((x) => x.trim()).filter(Boolean).map((t) => {
     const [jp, kana] = t.split('=').map((x) => x.trim());
@@ -143,7 +234,7 @@ export function parseSheet({ topicsRows = [], wordsRows = [], relayRows = [] }, 
       const keypoints = splitLines(r.keypoints || '').map((line) => {
         const [label, vi, forms] = line.split('|').map((x) => x.trim());
         return { label, vi, accept: splitList(forms || '') };
-      }).filter((k) => k.label && k.vi && k.accept.length);
+      }).filter((k) => !keypointProblem(k));
       if (!keypoints.length) { warn('TruyenTin', r._row, 'Cần ít nhất một ý chính dạng "Nhãn | nghĩa | dạng 1, dạng 2"'); bad = true; continue; }
       const step = {
         from: keyOf(from),
@@ -154,7 +245,7 @@ export function parseSheet({ topicsRows = [], wordsRows = [], relayRows = [] }, 
       };
       const chunks = parseTiles(r.chunks);
       if (chunks.length) {
-        if (normalizeJa(chunks.map((c) => c.jp).join('')) !== normalizeJa(r.model_jp)) {
+        if (!tilesMatch(chunks, r.model_jp)) {
           warn('TruyenTin', r._row, 'Các thẻ trong cột chunks ghép lại không khớp câu model_jp');
         } else {
           step.chunks = chunks;
@@ -184,7 +275,7 @@ export function parseSheet({ topicsRows = [], wordsRows = [], relayRows = [] }, 
 /* ---------- app content -> sheet rows (to seed the sheet) ---------- */
 
 const personCell = (p) => [p.name, p.kana, p.role, p.glyph, p.tone].join(' | ');
-const tilesCell = (tiles = []) => tiles.map((t) => (t.kana && t.kana !== t.jp ? `${t.jp}=${t.kana}` : t.jp)).join(' / ');
+export const tilesCell = (tiles = []) => tiles.map((t) => (t.kana && t.kana !== t.jp ? `${t.jp}=${t.kana}` : t.jp)).join(' / ');
 
 export function toSheetRows(topics, scenarios) {
   const topicsRows = topics.map((t) => ({

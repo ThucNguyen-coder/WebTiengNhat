@@ -8,6 +8,9 @@ export function explain(error) {
   if (!error) return '';
   const code = error.code || '';
   const msg = error.message || String(error);
+  if ((code === '42P01' || code === 'PGRST205' || /does not exist|schema cache/i.test(msg)) && /content_relay/.test(msg)) {
+    return 'Chưa có bảng Truyền tin trên Supabase. Người quản trị cần chạy tệp supabase/relay.sql trong SQL Editor.';
+  }
   if (code === '42P01' || code === 'PGRST205' || /does not exist|schema cache/i.test(msg)) {
     return 'Chưa có bảng nội dung trên Supabase. Người quản trị cần chạy tệp supabase/content.sql trong SQL Editor.';
   }
@@ -95,4 +98,41 @@ export async function importTopics(topics) {
     ok(await supabase.from('content_words').upsert(wordRows.slice(i, i + 500), { onConflict: 'topic_id,jp', ignoreDuplicates: true }));
   }
   return { topics: topicRows.length, words: wordRows.length };
+}
+
+/* ---------- relay ("Truyền tin") scenarios ---------- */
+
+export const loadRelay = async () =>
+  fetchAll(() => supabase.from('content_relay').select('*').order('sort_order').order('id'));
+
+export const insertScenario = async (row) => ok(await supabase.from('content_relay').insert(row).select().single());
+
+export const updateScenario = async (id, fields) =>
+  ok(await supabase.from('content_relay').update(fields).eq('id', id).select().single());
+
+export const deleteScenario = async (id) => ok(await supabase.from('content_relay').delete().eq('id', id));
+
+// Same numbering as topics: 10, 20, 30... only changed rows are written.
+export async function reorderScenarios(ordered) {
+  for (const [i, sc] of ordered.entries()) {
+    const n = (i + 1) * 10;
+    if (sc.sort_order !== n) await updateScenario(sc.id, { sort_order: n });
+  }
+}
+
+// App scenario (data/relay.js shape) -> content_relay row fields.
+export const scenarioRow = (sc) => ({
+  title: sc.title,
+  place: sc.place || '',
+  level: sc.level || 'N5',
+  tier: [1, 2, 3].includes(sc.tier) ? sc.tier : null,
+  body: { cast: sc.cast, steps: sc.steps },
+});
+
+// One-time copy of the scenarios written in code (and the Google Sheet), published.
+// Scenarios already in Supabase (same id) are left alone.
+export async function importScenarios(scenarios) {
+  const rows = scenarios.map((sc, i) => ({ id: sc.id, ...scenarioRow(sc), sort_order: (i + 1) * 10, status: 'published' }));
+  ok(await supabase.from('content_relay').upsert(rows, { onConflict: 'id', ignoreDuplicates: true }));
+  return rows.length;
 }

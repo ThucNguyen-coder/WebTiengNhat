@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ArrowLeft, ArrowUp, ArrowDown, Plus, PencilSimple, Trash, Check, X, Eye, EyeSlash,
-  DownloadSimple, UserPlus, Star, Info,
+  ArrowLeft, ArrowUp, ArrowDown, Plus, PencilSimple, Trash, Check, X, Eye,
+  DownloadSimple, UserPlus, Star, Info, BookOpen, Envelope,
 } from '@phosphor-icons/react';
 import { useAuth } from '../lib/auth';
 import { authEnabled } from '../lib/supabase';
@@ -12,16 +12,9 @@ import { isKana } from '../lib/kana';
 import { CODE_TOPICS, CONTENT_SOURCE } from '../data/vocab';
 import * as api from '../lib/contentAdmin';
 import { useEditorRole } from '../lib/useEditorRole';
+import { StatusChip, Field, TONE_NAMES, LEVELS } from './shared';
+import RelayAdmin from './RelayAdmin';
 import './admin.css';
-
-const TONE_NAMES = { shu: 'Đỏ son', ai: 'Xanh chàm', matcha: 'Xanh trà', yamabuki: 'Vàng', sakura: 'Hồng' };
-const LEVELS = ['N5', 'N4', 'N3'];
-
-function StatusChip({ status }) {
-  return status === 'published'
-    ? <span className="ad-chip ad-chip--on"><Eye size={14} weight="bold" aria-hidden="true" />Đã xuất bản</span>
-    : <span className="ad-chip"><EyeSlash size={14} weight="bold" aria-hidden="true" />Bản nháp</span>;
-}
 
 function Gate({ title, children }) {
   return (
@@ -71,7 +64,15 @@ function Editor({ role, email }) {
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
   const [view, setView] = useState({ name: 'list' }); // list | topic {id} | new
+  const [tab, setTab] = useState(() => {
+    try { return sessionStorage.getItem('konnichiwa-admin-tab') || 'topics'; } catch { return 'topics'; }
+  });
   const noteTimer = useRef(0);
+  const pickTab = (t) => {
+    setTab(t);
+    setError('');
+    try { sessionStorage.setItem('konnichiwa-admin-tab', t); } catch { /* blocked */ }
+  };
 
   const flash = useCallback((text) => {
     setNote(text);
@@ -102,11 +103,34 @@ function Editor({ role, email }) {
     }
   }, [reload, flash]);
 
+  const top = (
+    <>
+      <Head role={role} />
+      <Tabs tab={tab} pick={pickTab} />
+      {error && (
+        <p className="ad-error" role="alert">
+          {error}
+          <button className="ad-link" onClick={() => setError('')}>Đóng</button>
+        </p>
+      )}
+      <p className="ad-note" role="status" aria-live="polite">{note}</p>
+    </>
+  );
+
+  if (tab === 'relay') {
+    return (
+      <div className="page ad">
+        {top}
+        <RelayAdmin role={role} flash={flash} setError={setError} />
+      </div>
+    );
+  }
+
   if (!data) {
     return (
       <div className="page ad">
-        <Head role={role} />
-        {error ? <p className="ad-error" role="alert">{error}</p> : <p className="muted">Đang tải nội dung…</p>}
+        {top}
+        {!error && <p className="muted">Đang tải nội dung…</p>}
       </div>
     );
   }
@@ -115,14 +139,7 @@ function Editor({ role, email }) {
 
   return (
     <div className="page ad">
-      <Head role={role} />
-      {error && (
-        <p className="ad-error" role="alert">
-          {error}
-          <button className="ad-link" onClick={() => setError('')}>Đóng</button>
-        </p>
-      )}
-      <p className="ad-note" role="status" aria-live="polite">{note}</p>
+      {top}
 
       {view.name === 'list' && (
         <>
@@ -173,11 +190,30 @@ function Head({ role }) {
       <div>
         <h1>Quản lý nội dung</h1>
         <p>
-          Thêm, sửa chủ đề và từ vựng. Chỉ mục <strong>Đã xuất bản</strong> mới hiện cho học viên,
+          Thêm, sửa chủ đề, từ vựng và tình huống Truyền tin. Chỉ mục <strong>Đã xuất bản</strong> mới hiện cho học viên,
           ở lần mở hoặc tải lại web tiếp theo.
         </p>
       </div>
       <span className="ad-chip ad-chip--role">{role === 'admin' ? 'Quản trị viên' : 'Giáo viên'}</span>
+    </div>
+  );
+}
+
+function Tabs({ tab, pick }) {
+  const items = [
+    { id: 'topics', label: 'Chủ đề & từ vựng', Icon: BookOpen },
+    { id: 'relay', label: 'Truyền tin', Icon: Envelope },
+  ];
+  return (
+    <div className="ad-tabs" role="tablist" aria-label="Loại nội dung">
+      {items.map(({ id, label, Icon }) => (
+        <button
+          key={id} role="tab" type="button" aria-selected={tab === id}
+          className={`ad-tab${tab === id ? ' is-on' : ''}`} onClick={() => pick(id)}
+        >
+          <Icon size={18} weight="bold" aria-hidden="true" />{label}
+        </button>
+      ))}
     </div>
   );
 }
@@ -421,18 +457,6 @@ function TopicForm({ topic, existingIds = [], nextOrder = 10, onSave, onDelete, 
         </div>
       )}
     </form>
-  );
-}
-
-let fieldSeq = 0;
-function Field({ label, hint, error, children }) {
-  const [id] = useState(() => `adf-${++fieldSeq}`);
-  return (
-    <div className={`ad-field${error ? ' is-bad' : ''}`}>
-      <label htmlFor={id}>{label}</label>
-      {children({ id, 'aria-invalid': !!error, 'aria-describedby': `${id}-msg` })}
-      <small id={`${id}-msg`} className={error ? 'ad-bad' : 'muted'}>{error || hint || ''}</small>
-    </div>
   );
 }
 

@@ -5,6 +5,7 @@ import { EASY_SCENARIOS } from '../data/relayEasy';
 import { isKana } from './kana';
 import sheetContent from '../data/generated/sheetContent.json';
 import { mergeScenarios } from '../data/sheetMerge';
+import { getRemoteScenarios } from './remoteContent';
 
 export { DIFFICULTIES };
 
@@ -14,14 +15,19 @@ export const TIERS = [
   { id: 3, label: 'Bậc 3', name: 'Thử thách', desc: 'Nghe câu dài, tự nói hoặc gõ lại.', mode: 'speak' },
 ];
 
-// Scenarios in data/relay.js may set `tier`; otherwise short N5 messages are tier 2, the rest tier 3.
-function deriveTier(sc) {
-  const short = sc.steps.every((st) => st.message.jp.length <= 40);
+// Scenarios may set `tier`; otherwise short N5 messages are tier 2, the rest tier 3.
+export function deriveTier(sc) {
+  const short = sc.steps.every((st) => (st.message?.jp || '').length <= 40);
   return sc.level === 'N5' && short ? 2 : 3;
 }
 
 // Scenarios from code, then the ones from the Google Sheet (same id = sheet wins).
-export const ALL_SCENARIOS = mergeScenarios([...EASY_SCENARIOS, ...SCENARIOS], sheetContent).map((sc) => ({
+// This is also what the admin page copies into Supabase the first time (tier kept as written).
+export const CODE_SCENARIOS = mergeScenarios([...EASY_SCENARIOS, ...SCENARIOS], sheetContent);
+
+// Published scenarios from the "Quản lý nội dung" page win when Supabase has any (see main.jsx).
+export const RELAY_SOURCE = getRemoteScenarios() ? 'supabase' : 'code';
+export const ALL_SCENARIOS = (getRemoteScenarios() || CODE_SCENARIOS).map((sc) => ({
   ...sc,
   tier: sc.tier ?? deriveTier(sc),
 }));
