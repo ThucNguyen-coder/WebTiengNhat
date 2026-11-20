@@ -95,6 +95,11 @@ export default function SpaceGame({ topicId }) {
       p.setGameBest(result.score);
       if (topic !== 'all' && result.kills >= 10) p.completeNode(`${topic}:game`, result.lives > 0 ? 3 : 2);
       if (result.killed.length) p.markLearned(result.killed);
+      // Lịch ôn tập: bắn trúng = đúng, để từ rơi xuống đất = sai.
+      p.recordAnswers([
+        ...result.killed.map((jp) => ({ jp, ok: true })),
+        ...result.missed.map((w) => ({ jp: w.jp, ok: false })),
+      ]);
       setSummary({ ...result, xp, best: Math.max(p.gameBest, result.score), newBest: result.score > p.gameBest });
       setPhase('over');
     },

@@ -49,7 +49,7 @@ export function SpeakButton({ text, label = 'Nghe phát âm', size = 22, classNa
 export function Hanko({ char = '済', size = 44, slam = false, label }) {
   return (
     <span
-      className={`hanko${slam ? ' hanko--slam' : ''}`}
+      className={`hanko${slam ? ' hanko--slam' : ''}${String(char).length > 1 ? ' hanko--duo' : ''}`}
       style={{ '--size': `${size}px` }}
       role={label ? 'img' : undefined}
       aria-label={label}

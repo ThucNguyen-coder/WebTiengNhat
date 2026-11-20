@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { CaretLeft, Cards, ListBullets, ArrowsClockwise, Check, RocketLaunch, Star } from '@phosphor-icons/react';
+import { CaretLeft, Cards, ListBullets, ArrowsClockwise, Check, RocketLaunch, Star, ArrowCounterClockwise } from '@phosphor-icons/react';
 import { TOPICS, topicById } from '../data/vocab';
 import { useProgress } from '../lib/store';
 import { speak } from '../lib/speech';
 import { Word, SpeakButton } from '../components/Bits';
 import FlashcardDeck from '../components/FlashcardDeck';
 import { TOPIC_ICONS } from '../components/topicIcons';
+import { dueWords, hardWords } from '../lib/review';
 import './vocab.css';
+import './review.css';
 
 export default function Vocab({ topicId }) {
   const topic = topicId && topicById(topicId);
@@ -14,7 +16,9 @@ export default function Vocab({ topicId }) {
 }
 
 function TopicGrid() {
-  const { learned } = useProgress();
+  const { learned, review } = useProgress();
+  const due = dueWords(review).length;
+  const hard = hardWords(review, 99).length;
   return (
     <div className="page">
       <div className="page-head">
@@ -23,6 +27,13 @@ function TopicGrid() {
           <p>Chọn chủ đề để xem danh sách từ hoặc lật thẻ ôn tập.</p>
         </div>
       </div>
+      <a className="panel vocab-review" href="#/on-tap">
+        <ArrowCounterClockwise size={28} weight="bold" aria-hidden="true" />
+        <span>
+          <strong>{due ? `Hôm nay có ${due} từ cần ôn` : 'Ôn tập'}</strong>
+          <span className="muted">{hard ? `${hard} từ hay sai · ` : ''}Ôn đúng lúc sắp quên</span>
+        </span>
+      </a>
       <ul className="topic-grid">
         {TOPICS.map((t) => {
           const Icon = TOPIC_ICONS[t.icon] || Star;

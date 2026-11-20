@@ -1,0 +1,113 @@
+/* ===== Ôn tập + Bài hôm nay ===== */
+
+/* Màu của 6 hộp: đỏ (mới, hay quên) -> xanh lá (đã nhớ lâu) */
+.box-1 { --bx: var(--shu); --bx-tint: var(--shu-tint); }
+.box-2 { --bx: var(--sakura); --bx-tint: var(--sakura-tint); }
+.box-3 { --bx: var(--yamabuki-deep); --bx-tint: var(--yamabuki-tint); }
+.box-4 { --bx: var(--ai); --bx-tint: var(--ai-tint); }
+.box-5 { --bx: var(--matcha); --bx-tint: var(--matcha-tint); }
+.box-6 { --bx: var(--matcha-deep); --bx-tint: var(--matcha-tint); }
+
+/* ---- Day strip: 7 ngày, ngày xong có dấu 済 ---- */
+.day-strip { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; justify-content: space-between; width: 100%; max-width: 360px; }
+.day { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1 1 0; min-width: 0; }
+.day-mark {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  border: 2px dashed var(--line); color: var(--shu);
+  font-family: var(--font-jp); font-weight: 600; font-size: 16px;
+}
+.day.is-on .day-mark {
+  border: 2px solid var(--shu); border-radius: 22%; transform: rotate(-9deg);
+  background: color-mix(in srgb, var(--shu) 10%, var(--surface));
+}
+.day.is-today .day-mark { border-color: var(--ink-2); }
+.day.is-today.is-on .day-mark { border-color: var(--shu); }
+.day-label { font-size: 12px; font-weight: 700; color: var(--ink-3); }
+.day.is-today .day-label { color: var(--ink); }
+
+/* ---- Home: hai thẻ hôm nay ---- */
+.today { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 12px; margin-bottom: 20px; }
+.today-card { display: flex; flex-direction: column; gap: 14px; border-color: var(--shu); }
+.today-card.is-done { border-color: var(--line); }
+.today-head { display: flex; align-items: center; gap: 12px; }
+.today-head h2 { font-size: 19px; }
+.today-badge {
+  display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 22%;
+  border: 3px solid var(--shu); color: var(--shu); transform: rotate(-9deg);
+  writing-mode: vertical-rl; font-size: 15px; line-height: 1.05;
+}
+.today-sub { font-size: 14px; margin-top: 2px; }
+.today-sub svg { vertical-align: -3px; margin-right: 4px; }
+
+.today-review {
+  display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;
+  transition: background 0.15s;
+}
+.today-review:hover { background: var(--surface-2); }
+.today-review-n {
+  display: grid; place-items: center; flex: none; min-width: 56px; height: 56px; padding: 0 8px; border-radius: 14px;
+  background: var(--surface-2); color: var(--ink-2); font-size: 26px; font-variant-numeric: tabular-nums;
+}
+.today-review.has-due .today-review-n { background: var(--ai); color: var(--on-ai); }
+.today-review-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: 14px; }
+.today-review-title { font-weight: 800; font-size: 16px; }
+
+@media (max-width: 640px) {
+  .today { grid-template-columns: 1fr; }
+}
+
+/* ---- Trang Ôn tập ---- */
+.review-today { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.review-today .hanko { flex: none; }
+.review-today-text { flex: 1 1 220px; min-width: 0; }
+.review-today h2 { font-size: 20px; margin-bottom: 4px; }
+
+.review-section { margin-top: 28px; }
+.review-h2 { font-size: 19px; display: flex; align-items: center; gap: 8px; }
+.review-h2 svg { color: var(--shu); }
+.review-h2-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.review-explain { margin: 4px 0 12px; font-size: 14px; }
+
+.boxes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.box {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 6px;
+  border-radius: var(--r-md); border: 2px solid var(--bx); background: var(--bx-tint); text-align: center;
+}
+.box-name { font-size: 13px; font-weight: 800; color: var(--bx); }
+.box-count { font-size: 26px; font-variant-numeric: tabular-nums; }
+.box-days { font-size: 12px; color: var(--ink-2); }
+@media (max-width: 640px) {
+  .boxes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.hard-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.hard-list li {
+  display: grid; grid-template-columns: minmax(110px, 180px) 1fr auto auto; align-items: center; gap: 14px;
+  padding: 10px 14px; border-radius: var(--r-md); background: var(--surface); border: 2px solid var(--line);
+}
+.hard-list li.is-top { border-left: 6px solid var(--shu); }
+.hard-vi { font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.hard-count { font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.hard-count strong { color: var(--shu); }
+@media (max-width: 640px) {
+  .hard-list li { grid-template-columns: 1fr auto; gap: 4px 12px; }
+  .hard-list .hard-vi, .hard-list .hard-count { grid-column: 1; }
+  .hard-list li > :last-child { grid-row: 1 / span 3; grid-column: 2; }
+}
+
+/* ---- Màn kết thúc ---- */
+.done-word-info { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; min-width: 0; }
+.box-tag {
+  display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;
+  background: var(--bx-tint); color: var(--bx); border: 1px solid var(--bx);
+}
+
+/* ---- Sổ từ vựng: lối vào Ôn tập ---- */
+.vocab-review {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 20px; text-decoration: none; color: inherit;
+  border-color: var(--ai); transition: background 0.15s;
+}
+.vocab-review:hover { background: var(--surface-2); }
+.vocab-review > svg { color: var(--ai); flex: none; }
+.vocab-review > span { display: flex; flex-direction: column; gap: 2px; font-size: 14px; min-width: 0; }
+.vocab-review strong { font-size: 16px; }
