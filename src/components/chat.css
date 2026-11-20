@@ -2,11 +2,21 @@
 body[data-hide-chat] #dify-chatbot-bubble-button,
 body[data-hide-chat] #dify-chatbot-bubble-window { display: none !important; }
 
-/* Trên điện thoại: nâng lên khỏi thanh điều hướng dưới */
+/* Trên điện thoại: bong bóng nhỏ hơn, nằm trên thanh điều hướng dưới (cao ~66px) và chừa vùng an toàn
+   (tai thỏ, thanh home). Trang có thêm khoảng đệm cuối (.page) nên nội dung cuối trang không bị che. */
 @media (max-width: 860px) {
-  #dify-chatbot-bubble-button { bottom: 84px !important; }
+  #dify-chatbot-bubble-button {
+    width: 44px !important;
+    height: 44px !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+    opacity: 0.92;
+  }
   #dify-chatbot-bubble-window {
-    bottom: 150px !important;
-    max-height: calc(100dvh - 170px) !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    bottom: calc(130px + env(safe-area-inset-bottom)) !important;
+    width: calc(100vw - 16px) !important;
+    max-width: 24rem !important;
+    max-height: calc(100dvh - 200px - env(safe-area-inset-bottom)) !important;
   }
 }

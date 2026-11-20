@@ -10,7 +10,8 @@
     "content": "node scripts/run.mjs scripts/sync-sheet.js",
     "check-content": "node scripts/run.mjs scripts/check-sheet.js",
     "content-templates": "node scripts/run.mjs scripts/export-templates.js",
-    "audio": "node scripts/run.mjs scripts/gen-audio.js"
+    "audio": "node scripts/run.mjs scripts/gen-audio.js",
+    "check-relay": "node scripts/run.mjs scripts/check-romaji.js && node scripts/run.mjs scripts/check-fill.js"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",

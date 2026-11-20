@@ -256,7 +256,12 @@ ruby rt { font-size: 0.42em; font-weight: 500; color: var(--ink-2); letter-spaci
   .topbar-mobile .brand { padding: 0; }
   .topbar-mobile .brand-mark { width: 40px; }
   .topbar-mobile .brand-name { font-size: 17px; }
-  .topbar-stats { display: flex; gap: 12px; align-items: center; font-weight: 800; }
+  .topbar-mobile { gap: 8px; }
+  .topbar-mobile .brand { min-width: 0; flex: 0 1 auto; }
+  .topbar-stats { display: flex; gap: 12px; align-items: center; font-weight: 800; flex: none; }
+  .topbar-stat { display: inline-flex; align-items: center; gap: 4px; }
+  .topbar-stat--streak { color: var(--shu); }
+  .topbar-stat--xp { color: var(--yamabuki-deep); }
   .bottom-nav {
     display: grid; grid-template-columns: repeat(5, 1fr);
     position: fixed; inset: auto 0 0 0; z-index: 20;
@@ -269,8 +274,21 @@ ruby rt { font-size: 0.42em; font-weight: 500; color: var(--ink-2); letter-spaci
     font-size: 11px; font-weight: 800; color: var(--ink-3); text-decoration: none;
   }
   .bottom-nav a[aria-current='page'] { color: var(--ai); background: var(--ai-tint); }
-  .page { padding: 20px 16px 110px; }
+  /* chừa chỗ cho thanh điều hướng dưới (66px) và bong bóng chat nổi (44px) */
+  .page { padding: 20px 16px calc(140px + env(safe-area-inset-bottom)); }
   .page-head h1 { font-size: 24px; }
+}
+/* Điện thoại: thanh trên phải vừa 360px. Nút đổi giao diện sáng/tối chuyển vào Cài đặt. */
+@media (max-width: 560px) {
+  .topbar-mobile { padding: 8px 10px; gap: 6px; }
+  .topbar-mobile .brand { gap: 6px; }
+  .topbar-mobile .brand-mark { width: 32px; }
+  .topbar-mobile .brand-name { font-size: 14px; letter-spacing: 0.02em; }
+  .topbar-stats { gap: 4px; font-size: 14px; }
+  .topbar-stats .topbar-stat { gap: 2px; }
+  .topbar-stats .topbar-stat svg { width: 18px; height: 18px; }
+  .topbar-stats .icon-btn { width: 40px; height: 40px; }
+  .topbar-theme { display: none; }
 }
 
 /* ============ Hanko stamp (signature) ============ */

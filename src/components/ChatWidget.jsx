@@ -2,13 +2,15 @@
 // Không có token hợp lệ thì không làm gì (không bao giờ ném lỗi).
 import { useEffect, useRef } from 'react';
 import { useProgress } from '../lib/store';
-import { jlptLevel, pageName } from '../lib/chatContext';
+import { jlptLevel, pageName, SITE_GUIDE } from '../lib/chatContext';
 import './chat.css';
 
 const TOKEN = String(import.meta.env.VITE_DIFY_TOKEN || '').trim();
 const BASE = String(import.meta.env.VITE_DIFY_BASE_URL || 'https://udify.app').trim().replace(/\/$/, '');
 // Chỉ gửi biến ngữ cảnh khi đã khai báo current_page và jlpt_level ở node START của Dify.
 const SEND_CONTEXT = String(import.meta.env.VITE_DIFY_SEND_CONTEXT || '').trim().toLowerCase() === 'true';
+// Gửi thêm biến site_guide (mô tả cách dùng web) khi đã khai báo biến này ở node START của Dify.
+const SEND_GUIDE = String(import.meta.env.VITE_DIFY_SEND_GUIDE || '').trim().toLowerCase() === 'true';
 const BUBBLE_ID = 'dify-chatbot-bubble-button';
 // Màn hình tập trung (bài học, game, đang chơi Truyền tin) thì ẩn bong bóng chat.
 const FOCUSED = new Set(['lesson', 'game']);
@@ -61,6 +63,7 @@ export default function ChatWidget() {
         if (SEND_CONTEXT) {
           config.inputs = { current_page: pageName(readRoute()), jlpt_level: jlptLevel(completedRef.current) };
         }
+        if (SEND_GUIDE) config.inputs = { ...config.inputs, site_guide: SITE_GUIDE };
         window.difyChatbotConfig = config;
 
         const script = document.createElement('script');
