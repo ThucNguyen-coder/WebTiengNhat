@@ -225,17 +225,4 @@ export function similarity(a, b) {
   }
   return dp[b.length] / Math.max(a.length, b.length);
 }
-
-// Romaji for a full sentence: keeps clause punctuation so it stays readable.
-export function sentenceRomaji(kana) {
-  return kana
-    .split(/([、。？！?!])/)
-    .map((chunk) => {
-      if (chunk === '、') return ', ';
-      if (/[。？！?!]/.test(chunk)) return chunk === '。' ? '. ' : '? ';
-      return chunk ? kanaToRomaji(chunk) : '';
-    })
-    .join('')
-    .trim()
-    .replace(/(^|\. |\? )([a-z])/g, (m, a, b) => a + b.toUpperCase());
-}
+// Romaji cho cả câu (tách từ, は/を/へ = wa/o/e): xem lib/sentenceRomaji.js

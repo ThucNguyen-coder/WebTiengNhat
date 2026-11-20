@@ -101,6 +101,8 @@
 .ticket-holes { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
 .ticket-holes i { width: 10px; height: 10px; border-radius: 50%; border: 1px dashed var(--ticket-line); transition: background 0.2s, border-style 0.2s; }
 .ticket-holes i.is-punched { background: var(--paper); border-style: solid; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25); }
+/* Xong bài: mọi lỗ đã bấm, tô xanh để thấy rõ là đã đủ (không giống thanh trống) */
+.ticket.is-complete .ticket-holes i.is-punched { background: var(--matcha); border-color: var(--matcha); box-shadow: none; }
 
 .stamp-slam { display: inline-block; animation: stamp-down 0.45s cubic-bezier(0.2, 1.5, 0.4, 1) both; }
 @keyframes stamp-down { 0% { transform: scale(2.2); opacity: 0; } 70% { transform: scale(0.95); opacity: 1; } 100% { transform: scale(1); } }

@@ -122,7 +122,11 @@ export function buildFill(step) {
   const all = [...formPool().values()].flat();
   const blanks = picked.map((f) => {
     const answer = { form: f.form, kana: f.kp.accept.find((a) => isKana(a)) || f.form };
-    const clash = (x) => x.form === f.form || x.form.includes(f.form) || f.form.includes(x.form);
+    // Mồi nhử không được trùng, chứa nhau, đọc giống hoặc là một cách viết khác được chấp nhận của cùng ý
+    // (ví dụ ô "ngày mai" nhận cả あした và 明日: không đưa あした làm mồi khi đáp án là 明日).
+    const accepted = new Set([...f.kp.accept, answer.form, answer.kana]);
+    const clash = (x) =>
+      accepted.has(x.form) || accepted.has(x.kana) || x.form.includes(f.form) || f.form.includes(x.form) || x.kana === answer.kana;
     let decoys = pickSome((formPool().get(f.kp.label) || []).filter((x) => !clash(x)), 2);
     if (decoys.length < 2) {
       const more = pickSome(all.filter((x) => !clash(x) && !decoys.some((d) => d.form === x.form)), 2 - decoys.length);
@@ -133,6 +137,7 @@ export function buildFill(step) {
       label: f.kp.label,
       vi: f.kp.vi,
       answer,
+      accept: f.kp.accept,
       options: pickSome([answer, ...decoys], 3),
     };
   });

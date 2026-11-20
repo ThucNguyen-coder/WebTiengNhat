@@ -4,7 +4,8 @@ import { useProgress } from '../lib/store';
 import { SpeakerHigh, Star } from '@phosphor-icons/react';
 
 // Word with optional furigana and romaji, driven by user settings.
-export function Word({ jp, kana, size = 32, showRomaji, showFurigana, className = '' }) {
+// `romaji` ghi đè cách đọc hiển thị (thẻ trợ từ は = wa).
+export function Word({ jp, kana, size = 32, showRomaji, showFurigana, romaji, className = '' }) {
   const { settings } = useProgress();
   const furi = showFurigana ?? settings.furigana;
   const roma = showRomaji ?? settings.romaji;
@@ -23,7 +24,7 @@ export function Word({ jp, kana, size = 32, showRomaji, showFurigana, className 
           ),
         )}
       </span>
-      {roma && <span className="word-romaji">{kanaToRomaji(kana)}</span>}
+      {roma && <span className="word-romaji">{romaji ?? kanaToRomaji(kana)}</span>}
     </span>
   );
 }
@@ -165,7 +166,7 @@ export function PenCross({ size = 28, className = '' }) {
 export function TicketProgress({ code, label, done, total }) {
   return (
     <div
-      className="ticket"
+      className={`ticket${total > 0 && done >= total ? ' is-complete' : ''}`}
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={total}

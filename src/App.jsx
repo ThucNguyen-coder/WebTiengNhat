@@ -28,6 +28,9 @@ const NAV = [
   { href: '#/relay', key: 'relay', label: 'Truyền tin', Icon: ChatsCircle },
 ];
 
+// 1250 -> 1,2k: giữ thanh trên vừa màn hình điện thoại.
+const compact = (n) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace('.', ',').replace(',0', '')}k` : n);
+
 function Brand({ stacked = false }) {
   return (
     <a className={`brand${stacked ? ' brand--stacked' : ''}`} href="#/" aria-label="Konnichiwa, về trang chủ">
@@ -95,18 +98,18 @@ export default function App() {
         <header className="topbar-mobile">
           <Brand />
           <div className="topbar-stats">
-            <span title="Chuỗi ngày học" style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--shu)' }}>
+            <span className="topbar-stat topbar-stat--streak" title="Chuỗi ngày học">
               <Fire size={22} weight="fill" aria-hidden="true" />
               {streak}
               <span className="sr-only">ngày liên tiếp</span>
             </span>
-            <span title="Điểm hôm nay" style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--yamabuki-deep)' }}>
+            <span className="topbar-stat topbar-stat--xp" title="Điểm hôm nay">
               <Lightning size={22} weight="fill" aria-hidden="true" />
-              {dailyXp}
+              {compact(dailyXp)}
               <span className="sr-only">điểm hôm nay</span>
             </span>
             <TopbarAccount />
-            <ThemeToggle />
+            <span className="topbar-theme"><ThemeToggle /></span>
             <a href="#/settings" className="icon-btn" aria-label="Cài đặt">
               <GearSix size={22} weight="bold" aria-hidden="true" />
             </a>

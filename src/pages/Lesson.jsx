@@ -46,6 +46,11 @@ export default function Lesson({ topicId, index }) {
   const ex = queue[pos];
   const introWord = words[introIdx];
 
+  // đổi giai đoạn (học từ, làm bài, kết quả) thì về đầu trang để thấy lại thanh tiến độ và tiêu đề
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [stage]);
+
   // auto-play audio for intro cards and listening tasks
   useEffect(() => {
     if (stage === 'intro' && introWord) speak(introWord.kana, { rate: settings.rate });
