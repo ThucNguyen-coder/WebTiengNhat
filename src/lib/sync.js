@@ -1,19 +1,63 @@
 // Sync between the progress kept in the browser and the user's Supabase rows.
 // The local shape stays the source the UI reads; Supabase is the copy that follows the account.
 import { supabase } from './supabase';
+import { mergeReview } from './review';
 
 const isoDay = (d) => (d ? String(d).slice(0, 10) : null);
 const later = (a, b) => (!a ? b : !b ? a : a >= b ? a : b);
 
+/* ---------- lịch ôn tập (bảng word_reviews, file supabase/review.sql) ---------- */
+// Bảng này có thể chưa được tạo (cô chưa chạy review.sql). Khi đó lịch ôn chỉ lưu trên máy,
+// mọi thứ khác vẫn đồng bộ bình thường.
+let reviewTable = true;
+const isMissingTable = (error) =>
+  !!error && (error.code === 'PGRST205' || error.code === '42P01' || error.code === 'PGRST204' || error.code === '42703' ||
+    /does not exist|could not find the table|schema cache/i.test(error.message || ''));
+
+async function fetchReviews(userId) {
+  if (!reviewTable) return null;
+  const { data, error } = await supabase
+    .from('word_reviews')
+    .select('word, box, right_count, wrong_count, last_seen, due')
+    .eq('user_id', userId);
+  if (error) {
+    if (isMissingTable(error)) { reviewTable = false; return null; }
+    throw error;
+  }
+  return Object.fromEntries(
+    (data || []).map((r) => [r.word, {
+      box: r.box ?? 0, right: r.right_count || 0, wrong: r.wrong_count || 0, seen: isoDay(r.last_seen), due: isoDay(r.due),
+    }]),
+  );
+}
+
+async function pushReviews(userId, prev, next) {
+  if (!reviewTable) return;
+  const rows = Object.entries(next || {})
+    .filter(([w, e]) => w.length <= 40 && JSON.stringify(prev?.[w]) !== JSON.stringify(e))
+    .map(([w, e]) => ({
+      user_id: userId, word: w, box: Math.max(0, Math.min(5, e.box ?? 0)),
+      right_count: Math.max(0, e.right || 0), wrong_count: Math.max(0, e.wrong || 0),
+      last_seen: e.seen || null, due: e.due || null,
+    }));
+  if (!rows.length) return;
+  const { error } = await supabase.from('word_reviews').upsert(rows, { onConflict: 'user_id,word' });
+  if (error) {
+    if (isMissingTable(error)) { reviewTable = false; return; }
+    throw error;
+  }
+}
+
 /* ---------- read ---------- */
 
 export async function fetchRemote(userId) {
-  const [profile, progress, completions, words, relay] = await Promise.all([
+  const [profile, progress, completions, words, relay, review] = await Promise.all([
     supabase.from('profiles').select('settings, daily_goal').eq('id', userId).maybeSingle(),
     supabase.from('user_progress').select('*').eq('user_id', userId).maybeSingle(),
     supabase.from('lesson_completions').select('node_id, stars, completed_at').eq('user_id', userId),
     supabase.from('words_learned').select('word, times_correct').eq('user_id', userId),
     supabase.from('relay_results').select('scenario_id, best_score').eq('user_id', userId),
+    fetchReviews(userId),
   ]);
   const err = [profile, progress, completions, words, relay].find((r) => r.error);
   if (err) throw err.error;
@@ -32,6 +76,7 @@ export async function fetchRemote(userId) {
     ),
     learned: Object.fromEntries((words.data || []).map((r) => [r.word, r.times_correct])),
     relay: Object.fromEntries((relay.data || []).map((r) => [r.scenario_id, r.best_score])),
+    review: review || {},
   };
 }
 
@@ -71,6 +116,7 @@ export function mergeStates(local, remote) {
     completed,
     learned,
     relay,
+    review: mergeReview(local.review, remote.review),
   };
 }
 
@@ -117,7 +163,7 @@ export async function pushDiff(userId, prev, next) {
     .map(([id, s]) => ({ user_id: userId, scenario_id: id, best_score: Math.max(0, Math.min(100, Math.round(s))) }));
   if (relay.length) jobs.push(supabase.from('relay_results').upsert(relay, { onConflict: 'user_id,scenario_id' }));
 
-  const results = await Promise.all(jobs);
+  const results = await Promise.all([...jobs, pushReviews(userId, p.review, next.review).then(() => ({}))]);
   const err = results.find((r) => r.error);
   if (err) throw err.error;
   return jobs.length;
@@ -130,6 +176,9 @@ export async function clearRemoteProgress(userId) {
     supabase.from('lesson_completions').delete().eq('user_id', userId),
     supabase.from('words_learned').delete().eq('user_id', userId),
     supabase.from('relay_results').delete().eq('user_id', userId),
+    reviewTable
+      ? supabase.from('word_reviews').delete().eq('user_id', userId).then((r) => (isMissingTable(r.error) ? {} : r))
+      : Promise.resolve({}),
     supabase.from('user_progress').upsert({
       user_id: userId, xp: 0, streak: 0, last_active: null, daily_date: null, daily_xp: 0, game_best: 0,
     }),

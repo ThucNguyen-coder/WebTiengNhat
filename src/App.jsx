@@ -9,6 +9,8 @@ import Vocab from './pages/Vocab';
 import Kana from './pages/Kana';
 import Settings from './pages/Settings';
 import Stamps from './pages/Stamps';
+import Review from './pages/Review';
+import Practice from './pages/Practice';
 import SpaceGame from './game/SpaceGame';
 import RelayList from './relay/RelayList';
 import RelayPlay from './relay/RelayPlay';
@@ -52,6 +54,8 @@ export default function App() {
   // Focused, full-screen flows hide the navigation.
   if (current === 'lesson') return <Lesson key={`${params[0]}-${params[1]}`} topicId={params[0]} index={Number(params[1] || 0)} />;
   if (current === 'relay' && params[0]) return <RelayPlay key={params[0]} id={params[0]} />;
+  if (current === 'hom-nay') return <Practice key="daily" mode="daily" />;
+  if (current === 'on-tap' && params[0]) return <Practice key={params[0]} mode={params[0] === 'hay-sai' ? 'hard' : 'review'} />;
 
   let page;
   switch (current) {
@@ -60,6 +64,7 @@ export default function App() {
     case 'game': page = <SpaceGame topicId={params[0]} />; break;
     case 'relay': page = <RelayList />; break;
     case 'stamps': page = <Stamps />; break;
+    case 'on-tap': page = <Review />; break;
     case 'settings': page = <Settings />; break;
     case 'noi-dung': page = <Suspense fallback={<p className="page muted">Đang mở…</p>}><ContentAdmin /></Suspense>; break;
     default: page = <Home />;

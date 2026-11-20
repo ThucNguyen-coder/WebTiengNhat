@@ -9,6 +9,8 @@ import { buildLines, flattenStations } from '../lib/lines';
 import { Daru, ProgressRing } from '../components/Bits';
 import { SignInPrompt } from '../components/Account';
 import ProgressWidget from '../components/ProgressWidget';
+import TodayCards from '../components/TodayCards';
+import './review.css';
 import './home.css';
 
 export const TOPIC_ICONS = {
@@ -62,6 +64,7 @@ export default function Home() {
     <div className="page page--with-rail">
       <section aria-labelledby="map-title">
         <h1 id="map-title" className="sr-only">Bản đồ tuyến học</h1>
+        <TodayCards />
         <div className="map">
           {lines.map((line, li) => {
             const t = line.topic;

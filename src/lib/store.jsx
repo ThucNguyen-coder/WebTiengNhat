@@ -1,15 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from './auth';
 import { fetchRemote, mergeStates, pushDiff, clearRemoteProgress } from './sync';
+import { today, dayDiff, applyAnswer, backfillReviews } from './review';
 
 // Storage key kept from the first version so existing progress is not lost.
 const KEY = 'kotoba-progress-v1';
-
-const today = () => {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-};
-const dayDiff = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
 
 const DEFAULT = {
   xp: 0,
@@ -21,6 +16,8 @@ const DEFAULT = {
   learned: {}, // word jp -> times correct
   gameBest: 0,
   relay: {}, // scenarioId -> best score
+  review: {}, // word jp -> { box, right, wrong, seen, due } (lịch ôn tập, xem review.js)
+  dayStamps: [], // các ngày đã xong "Bài hôm nay" ('YYYY-MM-DD'), giữ 60 ngày gần nhất
   settings: { furigana: true, romaji: true, theme: 'system', sound: true, rate: 0.95 },
 };
 
@@ -29,7 +26,7 @@ function load() {
     const raw = localStorage.getItem(KEY);
     if (!raw) return DEFAULT;
     const data = JSON.parse(raw);
-    return { ...DEFAULT, ...data, settings: { ...DEFAULT.settings, ...data.settings } };
+    return backfillReviews({ ...DEFAULT, ...data, settings: { ...DEFAULT.settings, ...data.settings } });
   } catch {
     return DEFAULT;
   }
@@ -74,7 +71,7 @@ export function ProgressProvider({ children }) {
       try {
         const remote = await fetchRemote(userId);
         if (cancelled) return;
-        const merged = mergeStates(stateRef.current, remote);
+        const merged = backfillReviews(mergeStates(stateRef.current, remote));
         setState(merged);
         await pushDiff(userId, remote, merged);
         if (cancelled) return;
@@ -147,6 +144,25 @@ export function ProgressProvider({ children }) {
     });
   }, []);
 
+  // Ghi nhận câu trả lời đúng/sai cho lịch ôn tập: [{ jp, ok }, ...]
+  const recordAnswers = useCallback((items) => {
+    if (!items?.length) return;
+    setState((s) => {
+      const d = today();
+      const review = { ...s.review };
+      items.forEach(({ jp, ok }) => { if (jp) review[jp] = applyAnswer(review[jp], ok, d); });
+      return { ...s, review };
+    });
+  }, []);
+
+  const finishDaily = useCallback(() => {
+    setState((s) => {
+      const d = today();
+      if (s.dayStamps.includes(d)) return s;
+      return { ...s, dayStamps: [...s.dayStamps, d].slice(-60) };
+    });
+  }, []);
+
   const setGameBest = useCallback((score) => setState((s) => ({ ...s, gameBest: Math.max(s.gameBest, score) })), []);
   const setRelayScore = useCallback(
     (id, score) => setState((s) => ({ ...s, relay: { ...s.relay, [id]: Math.max(s.relay[id] || 0, score) } })),
@@ -170,9 +186,10 @@ export function ProgressProvider({ children }) {
   const value = useMemo(
     () => ({
       ...state, streak, dailyXp, sync,
-      addXp, completeNode, markLearned, setGameBest, setRelayScore, updateSettings, setDailyGoal, reset,
+      addXp, completeNode, markLearned, recordAnswers, finishDaily, setGameBest, setRelayScore, updateSettings, setDailyGoal, reset,
     }),
-    [state, streak, dailyXp, sync, addXp, completeNode, markLearned, setGameBest, setRelayScore, updateSettings, setDailyGoal, reset],
+    [state, streak, dailyXp, sync, addXp, completeNode, markLearned, recordAnswers, finishDaily, setGameBest, setRelayScore,
+      updateSettings, setDailyGoal, reset],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
