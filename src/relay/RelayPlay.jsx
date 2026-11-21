@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  X, SpeakerHigh, Microphone, Stop, Keyboard, Eye, EyeSlash, ArrowRight, ArrowCounterClockwise,
+  X, Check, SpeakerHigh, Microphone, Stop, Keyboard, Eye, EyeSlash, ArrowRight, ArrowCounterClockwise,
   Lightning, Lightbulb, Envelope, Cards, PencilSimple, Microphone as Mic,
 } from '@phosphor-icons/react';
 import {
@@ -8,7 +8,8 @@ import {
 } from '../lib/relayTiers';
 import { useProgress, go } from '../lib/store';
 import { speak, stopSpeaking, listen, recognitionSupported, blip } from '../lib/speech';
-import { normalizeJa, similarity, sentenceRomaji } from '../lib/kana';
+import { normalizeJa, similarity } from '../lib/kana';
+import { sentenceRomaji } from '../lib/sentenceRomaji';
 import { Daru, Word, Stars, MailStamp } from '../components/Bits';
 import { TileMode, FillMode } from './modes';
 import '../pages/home.css';
@@ -52,7 +53,7 @@ function Sentence({ s, showKana = true, showVi = false }) {
     <div className="sentence">
       <p className="sentence-jp jp" lang="ja">{s.jp}</p>
       {showKana && settings.furigana && s.kana !== s.jp && <p className="sentence-kana jp" lang="ja">{s.kana}</p>}
-      {showKana && settings.romaji && <p className="sentence-romaji">{sentenceRomaji(s.kana)}</p>}
+      {showKana && settings.romaji && <p className="sentence-romaji">{sentenceRomaji(s.kana, s.jp)}</p>}
       {showVi && <p className="sentence-vi">{s.vi}</p>}
     </div>
   );
@@ -436,17 +437,22 @@ export default function RelayPlay({ id }) {
                 </div>
               </div>
               <p className="feedback-line">{feedbackText(step, res.hits)}</p>
+              {starsOf(res.score) < 3 && res.hits.every((h) => h !== false) && (
+                <p className="hint-note"><Lightbulb size={16} weight="bold" aria-hidden="true" /> Đủ ý rồi. Muốn được 3 sao thì nhắn gần giống câu mẫu hơn nữa (xem bên dưới).</p>
+              )}
               {res.penalty > 0 && <p className="hint-note"><Lightbulb size={16} weight="bold" aria-hidden="true" /> Bạn có xem gợi ý nên bị trừ một chút điểm.</p>}
 
               <ul className="kp-list">
                 {step.keypoints.map((kp, i) =>
                   res.hits[i] === null || res.hits[i] === undefined ? null : (
                     <li key={kp.label} className={res.hits[i] ? 'hit' : 'miss'}>
-                      <span className="kp-mark" aria-hidden="true">{res.hits[i] ? '○' : '×'}</span>
+                      <span className="kp-mark" aria-hidden="true">
+                        {res.hits[i] ? <Check size={20} weight="bold" /> : <X size={20} weight="bold" />}
+                      </span>
                       <span>
                         <strong>{kp.label}:</strong> {kp.vi} <span className="jp" lang="ja">({kp.accept[0]})</span>
                       </span>
-                      <span className="sr-only">{res.hits[i] ? 'đã có' : 'bị thiếu'}</span>
+                      <span className="kp-state">{res.hits[i] ? 'Đã có' : 'Còn thiếu'}</span>
                     </li>
                   ),
                 )}

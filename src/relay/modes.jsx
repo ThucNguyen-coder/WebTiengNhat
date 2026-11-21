@@ -5,6 +5,7 @@ import { ArrowCounterClockwise, Check } from '@phosphor-icons/react';
 import { Word, shuffle } from '../components/Bits';
 import { buildFill } from '../lib/relayTiers';
 import { normalizeJa, similarity } from '../lib/kana';
+import { particleRomaji } from '../lib/sentenceRomaji';
 import { speak } from '../lib/speech';
 import { useProgress } from '../lib/store';
 
@@ -38,7 +39,7 @@ export function TileMode({ step, onSubmit }) {
           const t = byId(id);
           return (
             <button key={id} type="button" className="tile tile--placed" onClick={() => remove(id)} aria-label={`Bỏ thẻ ${t.jp}`}>
-              <Word jp={t.jp} kana={t.kana} size={22} />
+              <Word jp={t.jp} kana={t.kana} size={22} romaji={particleRomaji(t.kana)} />
             </button>
           );
         })}
@@ -46,7 +47,7 @@ export function TileMode({ step, onSubmit }) {
       <div className="tile-pool" role="group" aria-label="Các thẻ từ">
         {tiles.map((t) => (
           <button key={t.id} type="button" className="tile" disabled={used.has(t.id)} onClick={() => add(t)}>
-            <Word jp={t.jp} kana={t.kana} size={22} />
+            <Word jp={t.jp} kana={t.kana} size={22} romaji={particleRomaji(t.kana)} />
           </button>
         ))}
       </div>
@@ -77,7 +78,9 @@ export function FillMode({ step, onSubmit }) {
     const tested = step.keypoints.map(() => null);
     let right = 0;
     fill.blanks.forEach((b, i) => {
-      const ok = b.options[picks[i]].form === b.answer.form;
+      // đúng nếu chọn đáp án hoặc bất kỳ cách viết nào của cùng ý (あした / 明日)
+      const chosen = b.options[picks[i]].form;
+      const ok = chosen === b.answer.form || b.accept.includes(chosen);
       tested[b.kpIndex] = ok;
       if (ok) right += 1;
     });

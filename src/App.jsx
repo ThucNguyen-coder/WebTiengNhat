@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import {
   Path, Translate, BookOpenText, RocketLaunch, ChatsCircle, GearSix, Fire, Lightning,
 } from '@phosphor-icons/react';
@@ -9,11 +9,16 @@ import Vocab from './pages/Vocab';
 import Kana from './pages/Kana';
 import Settings from './pages/Settings';
 import Stamps from './pages/Stamps';
+import Review from './pages/Review';
+import Practice from './pages/Practice';
 import SpaceGame from './game/SpaceGame';
 import RelayList from './relay/RelayList';
 import RelayPlay from './relay/RelayPlay';
 import ThemeToggle from './components/ThemeToggle';
 import { SidebarAccount, TopbarAccount, AuthToast } from './components/Account';
+
+// Only teachers open this page, so it is downloaded on demand.
+const ContentAdmin = lazy(() => import('./admin/ContentAdmin'));
 
 const NAV = [
   { href: '#/', key: '', label: 'Học', Icon: Path },
@@ -22,6 +27,9 @@ const NAV = [
   { href: '#/game', key: 'game', label: 'Bắn chữ', Icon: RocketLaunch },
   { href: '#/relay', key: 'relay', label: 'Truyền tin', Icon: ChatsCircle },
 ];
+
+// 1250 -> 1,2k: giữ thanh trên vừa màn hình điện thoại.
+const compact = (n) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace('.', ',').replace(',0', '')}k` : n);
 
 function Brand({ stacked = false }) {
   return (
@@ -49,6 +57,8 @@ export default function App() {
   // Focused, full-screen flows hide the navigation.
   if (current === 'lesson') return <Lesson key={`${params[0]}-${params[1]}`} topicId={params[0]} index={Number(params[1] || 0)} />;
   if (current === 'relay' && params[0]) return <RelayPlay key={params[0]} id={params[0]} />;
+  if (current === 'hom-nay') return <Practice key="daily" mode="daily" />;
+  if (current === 'on-tap' && params[0]) return <Practice key={params[0]} mode={params[0] === 'hay-sai' ? 'hard' : 'review'} />;
 
   let page;
   switch (current) {
@@ -57,7 +67,9 @@ export default function App() {
     case 'game': page = <SpaceGame topicId={params[0]} />; break;
     case 'relay': page = <RelayList />; break;
     case 'stamps': page = <Stamps />; break;
+    case 'on-tap': page = <Review />; break;
     case 'settings': page = <Settings />; break;
+    case 'noi-dung': page = <Suspense fallback={<p className="page muted">Đang mở…</p>}><ContentAdmin /></Suspense>; break;
     default: page = <Home />;
   }
 
@@ -86,18 +98,18 @@ export default function App() {
         <header className="topbar-mobile">
           <Brand />
           <div className="topbar-stats">
-            <span title="Chuỗi ngày học" style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--shu)' }}>
+            <span className="topbar-stat topbar-stat--streak" title="Chuỗi ngày học">
               <Fire size={22} weight="fill" aria-hidden="true" />
               {streak}
               <span className="sr-only">ngày liên tiếp</span>
             </span>
-            <span title="Điểm hôm nay" style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--yamabuki-deep)' }}>
+            <span className="topbar-stat topbar-stat--xp" title="Điểm hôm nay">
               <Lightning size={22} weight="fill" aria-hidden="true" />
-              {dailyXp}
+              {compact(dailyXp)}
               <span className="sr-only">điểm hôm nay</span>
             </span>
             <TopbarAccount />
-            <ThemeToggle />
+            <span className="topbar-theme"><ThemeToggle /></span>
             <a href="#/settings" className="icon-btn" aria-label="Cài đặt">
               <GearSix size={22} weight="bold" aria-hidden="true" />
             </a>

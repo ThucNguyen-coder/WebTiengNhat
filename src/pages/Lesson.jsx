@@ -9,7 +9,7 @@ import { TOPIC_ICONS } from '../components/topicIcons';
 import { buildLines } from '../lib/lines';
 import './lesson.css';
 
-function buildExercises(words, topicWords) {
+export function buildExercises(words, topicWords) {
   const pool = topicWords.length >= 4 ? topicWords : ALL_WORDS;
   const options = (word) => shuffle([word, ...shuffle(pool.filter((x) => x.jp !== word.jp)).slice(0, 3)]);
   const second = ['listen', 'reverse', 'type'];
@@ -23,7 +23,7 @@ function buildExercises(words, topicWords) {
 
 export default function Lesson({ topicId, index }) {
   const topic = topicById(topicId);
-  const { settings, addXp, completeNode, markLearned } = useProgress();
+  const { settings, addXp, completeNode, markLearned, recordAnswers } = useProgress();
   const words = useMemo(() => (topic ? lessonsOf(topic)[index] || [] : []), [topic, index]);
   const station = useMemo(() => {
     const line = buildLines().find((l) => l.topic.id === topicId);
@@ -45,6 +45,11 @@ export default function Lesson({ topicId, index }) {
 
   const ex = queue[pos];
   const introWord = words[introIdx];
+
+  // đổi giai đoạn (học từ, làm bài, kết quả) thì về đầu trang để thấy lại thanh tiến độ và tiêu đề
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [stage]);
 
   // auto-play audio for intro cards and listening tasks
   useEffect(() => {
@@ -70,6 +75,7 @@ export default function Lesson({ topicId, index }) {
     else ok = ex.options[choice].jp === ex.word.jp;
     setResult(ok ? 'right' : 'wrong');
     blip(ok ? 'ok' : 'bad', settings.sound);
+    recordAnswers([{ jp: ex.word.jp, ok }]);
     if (!ok) {
       setMistakes((m) => m + 1);
       setQueue((q) => [...q, { ...ex, options: shuffle(ex.options) }]); // retry later
@@ -167,7 +173,7 @@ export default function Lesson({ topicId, index }) {
   );
 }
 
-function IntroCard({ word, n, of, onNext }) {
+export function IntroCard({ word, n, of, onNext }) {
   const { settings } = useProgress();
   useEffect(() => {
     const onKey = (e) => e.key === 'Enter' && onNext();
@@ -205,7 +211,7 @@ const PROMPTS = {
   type: 'Gõ cách đọc bằng romaji',
 };
 
-function Exercise({ ex, choice, setChoice, typed, setTyped, result, canCheck, onCheck, onNext }) {
+export function Exercise({ ex, choice, setChoice, typed, setTyped, result, canCheck, onCheck, onNext }) {
   const { settings } = useProgress();
   const inputRef = useRef(null);
   const actionRef = useRef(null);

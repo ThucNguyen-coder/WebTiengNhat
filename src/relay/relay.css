@@ -204,8 +204,11 @@
 .fill-options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 
 .kp-mark { display: inline-grid; place-items: center; flex: none; width: 24px; height: 24px; font-weight: 800; font-size: 18px; }
-.hit .kp-mark { color: var(--ai); }
-.miss .kp-mark { color: var(--pen); }
+.hit .kp-mark { color: var(--matcha-deep, var(--matcha)); }
+.kp-state { margin-left: auto; font-size: 13px; font-weight: 800; color: var(--ink-2); white-space: nowrap; }
+.hit .kp-state { color: var(--matcha-deep, var(--matcha)); }
+.miss .kp-state { color: var(--shu); }
+.miss .kp-mark { color: var(--shu); }
 
 /* ===== Daru delivering the letter while waiting ===== */
 .runner { position: relative; width: 100%; height: 56px; }

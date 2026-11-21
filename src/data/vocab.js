@@ -5,6 +5,7 @@ const w = (jp, kana, vi) => ({ jp, kana, vi });
 
 import sheetContent from './generated/sheetContent.json';
 import { mergeTopics } from './sheetMerge';
+import { getRemoteTopics } from '../lib/remoteContent';
 
 // Topics written in code. Content from the Google Sheet is merged on top (see sheetMerge.js).
 export const BASE_TOPICS = [
@@ -433,7 +434,12 @@ export const BASE_TOPICS = [
   },
 ];
 
-export const TOPICS = mergeTopics(BASE_TOPICS, sheetContent);
+// Content from the "Quản lý nội dung" page (Supabase) replaces everything once it has
+// published topics. Until then: code content, with the Google Sheet merged on top.
+// CODE_TOPICS is also what the admin page imports into Supabase the first time.
+export const CODE_TOPICS = mergeTopics(BASE_TOPICS, sheetContent);
+export const TOPICS = getRemoteTopics() || CODE_TOPICS;
+export const CONTENT_SOURCE = getRemoteTopics() ? 'supabase' : 'code';
 
 export const ALL_WORDS = TOPICS.flatMap((t) => t.words.map((wd) => ({ ...wd, topic: t.id })));
 

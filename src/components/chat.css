@@ -1,17 +1,32 @@
-/* chat.css v3: neo cửa sổ chat theo MÀN HÌNH (không theo trang), nên cuộn trang cũng không làm nó trôi. */
+/* chat.css v3.1: neo cửa sổ chat theo MÀN HÌNH, giữ nút phóng to Dify và lấy tinh chỉnh nút mobile từ main. */
 
-/* Ẩn bong bóng chat ở màn hình tập trung (bài học, game, đang chơi Truyền tin). */
+/* Ẩn bong bóng chat ở màn hình tập trung */
 body[data-hide-chat] #dify-chatbot-bubble-button,
-body[data-hide-chat] #dify-chatbot-bubble-window { display: none !important; }
-
-/* Điện thoại / cửa sổ hẹp: nâng nút lên khỏi thanh điều hướng dưới (kể cả vùng an toàn của iPhone).
-   Đặt ở :root để cả nút lẫn cửa sổ cùng đọc được. Đây là biến CSS chính thức của Dify. */
-@media (max-width: 860px) {
-  :root { --dify-chatbot-bubble-button-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+body[data-hide-chat] #dify-chatbot-bubble-window {
+  display: none !important;
 }
 
-/* Cửa sổ luôn bám góc dưới bên phải của màn hình, ngay trên nút, và không cao quá màn hình.
-   Không ép width/height để nút phóng to của Dify vẫn hoạt động. */
+/* Điện thoại / cửa sổ hẹp: nâng nút lên khỏi thanh điều hướng dưới và vùng an toàn */
+@media (max-width: 860px) {
+  :root {
+    --dify-chatbot-bubble-button-bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #dify-chatbot-bubble-button {
+    width: 44px !important;
+    height: 44px !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: var(--dify-chatbot-bubble-button-bottom) !important;
+    opacity: 0.92;
+  }
+
+  #dify-chatbot-bubble-window {
+    right: max(8px, env(safe-area-inset-right)) !important;
+    max-width: calc(100vw - 16px) !important;
+  }
+}
+
+/* Cửa sổ luôn bám góc dưới bên phải của màn hình, ngay trên nút, không ép width/height */
 #dify-chatbot-bubble-window {
   position: fixed !important;
   top: auto !important;

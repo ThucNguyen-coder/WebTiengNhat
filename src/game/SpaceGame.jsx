@@ -95,6 +95,11 @@ export default function SpaceGame({ topicId }) {
       p.setGameBest(result.score);
       if (topic !== 'all' && result.kills >= 10) p.completeNode(`${topic}:game`, result.lives > 0 ? 3 : 2);
       if (result.killed.length) p.markLearned(result.killed);
+      // Lịch ôn tập: bắn trúng = đúng, để từ rơi xuống đất = sai.
+      p.recordAnswers([
+        ...result.killed.map((jp) => ({ jp, ok: true })),
+        ...result.missed.map((w) => ({ jp: w.jp, ok: false })),
+      ]);
       setSummary({ ...result, xp, best: Math.max(p.gameBest, result.score), newBest: result.score > p.gameBest });
       setPhase('over');
     },
@@ -136,9 +141,13 @@ const Starfield = memo(function Starfield() {
   );
 });
 
+// autoFocus làm thẻ tự cuộn xuống tận nút Bắt đầu và mất tiêu đề; focus mà không cuộn.
+const focusNoScroll = (el) => el && el.focus({ preventScroll: true });
+
 function Menu({ topic, setTopic, diff, setDiff, best, onStart }) {
   return (
-    <div className="g-card" role="dialog" aria-labelledby="g-menu-title">
+    <div className="g-card g-card--menu" role="dialog" aria-labelledby="g-menu-title">
+      <div className="g-menu-body">
       <div className="g-card-head">
         <RocketLaunch size={40} weight="fill" aria-hidden="true" />
         <div>
@@ -172,12 +181,13 @@ function Menu({ topic, setTopic, diff, setDiff, best, onStart }) {
           ))}
         </div>
       </fieldset>
+      </div>
 
       <div className="g-card-foot">
         <span className="g-best">
           <Trophy size={20} weight="fill" aria-hidden="true" /> Kỷ lục: {best}
         </span>
-        <button className="btn btn--shu" onClick={onStart} autoFocus>
+        <button className="btn btn--shu" onClick={onStart} ref={focusNoScroll}>
           Bắt đầu
         </button>
       </div>
@@ -382,6 +392,12 @@ function Arena({ topic, diff, onEnd, onQuit }) {
       // Move the words and aim the ship by writing to the DOM directly:
       // no React render per frame, which is what made phones stutter.
       for (const w of e.words) {
+        if (w.el && !w.fit) {
+          // từ dài/có furigana rộng hơn ước lượng lúc tạo: kéo vào trong mép phải của sân chơi
+          w.fit = true;
+          const maxX = size.current.w - w.el.offsetWidth - 8;
+          if (w.x > maxX) w.x = Math.max(8, maxX);
+        }
         if (w.el) w.el.style.transform = `translate(${w.x}px, ${w.y}px)`;
       }
       if (shipRef.current) {

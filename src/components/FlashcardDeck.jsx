@@ -12,7 +12,7 @@ const inField = (el) => !!el && (['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tag
 const onControl = (el) => inField(el) || (!!el && ['BUTTON', 'A'].includes(el.tagName));
 
 export default function FlashcardDeck({ words }) {
-  const { settings } = useProgress();
+  const { settings, recordAnswers } = useProgress();
   const { marks, mark } = useFlashcardMarks();
   const [filter, setFilter] = useState('all'); // all | review
   const [i, setI] = useState(0);
@@ -43,6 +43,7 @@ export default function FlashcardDeck({ words }) {
   const rate = (status) => {
     if (!w) return;
     mark(w.jp, status);
+    recordAnswers([{ jp: w.jp, ok: status === 'known' }]); // lịch ôn tập: Đã thuộc = đúng, Cần ôn lại = sai
     setFlipped(false);
     if (!(filter === 'review' && status === 'known')) move(1); // thẻ đã thuộc tự rời khỏi bộ "cần ôn"
   };

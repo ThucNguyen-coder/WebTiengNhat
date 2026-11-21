@@ -3,6 +3,7 @@ import { useProgress } from '../lib/store';
 import { speak, hasJapaneseVoice, recognitionSupported } from '../lib/speech';
 import { AccountPanel } from '../components/Account';
 import { useAuth } from '../lib/auth';
+import { useEditorRole } from '../lib/useEditorRole';
 import './settings.css';
 
 function Toggle({ label, desc, checked, onChange }) {
@@ -32,6 +33,19 @@ function Choice({ label, value, options, onChange }) {
   );
 }
 
+// Shown only to people on the teacher list.
+function EditorLink() {
+  const { role } = useEditorRole();
+  if (!role) return null;
+  return (
+    <section className="panel">
+      <h2>Quản lý nội dung</h2>
+      <p className="muted" style={{ marginBottom: 12 }}>Thêm, sửa chủ đề và từ vựng cho học viên.</p>
+      <a className="btn btn--ai btn--sm" href="#/noi-dung">Mở trang quản lý</a>
+    </section>
+  );
+}
+
 export default function Settings() {
   const p = useProgress();
   const auth = useAuth();
@@ -58,6 +72,7 @@ export default function Settings() {
       </div>
 
       <AccountPanel />
+      <EditorLink />
 
       <section className="panel">
         <h2>Hiển thị</h2>

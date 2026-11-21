@@ -5,6 +5,7 @@ import { EASY_SCENARIOS } from '../data/relayEasy';
 import { isKana } from './kana';
 import sheetContent from '../data/generated/sheetContent.json';
 import { mergeScenarios } from '../data/sheetMerge';
+import { getRemoteScenarios } from './remoteContent';
 
 export { DIFFICULTIES };
 
@@ -14,14 +15,19 @@ export const TIERS = [
   { id: 3, label: 'Bậc 3', name: 'Thử thách', desc: 'Nghe câu dài, tự nói hoặc gõ lại.', mode: 'speak' },
 ];
 
-// Scenarios in data/relay.js may set `tier`; otherwise short N5 messages are tier 2, the rest tier 3.
-function deriveTier(sc) {
-  const short = sc.steps.every((st) => st.message.jp.length <= 40);
+// Scenarios may set `tier`; otherwise short N5 messages are tier 2, the rest tier 3.
+export function deriveTier(sc) {
+  const short = sc.steps.every((st) => (st.message?.jp || '').length <= 40);
   return sc.level === 'N5' && short ? 2 : 3;
 }
 
 // Scenarios from code, then the ones from the Google Sheet (same id = sheet wins).
-export const ALL_SCENARIOS = mergeScenarios([...EASY_SCENARIOS, ...SCENARIOS], sheetContent).map((sc) => ({
+// This is also what the admin page copies into Supabase the first time (tier kept as written).
+export const CODE_SCENARIOS = mergeScenarios([...EASY_SCENARIOS, ...SCENARIOS], sheetContent);
+
+// Published scenarios from the "Quản lý nội dung" page win when Supabase has any (see main.jsx).
+export const RELAY_SOURCE = getRemoteScenarios() ? 'supabase' : 'code';
+export const ALL_SCENARIOS = (getRemoteScenarios() || CODE_SCENARIOS).map((sc) => ({
   ...sc,
   tier: sc.tier ?? deriveTier(sc),
 }));
@@ -116,7 +122,11 @@ export function buildFill(step) {
   const all = [...formPool().values()].flat();
   const blanks = picked.map((f) => {
     const answer = { form: f.form, kana: f.kp.accept.find((a) => isKana(a)) || f.form };
-    const clash = (x) => x.form === f.form || x.form.includes(f.form) || f.form.includes(x.form);
+    // Mồi nhử không được trùng, chứa nhau, đọc giống hoặc là một cách viết khác được chấp nhận của cùng ý
+    // (ví dụ ô "ngày mai" nhận cả あした và 明日: không đưa あした làm mồi khi đáp án là 明日).
+    const accepted = new Set([...f.kp.accept, answer.form, answer.kana]);
+    const clash = (x) =>
+      accepted.has(x.form) || accepted.has(x.kana) || x.form.includes(f.form) || f.form.includes(x.form) || x.kana === answer.kana;
     let decoys = pickSome((formPool().get(f.kp.label) || []).filter((x) => !clash(x)), 2);
     if (decoys.length < 2) {
       const more = pickSome(all.filter((x) => !clash(x) && !decoys.some((d) => d.form === x.form)), 2 - decoys.length);
@@ -127,6 +137,7 @@ export function buildFill(step) {
       label: f.kp.label,
       vi: f.kp.vi,
       answer,
+      accept: f.kp.accept,
       options: pickSome([answer, ...decoys], 3),
     };
   });

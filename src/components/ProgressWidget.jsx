@@ -4,6 +4,7 @@ import { Fire, ArrowRight, ArrowCounterClockwise } from '@phosphor-icons/react';
 import { TOPICS, lessonsOf } from '../data/vocab';
 import { useProgress } from '../lib/store';
 import { loadMarks } from '../lib/flashcardProgress';
+import { dueWords } from '../lib/review';
 import './progress.css';
 
 const LEVELS = ['N5', 'N4'];
@@ -21,7 +22,8 @@ function nextStation(completed) {
 }
 
 export default function ProgressWidget() {
-  const { learned, completed, streak } = useProgress();
+  const { learned, completed, streak, review } = useProgress();
+  const due = useMemo(() => dueWords(review).length, [review]);
   const marks = useMemo(loadMarks, []); // đọc lại mỗi lần vào trang chủ
 
   const stats = useMemo(() => {
@@ -70,6 +72,11 @@ export default function ProgressWidget() {
         </a>
       ) : (
         <p className="muted pw-note">Bạn đã đi hết mọi tuyến. Hãy ôn lại bằng thẻ từ vựng.</p>
+      )}
+      {due > 0 && (
+        <a className="btn btn--sm btn--block" href="#/on-tap">
+          <ArrowCounterClockwise size={18} weight="bold" aria-hidden="true" /> Ôn {due} từ đến hạn hôm nay
+        </a>
       )}
       {stats.review > 0 && stats.reviewTopic && (
         <a className="btn btn--sm btn--block" href={`#/vocab/${stats.reviewTopic.id}`}>
