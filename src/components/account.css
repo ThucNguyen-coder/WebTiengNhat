@@ -31,3 +31,6 @@
 .acc-error svg { color: var(--shu); flex: none; }
 .acc-toast { display: flex; align-items: center; gap: 12px; max-width: min(560px, calc(100vw - 32px)); }
 .acc-toast .btn--ghost { color: var(--paper); }
+
+.acc-legal { margin-top: 10px; font-size: 13px; }
+.acc-legal a { color: inherit; text-decoration: underline; }

@@ -24,3 +24,5 @@
 .env .ok { background: var(--matcha-tint); color: var(--ink); }
 .env .warn { background: var(--yamabuki-tint); color: var(--ink); }
 .danger-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-weight: 700; }
+.settings-legal { margin: 4px 0 24px; font-size: 14px; text-align: center; }
+.settings-legal a { color: inherit; text-decoration: underline; }

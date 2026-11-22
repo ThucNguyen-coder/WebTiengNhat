@@ -143,6 +143,10 @@ export default function Settings() {
           <button className="btn btn--sm" onClick={() => setConfirm(true)}>Xóa tiến độ</button>
         )}
       </section>
+
+      <p className="muted settings-legal">
+        <a href="/chinh-sach.html">Chính sách quyền riêng tư</a> · <a href="/dieu-khoan.html">Điều khoản sử dụng</a>
+      </p>
     </div>
   );
 }

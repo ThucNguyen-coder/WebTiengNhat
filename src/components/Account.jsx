@@ -99,6 +99,9 @@ export function SignInPrompt() {
       <h3>Giữ tiến độ của bạn</h3>
       <p className="muted">Hiện tiến độ chỉ nằm trên trình duyệt này. Đăng nhập để học tiếp trên điện thoại hay máy khác.</p>
       <GoogleButton block small />
+      <p className="muted acc-legal">
+        Khi đăng nhập, bạn đồng ý với <a href="/dieu-khoan.html">Điều khoản</a> và <a href="/chinh-sach.html">Chính sách quyền riêng tư</a>.
+      </p>
     </div>
   );
 }
