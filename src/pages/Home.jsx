@@ -12,6 +12,8 @@ import ProgressWidget from '../components/ProgressWidget';
 import TodayCards from '../components/TodayCards';
 import './review.css';
 import './home.css';
+import UnlockBar from '../components/UnlockBar';
+import { useUnlockAll } from '../lib/unlockAll';
 
 export const TOPIC_ICONS = {
   HandWaving, UsersThree, Clock, BowlFood, Train, Student, Briefcase, MapPin, CloudSun,
@@ -36,6 +38,7 @@ export default function Home() {
   const [notice, setNotice] = useState('');
   const [manual, setManual] = useState({}); // topicId -> true/false once the user toggles a line
 
+  const { unlocked, setUnlocked } = useUnlockAll();
   const lines = buildLines();
   const stations = flattenStations(lines);
   const currentIdx = stations.findIndex((s) => !p.completed[s.id]);
@@ -49,7 +52,7 @@ export default function Home() {
   const isOpen = (line, i) => manual[line.topic.id] ?? (i === currentLine || i === currentLine + 1);
 
   const open = (st, idx, topicId) => {
-    if (!finished && idx > currentIdx) {
+    if (!unlocked && !finished && idx > currentIdx) {
       setNotice('Hoàn thành ga trước để mở ga này.');
       setTimeout(() => setNotice(''), 2600);
       return;
@@ -65,6 +68,7 @@ export default function Home() {
       <section aria-labelledby="map-title">
         <h1 id="map-title" className="sr-only">Bản đồ tuyến học</h1>
         <TodayCards />
+        <UnlockBar unlocked={unlocked} onChange={setUnlocked} />
         <div className="map">
           {lines.map((line, li) => {
             const t = line.topic;
@@ -114,7 +118,7 @@ export default function Home() {
                       const idx = indexOf(st.id);
                       const done = !!p.completed[st.id];
                       const isCurrent = idx === currentIdx;
-                      const locked = !finished && idx > currentIdx;
+                      const locked = !unlocked && !finished && idx > currentIdx;
                       const label = `${st.code}, ${st.kind === 'game' ? 'ga đổi tàu, bắn chữ ôn tập' : `bài ${st.index + 1}`}`;
                       return (
                         <li
