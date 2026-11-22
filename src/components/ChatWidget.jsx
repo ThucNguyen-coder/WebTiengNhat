@@ -12,8 +12,8 @@ const SEND_CONTEXT = String(import.meta.env.VITE_DIFY_SEND_CONTEXT || '').trim()
 // Gửi thêm biến site_guide (mô tả cách dùng web) khi đã khai báo biến này ở node START của Dify.
 const SEND_GUIDE = String(import.meta.env.VITE_DIFY_SEND_GUIDE || '').trim().toLowerCase() === 'true';
 const BUBBLE_ID = 'dify-chatbot-bubble-button';
-// Màn hình tập trung (bài học, game, đang chơi Truyền tin) thì ẩn bong bóng chat.
-const FOCUSED = new Set(['lesson', 'game']);
+// Màn hình tập trung (bài học, game, Hôm nay, đang ôn tập, đang chơi Truyền tin) thì ẩn bong bóng chat.
+const FOCUSED = new Set(['lesson', 'game', 'hom-nay']);
 
 const TOKEN_OK = /^[A-Za-z0-9]{8,64}$/.test(TOKEN);
 const BASE_OK = /^https:\/\/[^\s/]+(\/[^\s]*)?$/.test(BASE) || /^http:\/\/localhost(:\d+)?$/.test(BASE);
@@ -35,7 +35,7 @@ export default function ChatWidget() {
   useEffect(() => {
     const sync = () => {
       const [section, id] = readRoute();
-      const hide = FOCUSED.has(section) || (section === 'relay' && !!id);
+      const hide = FOCUSED.has(section) || ((section === 'relay' || section === 'on-tap') && !!id);
       document.body.toggleAttribute('data-hide-chat', hide);
     };
     sync();
